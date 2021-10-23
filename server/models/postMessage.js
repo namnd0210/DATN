@@ -1,4 +1,4 @@
-import Mongoose from "mongoose";
+import Mongoose from 'mongoose'
 
 const postSchema = Mongoose.Schema({
   title: String,
@@ -8,14 +8,14 @@ const postSchema = Mongoose.Schema({
   selectedFile: String,
   likeCount: {
     type: Number,
-    default: 0,
+    default: 0
   },
   createAt: {
     type: Date,
-    default: new Date(),
-  },
-});
+    default: new Date()
+  }
+})
 
-const PostMessage = Mongoose.model("PostMessage", postSchema);
+const PostMessage = Mongoose.model('PostMessage', postSchema)
 
-export default PostMessage;
+export default PostMessage

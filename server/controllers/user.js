@@ -1,4 +1,5 @@
 import User from '../models/User'
+import bcrypt from 'bcryptjs'
 
 export const register = async (req, res) => {
   try {
@@ -12,16 +13,16 @@ export const register = async (req, res) => {
           email: req.body.email,
           password: req.body.password
         })
-        // bcrypt.genSalt(10, (err, salt) => {
-        //   bcrypt.hash(newUser.password, salt, (err, hash) => {
-        //     if (err) throw err;
-        //     newUser.password = hash;
-        //     newUser
-        //       .save()
-        //       .then((user) => res.json({ success: true, user }))
-        //       .catch((err) => res.status(400).json({ success: false, err }));
-        //   });
-        // });
+        bcrypt.genSalt(10, (_err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err
+            newUser.password = hash
+            newUser
+              .save()
+              .then((user) => res.json({ success: true, user }))
+              .catch((err) => res.status(400).json({ success: false, err }))
+          })
+        })
       }
     })
   } catch (err) {
