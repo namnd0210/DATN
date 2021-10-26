@@ -3,7 +3,8 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["plugin:react/recommended", "standard"],
+  "extends": ["react-app", "eslint:recommended", "prettier"],
+  "plugins": ["react","simple-import-sort", "prettier"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -11,6 +12,16 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
-  "rules": {}
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "lf"
+      }
+    ],
+    "no-undef": "off",
+    "simple-import-sort/exports": "warn",
+    "simple-import-sort/imports": "warn"
+  },
+  "parser": "babel-eslint"
 }
