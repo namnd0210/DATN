@@ -4,8 +4,8 @@ import { Register } from './Register'
 // import { login } from '../../redux/actions/auth'
 import { useHistory } from 'react-router-dom'
 
-export const LoginSceen = () => {
-  const [visible, setvisible] = useState(false)
+export const LoginScreen = () => {
+  const [visible, setVisible] = useState(false)
   // const {
   //   loading,
   //   error,
@@ -14,7 +14,7 @@ export const LoginSceen = () => {
   // } = useSelector((state) => state.auth)
   const history = useHistory()
   const setInvisible = () => {
-    setvisible(false)
+    setVisible(false)
   }
 
   const handleLogin = (values) => {
@@ -76,16 +76,17 @@ export const LoginSceen = () => {
           </Button>
           <span style={{ marginLeft: 10 }}>
             Chưa có tài khoản,
-            <span className="login-redirect" onClick={() => setvisible(true)}>
+            <span className="login-redirect" onClick={() => setVisible(true)}>
               Đăng ký
             </span>
             ngay
           </span>
         </Form>
       </Col>
-      {/* <Register visible={visible} setInvisible={setInvisible} /> */}
+
+      <Register visible={visible} setInvisible={setInvisible} />
     </div>
   )
 }
 
-export default LoginSceen
+export default LoginScreen

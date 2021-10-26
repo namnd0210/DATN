@@ -1,7 +1,8 @@
 import React from 'react'
 import { Layout, Row, Col } from 'antd'
+import { LoginScreen } from './Login'
+
 import '../../assets/styles/landing.scss'
-import { LoginSceen } from './Login'
 
 const { Content } = Layout
 
@@ -18,7 +19,7 @@ export const Landing = () => {
             </div>
           </Col>
           <Col xl={12}>
-            <LoginSceen />
+            <LoginScreen />
           </Col>
         </Row>
       </Content>

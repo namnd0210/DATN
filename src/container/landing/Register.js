@@ -5,15 +5,15 @@ import { useDispatch, useSelector } from 'react-redux'
 // import { register } from '../../redux/actions/auth'
 
 export const Register = ({ visible, setInvisible }) => {
-  const { loading } = useSelector((state) => state.auth)
-  const [userInfor, setUserinfor] = useState()
-  const dispatch = useDispatch()
+  // const { loading } = useSelector((state) => state.auth)
+  const [userInfo, setUserInfo] = useState()
+  // const dispatch = useDispatch()
   const handleCancel = () => {
     setInvisible(false)
   }
 
   const onSubmit = () => {
-    console.log(userInfor)
+    console.log(userInfo)
     // dispatch(register(userInfor))
   }
 
@@ -28,27 +28,25 @@ export const Register = ({ visible, setInvisible }) => {
         <Input
           size="large"
           placeholder="Địa chỉ email"
-          onChange={(e) =>
-            setUserinfor({ ...userInfor, email: e.target.value })
-          }
+          onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
         />
         <Input
           size="large"
           placeholder="Tên"
-          onChange={(e) => setUserinfor({ ...userInfor, name: e.target.value })}
+          onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
         />
         <Input
           size="large"
           placeholder="Tên tài khoản"
           onChange={(e) =>
-            setUserinfor({ ...userInfor, username: e.target.value })
+            setUserInfo({ ...userInfo, username: e.target.value })
           }
         />
         <Input.Password
           size="large"
           placeholder="Mật khẩu"
           onChange={(e) =>
-            setUserinfor({ ...userInfor, password: e.target.value })
+            setUserInfo({ ...userInfo, password: e.target.value })
           }
         />
         <Input.Password size="large" placeholder="Nhập lại mật khẩu" />
@@ -57,7 +55,7 @@ export const Register = ({ visible, setInvisible }) => {
           size="large"
           className="register_button"
           onClick={onSubmit}
-          loading={loading}
+          // loading={loading}
         >
           Xác nhận
         </Button>
