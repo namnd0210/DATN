@@ -46,27 +46,17 @@ export const LoginScreen = () => {
             style={{ marginBottom: '1rem' }}
           />
         ) : null} */}
-        <Form name="basic" onFinish={handleLogin}>
+        <Form name="login" onFinish={handleLogin}>
           <Form.Item
             name="username"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your username!',
-              },
-            ]}
+            rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Input placeholder="Tài khoản" />
           </Form.Item>
 
           <Form.Item
             name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-            ]}
+            rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password placeholder="Mật khẩu" />
           </Form.Item>
@@ -80,8 +70,8 @@ export const LoginScreen = () => {
           </Button>
           <span style={{ marginLeft: 10 }}>
             Chưa có tài khoản,
-            <span className="login-redirect" onClick={() => setVisible(true)}>
-              Đăng ký
+            <span className="login-rediret" onClick={() => setVisible(true)}>
+              Đăng kýc
             </span>
             ngay
           </span>

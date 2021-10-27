@@ -8,7 +8,15 @@ export type LoginProps = {
   password: string;
 };
 
+export type RegisterProps = {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+};
+
 export type AuthState = {
   authenticated: boolean;
   loginLoading: boolean;
+  registerLoading: boolean;
 };

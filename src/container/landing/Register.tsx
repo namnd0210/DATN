@@ -1,65 +1,55 @@
 import '../../assets/styles/register.scss';
 
-import { Button, Input, Modal } from 'antd';
+import { Alert, Button, Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import { register } from '../../redux/actions/auth'
+import { register } from 'redux/auth/actions';
 
 export const Register = ({ visible, setInvisible }: any) => {
   // const { loading } = useSelector((state) => state.auth)
-  const [userInfo, setUserInfo] = useState<any>();
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const handleCancel = () => {
     setInvisible(false);
   };
 
-  const onSubmit = () => {
-    console.log(userInfo);
-    // dispatch(register(userInfor))
+  const handleRegister = (values: any) => {
+    dispatch(register(values));
   };
 
   return (
-    <Modal
-      visible={visible}
-      title="Đăng ký"
-      onCancel={handleCancel}
-      footer={null}
-    >
+    <Modal visible={visible} title="Đăng ký" onCancel={handleCancel} footer={null}>
       <div className="register__modal">
-        <Input
-          size="large"
-          placeholder="Địa chỉ email"
-          onChange={(e) => setUserInfo({ ...userInfo, email: e.target.value })}
-        />
-        <Input
-          size="large"
-          placeholder="Tên"
-          onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
-        />
-        <Input
-          size="large"
-          placeholder="Tên tài khoản"
-          onChange={(e) =>
-            setUserInfo({ ...userInfo, username: e.target.value })
-          }
-        />
-        <Input.Password
-          size="large"
-          placeholder="Mật khẩu"
-          onChange={(e) =>
-            setUserInfo({ ...userInfo, password: e.target.value })
-          }
-        />
-        <Input.Password size="large" placeholder="Nhập lại mật khẩu" />
-        <Button
-          type="primary"
-          size="large"
-          className="register_button"
-          onClick={onSubmit}
-          // loading={loading}
-        >
-          Xác nhận
-        </Button>
+        <Form name="basic" onFinish={handleRegister}>
+          <Form.Item name="email" rules={[{ required: true, message: 'Please input your email!' }]}>
+            <Input size="large" placeholder="Địa chỉ email" />
+          </Form.Item>
+
+          <Form.Item name="name" rules={[{ required: true, message: 'Please input your full name!' }]}>
+            <Input size="large" placeholder="Tên" />
+          </Form.Item>
+
+          <Form.Item name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
+            <Input size="large" placeholder="Địa chỉ email" />
+          </Form.Item>
+
+          <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
+            <Input.Password size="large" placeholder="Mật khẩu" />
+          </Form.Item>
+
+          <Form.Item name="passwordCheck" rules={[{ required: true, message: 'Please input your password!' }]}>
+            <Input.Password size="large" placeholder="Nhập lại mật khẩu" />
+          </Form.Item>
+
+          <Button
+            type="primary"
+            size="large"
+            htmlType="submit"
+            className="register_button"
+            // loading={loading}
+          >
+            Xác nhận
+          </Button>
+        </Form>
       </div>
     </Modal>
   );
