@@ -1,25 +1,29 @@
-import React, { useState, useEffect } from 'react'
-import { Input, Button, Col, Alert, Form } from 'antd'
-import { Register } from './Register'
-// import { login } from '../../redux/actions/auth'
-import { useHistory } from 'react-router-dom'
+import { Alert, Button, Col, Form, Input } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { login } from 'redux/auth/actions';
+
+import { Register } from './Register';
 
 export const LoginScreen = () => {
-  const [visible, setVisible] = useState(false)
+  const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false);
   // const {
   //   loading,
   //   error,
   //   isAuthenticated,
   //   user: { role }
   // } = useSelector((state) => state.auth)
-  const history = useHistory()
+  const history = useHistory();
   const setInvisible = () => {
-    setVisible(false)
-  }
+    setVisible(false);
+  };
 
-  const handleLogin = (values) => {
-    // dispatch(login(values))
-  }
+  const handleLogin = (values: any) => {
+    console.log(values);
+    dispatch(login(values));
+  };
 
   // useEffect(() => {
   //   if (isAuthenticated) {
@@ -48,8 +52,8 @@ export const LoginScreen = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your username!'
-              }
+                message: 'Please input your username!',
+              },
             ]}
           >
             <Input placeholder="Tài khoản" />
@@ -60,8 +64,8 @@ export const LoginScreen = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your password!'
-              }
+                message: 'Please input your password!',
+              },
             ]}
           >
             <Input.Password placeholder="Mật khẩu" />
@@ -86,7 +90,7 @@ export const LoginScreen = () => {
 
       <Register visible={visible} setInvisible={setInvisible} />
     </div>
-  )
-}
+  );
+};
 
-export default LoginScreen
+export default LoginScreen;

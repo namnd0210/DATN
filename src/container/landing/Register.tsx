@@ -1,21 +1,22 @@
-import React, { useState } from 'react'
-import { Button, Modal, Input } from 'antd'
-import '../../assets/styles/register.scss'
-import { useDispatch, useSelector } from 'react-redux'
+import '../../assets/styles/register.scss';
+
+import { Button, Input, Modal } from 'antd';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 // import { register } from '../../redux/actions/auth'
 
-export const Register = ({ visible, setInvisible }) => {
+export const Register = ({ visible, setInvisible }: any) => {
   // const { loading } = useSelector((state) => state.auth)
-  const [userInfo, setUserInfo] = useState()
+  const [userInfo, setUserInfo] = useState<any>();
   // const dispatch = useDispatch()
   const handleCancel = () => {
-    setInvisible(false)
-  }
+    setInvisible(false);
+  };
 
   const onSubmit = () => {
-    console.log(userInfo)
+    console.log(userInfo);
     // dispatch(register(userInfor))
-  }
+  };
 
   return (
     <Modal
@@ -61,5 +62,7 @@ export const Register = ({ visible, setInvisible }) => {
         </Button>
       </div>
     </Modal>
-  )
-}
+  );
+};
+
+export default Register;

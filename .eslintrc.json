@@ -4,7 +4,7 @@
     "es2021": true
   },
   "extends": ["react-app", "eslint:recommended", "prettier"],
-  "plugins": ["react","simple-import-sort", "prettier"],
+  "plugins": ["react", "simple-import-sort", "prettier"],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -13,13 +13,8 @@
     "sourceType": "module"
   },
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "endOfLine": "lf"
-      }
-    ],
     "no-undef": "off",
+    "no-unused-vars": "off",
     "simple-import-sort/exports": "warn",
     "simple-import-sort/imports": "warn"
   },

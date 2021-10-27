@@ -1,10 +1,11 @@
-import React from 'react'
-import { Layout, Row, Col } from 'antd'
-import { LoginScreen } from './Login'
+import '../../assets/styles/landing.scss';
 
-import '../../assets/styles/landing.scss'
+import { Col, Layout, Row } from 'antd';
+import React from 'react';
 
-const { Content } = Layout
+import { LoginScreen } from './Login';
+
+const { Content } = Layout;
 
 export const Landing = () => {
   return (
@@ -24,5 +25,7 @@ export const Landing = () => {
         </Row>
       </Content>
     </Layout>
-  )
-}
+  );
+};
+
+export default Landing;
