@@ -6,7 +6,16 @@ export const login = (data: { email: string; password: string }, setLoginErr?: (
   payload: { data, setLoginErr },
 });
 
+export const loginResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.LOGIN_SUCCESS : types.LOGIN_FAILED,
+  payload: result,
+});
+
 export const register = (data: { name: string; username: string; email: string; password: string }): Action => ({
   type: types.REGISTER,
   payload: { data },
+});
+
+export const logout = () => ({
+  type: types.LOGOUT,
 });

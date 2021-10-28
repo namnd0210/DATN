@@ -16,7 +16,13 @@ export type RegisterProps = {
 };
 
 export type AuthState = {
-  authenticated: boolean;
+  isAuthenticated: boolean;
   loginLoading: boolean;
   registerLoading: boolean;
+  user: {
+    role: number;
+    name: string;
+  };
+
+  error: string;
 };

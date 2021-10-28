@@ -9,3 +9,7 @@ export const loginApi = (data: LoginProps): Promise<AxiosResponse> => {
 export const registerApi = (data: LoginProps): Promise<AxiosResponse> => {
   return Axios.post('/api/user/register', data);
 };
+
+// export const logoutApi = (data: LoginProps): Promise<AxiosResponse> => {
+//   return Axios.post('/api/user/logout', data);
+// };

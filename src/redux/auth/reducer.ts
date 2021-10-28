@@ -2,9 +2,14 @@ import types from 'redux/auth/type';
 import { Action, AuthState } from 'types/redux';
 
 const initState = {
-  authenticated: false,
+  isAuthenticated: false,
   loginLoading: false,
   registerLoading: false,
+  user: {
+    role: 2,
+    name: '',
+  },
+  error: '',
 };
 
 export default function authReducer(state: AuthState = initState, action: Action) {
@@ -16,8 +21,8 @@ export default function authReducer(state: AuthState = initState, action: Action
     case types.LOGIN_SUCCESS: {
       return {
         ...state,
-        loginLoading: true,
-        authenticated: true,
+        loginLoading: false,
+        isAuthenticated: true,
       };
     }
 

@@ -3,18 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from 'redux/auth/actions';
+import { useSelector } from 'redux/reducer';
 
 import { Register } from './Register';
 
 export const LoginScreen = () => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
-  // const {
-  //   loading,
-  //   error,
-  //   isAuthenticated,
-  //   user: { role }
-  // } = useSelector((state) => state.auth)
+  const {
+    error,
+    isAuthenticated,
+    user: { role, name },
+  } = useSelector((state) => state.auth);
   const history = useHistory();
   const setInvisible = () => {
     setVisible(false);
@@ -25,14 +25,14 @@ export const LoginScreen = () => {
     dispatch(login(values));
   };
 
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     console.log(role)
-  //     setTimeout(() => {
-  //       role === 2 ? history.push('/home') : history.push('/exam')
-  //     }, 1000)
-  //   }
-  // }, [isAuthenticated, history, role])
+  useEffect(() => {
+    if (isAuthenticated) {
+      console.log(role, name);
+      setTimeout(() => {
+        role === 2 ? history.push('/home') : history.push('/exam');
+      }, 1000);
+    }
+  }, [isAuthenticated, history, role, name]);
 
   return (
     <div className="login-main">
@@ -47,25 +47,15 @@ export const LoginScreen = () => {
           />
         ) : null} */}
         <Form name="login" onFinish={handleLogin}>
-          <Form.Item
-            name="username"
-            rules={[{ required: true, message: 'Please input your username!' }]}
-          >
+          <Form.Item name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
             <Input placeholder="Tài khoản" />
           </Form.Item>
 
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
-          >
+          <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
             <Input.Password placeholder="Mật khẩu" />
           </Form.Item>
 
-          <Button
-            type="primary"
-            htmlType="submit"
-            // loading={loading}
-          >
+          <Button type="primary" htmlType="submit">
             Xác nhận
           </Button>
           <span style={{ marginLeft: 10 }}>

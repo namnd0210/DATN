@@ -1,6 +1,8 @@
 import sign from 'jwt-encode';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
+import setAuthToken from 'utils/setTokenAuth';
 
+import { loginResult } from './actions';
 import { loginApi, registerApi } from './api';
 import types from './type';
 
@@ -15,17 +17,17 @@ function* loginSaga(props: any): any {
         const secret = 'secret';
         const jwt = sign(res.headers, secret);
         localStorage.setItem('token', jwt);
-        // yield put(loginActionResult(res));
+        yield put(loginResult(res));
       }
     } else {
       const isSuccess = false;
       setLoginErr && setLoginErr();
-      // yield put(loginActionResult(res, isSuccess));
+      yield put(loginResult(res, isSuccess));
     }
   } catch (error) {
     const isSuccess = false;
     setLoginErr && setLoginErr();
-    // yield put(loginActionResult(error, isSuccess));
+    yield put(loginResult(error, isSuccess));
   }
 }
 
@@ -52,7 +54,29 @@ function* registerSaga(props: any): any {
   }
 }
 
+function* logoutSaga(props: any): any {
+  const { data } = props.payload;
+  try {
+    console.log(data);
+    const res = yield call(registerApi, data);
+    if (res.data?.success) {
+      if (res.headers) {
+        localStorage.removeItem('token');
+        setAuthToken(false);
+        // yield put(loginActionResult(res));
+      }
+    } else {
+      const isSuccess = false;
+      // yield put(loginActionResult(res, isSuccess));
+    }
+  } catch (error) {
+    const isSuccess = false;
+    // yield put(loginActionResult(error, isSuccess));
+  }
+}
+
 export default function* rootSaga() {
   yield all([takeEvery(types.LOGIN, loginSaga)]);
   yield all([takeEvery(types.REGISTER, registerSaga)]);
+  yield all([takeEvery(types.LOGOUT, logoutSaga)]);
 }

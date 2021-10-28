@@ -2,11 +2,12 @@ import '../../assets/styles/register.scss';
 
 import { Alert, Button, Form, Input, Modal } from 'antd';
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/actions';
+import { useSelector } from 'redux/reducer';
 
 export const Register = ({ visible, setInvisible }: any) => {
-  // const { loading } = useSelector((state) => state.auth)
+  const { registerLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const handleCancel = () => {
     setInvisible(false);
@@ -40,13 +41,7 @@ export const Register = ({ visible, setInvisible }: any) => {
             <Input.Password size="large" placeholder="Nhập lại mật khẩu" />
           </Form.Item>
 
-          <Button
-            type="primary"
-            size="large"
-            htmlType="submit"
-            className="register_button"
-            // loading={loading}
-          >
+          <Button type="primary" size="large" htmlType="submit" className="register_button" loading={registerLoading}>
             Xác nhận
           </Button>
         </Form>
