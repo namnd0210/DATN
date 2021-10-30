@@ -1,5 +1,6 @@
 import types from 'redux/auth/type';
 import { Action } from 'types/redux';
+import setAuthToken from 'utils/setTokenAuth';
 
 export const login = (data: { email: string; password: string }, setLoginErr?: (value: boolean) => void): Action => ({
   type: types.LOGIN,
@@ -16,6 +17,11 @@ export const register = (data: { name: string; username: string; email: string; 
   payload: { data },
 });
 
-export const logout = () => ({
-  type: types.LOGOUT,
-});
+export const logout = () => {
+  localStorage.removeItem('token');
+  setAuthToken(false);
+
+  return {
+    type: types.LOGOUT,
+  };
+};

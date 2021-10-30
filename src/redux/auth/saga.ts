@@ -56,15 +56,14 @@ function* registerSaga(props: any): any {
 
 function* logoutSaga(props: any): any {
   const { data } = props.payload;
+
   try {
     console.log(data);
     const res = yield call(registerApi, data);
     if (res.data?.success) {
-      if (res.headers) {
-        localStorage.removeItem('token');
-        setAuthToken(false);
-        // yield put(loginActionResult(res));
-      }
+      localStorage.removeItem('token');
+      setAuthToken(false);
+      // yield put(loginActionResult(res));
     } else {
       const isSuccess = false;
       // yield put(loginActionResult(res, isSuccess));
@@ -78,5 +77,5 @@ function* logoutSaga(props: any): any {
 export default function* rootSaga() {
   yield all([takeEvery(types.LOGIN, loginSaga)]);
   yield all([takeEvery(types.REGISTER, registerSaga)]);
-  yield all([takeEvery(types.LOGOUT, logoutSaga)]);
+  // yield all([takeEvery(types.LOGOUT, logoutSaga)]);
 }

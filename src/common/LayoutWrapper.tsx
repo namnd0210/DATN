@@ -80,7 +80,7 @@ export const LayoutWrapper = (props: { children: React.ReactChild }) => {
         <hr />
         <Content style={{ margin: '0 10px' }}>{props.children}</Content>
 
-        <Footer style={{ textAlign: 'center' }}>Ant Design ©{new Date().getFullYear()} Created by Dailch</Footer>
+        <Footer style={{ textAlign: 'center' }}>Ant Design ©{new Date().getFullYear()} Created by Duc Nam</Footer>
       </Layout>
     </Layout>
   );

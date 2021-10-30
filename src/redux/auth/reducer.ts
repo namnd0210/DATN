@@ -45,6 +45,10 @@ export default function authReducer(state: AuthState = initState, action: Action
       return { ...state, registerLoading: false };
     }
 
+    case types.LOGOUT: {
+      return { ...state, isAuthenticated: false };
+    }
+
     default:
       return state;
   }

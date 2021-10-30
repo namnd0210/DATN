@@ -23,6 +23,5 @@ export type AuthState = {
     role: number;
     name: string;
   };
-
   error: string;
 };
