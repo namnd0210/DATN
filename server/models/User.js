@@ -1,4 +1,4 @@
-import Mongoose from 'mongoose'
+import Mongoose from 'mongoose';
 
 const UserSchema = Mongoose.Schema({
   name: { type: String, required: true },
@@ -7,9 +7,9 @@ const UserSchema = Mongoose.Schema({
   password: { type: String, required: true },
   avatar: { type: String },
   date: { type: Date, default: Date.now },
-  role: { type: Number, default: 2 }
-})
+  role: { type: Number, default: 2 },
+});
 
-const PostMessage = Mongoose.model('User', UserSchema)
+const User = Mongoose.model('User', UserSchema);
 
-export default PostMessage
+export default User;
