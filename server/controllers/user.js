@@ -63,3 +63,51 @@ export const login = (req, res) => {
     console.log(e);
   }
 };
+
+export const getUsers = async (req, res) => {
+  const { role, page } = req.query;
+  const query = role ? { role } : {};
+  const total = await User.countDocuments(query);
+
+  User.find(query)
+    .skip((page ? page - 1 : 0) * 10)
+    .limit(10)
+    .then((users) => {
+      res.status(200).json({
+        data: users.map((e) => {
+          e.password = null;
+          return e;
+        }),
+        total,
+      });
+    })
+    .catch((err) => res.status(400).json({ err }));
+};
+
+export const updateUser = (req, res) => {
+  console.log(req.body);
+  User.findByIdAndUpdate(
+    req.body._id,
+    {
+      ...req.body,
+      updated_at: Date.now(),
+    },
+    { new: true, useFindAndModify: false },
+  )
+    .then((user) => {
+      return res.status(200).json({ user });
+    })
+    .catch((err) => {
+      return res.status(400).json(err);
+    });
+};
+
+export const deleteUser = (req, res) => {
+  User.remove({ _id: req.params.id })
+    .then((ques) => {
+      res.status(200).json({ id: req.params.id });
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};

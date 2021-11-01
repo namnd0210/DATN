@@ -2,8 +2,11 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import express from 'express';
+import session from 'express-session';
 import mongoose from 'mongoose';
+import passport from 'passport';
 
+import newLocal from './config/passport';
 import classRouter from './routes/class';
 import userRouter from './routes/user';
 dotenv.config();
@@ -14,6 +17,11 @@ app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// passport
+app.use(session({ secret: 'secret' }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // api
 app.use('/api/user', userRouter);
@@ -26,5 +34,8 @@ mongoose
   })
   .then(() => console.log('Mongodb connected !!!'))
   .catch((err) => console.log(err));
+
+// passport config
+newLocal(passport);
 
 app.listen(port, () => console.log(`Server running on ${port}`));
