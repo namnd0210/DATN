@@ -2,7 +2,7 @@ import sign from 'jwt-encode';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import setAuthToken from 'utils/setTokenAuth';
 
-import { loginResult } from './actions';
+import { loginResult, setCurrentUser } from './actions';
 import { loginApi, registerApi } from './api';
 import types from './type';
 
@@ -17,7 +17,7 @@ function* loginSaga(props: any): any {
         const secret = 'secret';
         const jwt = sign(res.headers, secret);
         localStorage.setItem('token', jwt);
-        yield put(loginResult(res));
+        yield all([put(loginResult(res.data)), put(setCurrentUser(res.data))]);
       }
     } else {
       const isSuccess = false;

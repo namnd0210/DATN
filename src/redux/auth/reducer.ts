@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import types from 'redux/auth/type';
 import { Action, AuthState } from 'types/redux';
 
@@ -9,6 +10,8 @@ const initState = {
     role: 2,
     name: '',
   },
+  isAdmin: false,
+  isTeacher: false,
   error: '',
 };
 
@@ -29,6 +32,17 @@ export default function authReducer(state: AuthState = initState, action: Action
     case types.LOGIN_FAILED: {
       return { ...state, loginLoading: false, loginStatus: true };
     }
+
+    case types.SET_CURRENT_USER:
+      return {
+        ...state,
+        user: action.payload.data,
+        isAuthenticated: !_.isEmpty(action.payload.data),
+        isAdmin: action.payload.data.role === 0 ? true : false,
+        isTeacher: action.payload.data.role === 1 ? true : false,
+        loading: false,
+        error: '',
+      };
 
     case types.REGISTER: {
       return { ...state, registerLoading: true };

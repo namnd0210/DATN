@@ -50,15 +50,10 @@ export const login = (req, res) => {
             email: user.email,
             name: user.name,
           };
-          jwt.sign(
-            payload,
-            process.env.secretOrKey,
-            { expiresIn: 3600 },
-            (err, token) => {
-              if (err) res.json(err);
-              res.json({ success: true, token: `Bearer ${token}` });
-            },
-          );
+          jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+            if (err) res.json(err);
+            res.json({ success: true, data: payload, token: `Bearer ${token}` });
+          });
         } else {
           return res.status(400).json({ err: 'Password incorrect' });
         }

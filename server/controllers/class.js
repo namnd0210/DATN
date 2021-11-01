@@ -4,6 +4,7 @@ import Class from '../models/Class';
 import ClassStudent from '../models/ClassStudent';
 
 const router = express.Router();
+
 export const getClasses = async (req, res) => {
   const { page, id } = req.query;
   let query = {};

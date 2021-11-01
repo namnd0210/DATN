@@ -24,4 +24,6 @@ export type AuthState = {
     name: string;
   };
   error: string;
+  isAdmin: boolean;
+  isTeacher: boolean;
 };

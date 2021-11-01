@@ -12,6 +12,13 @@ export const loginResult = (result: any, isSuccess = true): Action => ({
   payload: result,
 });
 
+export const setCurrentUser = (decoded: any) => {
+  return {
+    type: types.SET_CURRENT_USER,
+    payload: decoded,
+  };
+};
+
 export const register = (data: { name: string; username: string; email: string; password: string }): Action => ({
   type: types.REGISTER,
   payload: { data },
