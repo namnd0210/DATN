@@ -28,6 +28,8 @@ export const createCategory = (req, res) => {
 };
 
 export const updateCategory = (req, res) => {
+  console.log(req);
+
   Category.findByIdAndUpdate(
     req.body._id,
     {
@@ -36,8 +38,8 @@ export const updateCategory = (req, res) => {
     },
     { new: true, useFindAndModify: false },
   )
-    .then((ques) => {
-      res.status(200).json({ ques });
+    .then((data) => {
+      res.status(200).json({ data });
     })
     .catch((err) => {
       res.status(400).json(err);
@@ -46,7 +48,7 @@ export const updateCategory = (req, res) => {
 
 export const deleteCategory = (req, res) => {
   Category.deleteOne({ _id: req.params.id })
-    .then((ques) => {
+    .then(() => {
       res.status(200).json({ id: req.params.id });
     })
     .catch((err) => {

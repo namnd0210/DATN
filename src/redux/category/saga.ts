@@ -1,7 +1,7 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
-import { createCategoryResult, getAllCategoryResult } from './actions';
-import { createCategoryApi, getAllCategoryApi } from './api';
+import { createCategoryResult, getAllCategoryResult, updateCategoryResult } from './actions';
+import { createCategoryApi, getAllCategoryApi, updateCategoryApi } from './api';
 import types from './type';
 
 function* getAllCategorySaga(): any {
@@ -20,13 +20,8 @@ function* getAllCategorySaga(): any {
 function* createCategorySaga(props: any): any {
   try {
     const res = yield call(createCategoryApi, props.payload);
-    if (res.data?.success) {
-      if (res.headers) {
-        yield put(createCategoryResult(res.data));
-      }
-    } else {
-      const isSuccess = false;
-      yield put(createCategoryResult(res.data, isSuccess));
+    if (res.status === 200) {
+      yield put(createCategoryResult(res.data));
     }
   } catch (error) {
     const isSuccess = false;
@@ -34,7 +29,21 @@ function* createCategorySaga(props: any): any {
   }
 }
 
+function* updateCategorySaga(props: any): any {
+  try {
+    const res = yield call(updateCategoryApi, props.payload);
+    if (res.status === 200) {
+      console.log(res);
+      yield put(updateCategoryResult(res.data));
+    }
+  } catch (error) {
+    const isSuccess = false;
+    yield put(updateCategoryResult(error, isSuccess));
+  }
+}
+
 export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_CATEGORY, getAllCategorySaga)]);
   yield all([takeEvery(types.CREATE_CATEGORY, createCategorySaga)]);
+  yield all([takeEvery(types.UPDATE_CATEGORY, updateCategorySaga)]);
 }

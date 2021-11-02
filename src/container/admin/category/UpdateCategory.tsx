@@ -12,7 +12,7 @@ export const UpdateCategory = ({ setVisible, visible, id }: any) => {
   const currentCategory = useSelector(({ category }) => category.categories.find((e: any) => e._id === id));
 
   const onFinish = (values: any) => {
-    console.log(values);
+    console.log(id, values);
     dispatch(
       updateCategory({
         _id: id,
@@ -26,15 +26,7 @@ export const UpdateCategory = ({ setVisible, visible, id }: any) => {
       {' '}
       {currentCategory && (
         <Form key={id} name="basic" onFinish={onFinish} initialValues={{ name: currentCategory?.name }}>
-          <Form.Item
-            name="name"
-            rules={[
-              {
-                required: true,
-                message: 'Vui lòng điền tên danh mục câu hỏi',
-              },
-            ]}
-          >
+          <Form.Item name="name" rules={[{ required: true, message: 'Vui lòng điền tên danh mục câu hỏi' }]}>
             <Input />
           </Form.Item>
           <div className="btn-group">
