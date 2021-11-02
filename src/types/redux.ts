@@ -41,3 +41,8 @@ export type CategoryState = {
   loadingCategory: boolean;
   categories: CategoryProps[];
 };
+
+export type QuestionState = {
+  loadingQuestion: boolean;
+  questions: any[];
+};
