@@ -5,9 +5,11 @@ import { createQuestionApi, deleteQuestionApi, getAllQuestionsApi, updateQuestio
 import types from './type';
 
 function* getAllQuestionsSaga(): any {
+  console.log('call11 ');
   try {
     const res = yield call(getAllQuestionsApi);
     if (res.status === 200) {
+      console.log('call ', res);
       yield put(getAllQuestionsResult(res.data));
     }
   } catch (error) {
