@@ -1,5 +1,5 @@
-import { Alert, Button, Col, Form, Input } from 'antd';
-import React, { useEffect, useState } from 'react';
+import { Button, Col, Form, Input } from 'antd';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { login } from 'redux/auth/actions';
@@ -11,7 +11,6 @@ export const LoginScreen = () => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const {
-    error,
     isAuthenticated,
     user: { role, name },
   } = useSelector((state) => state.auth);

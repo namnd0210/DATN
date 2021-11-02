@@ -4,10 +4,9 @@ import { PageHeaderLayout } from 'common/PageHeaderLayout';
 import _ from 'lodash';
 import moment from 'moment';
 import querystring from 'query-string';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-// import { deleteClass, getAllClass } from '../../../redux/actions/class';
 import { useSelector } from 'redux/reducer';
 import { buildApiUrl } from 'utils';
 
@@ -131,7 +130,7 @@ const ClassManagement = () => {
           <Link to="class/add-new">
             <Button type="dashed" style={{ width: '100%', margin: '10px 0 10px 0' }}>
               <PlusCircleOutlined /> Thêm mới lớp học
-            </Button>{' '}
+            </Button>
           </Link>
         )}
         <Table

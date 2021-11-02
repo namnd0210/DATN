@@ -1,7 +1,6 @@
 import '../../assets/styles/register.scss';
 
-import { Alert, Button, Form, Input, Modal } from 'antd';
-import React, { useState } from 'react';
+import { Button, Form, Input, Modal } from 'antd';
 import { useDispatch } from 'react-redux';
 import { register } from 'redux/auth/actions';
 import { useSelector } from 'redux/reducer';

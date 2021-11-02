@@ -5,7 +5,7 @@ export const menus = [
   },
   {
     title: 'Lớp học',
-    link: '/my-class',
+    link: '/class',
   },
   {
     title: 'Kết quả',

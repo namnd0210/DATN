@@ -15,6 +15,14 @@ export type RegisterProps = {
   password: string;
 };
 
+export type CategoryProps = {
+  name: string;
+  updated_at: Date;
+  created_at: Date;
+  updated_by: string;
+  created_by: string;
+};
+
 export type AuthState = {
   isAuthenticated: boolean;
   loginLoading: boolean;
@@ -26,4 +34,9 @@ export type AuthState = {
   error: string;
   isAdmin: boolean;
   isTeacher: boolean;
+};
+
+export type CategoryState = {
+  loadingCategory: boolean;
+  categories: CategoryProps[];
 };
