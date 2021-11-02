@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import passport from 'passport';
 
 import newLocal from './config/passport';
+import categoryRouter from './routes/category';
 import classRouter from './routes/class';
 import userRouter from './routes/user';
 dotenv.config();
@@ -26,6 +27,7 @@ app.use(passport.session());
 // api
 app.use('/api/user', userRouter);
 app.use('/api/class', classRouter);
+app.use('/api/category', categoryRouter);
 
 // connect db
 mongoose
