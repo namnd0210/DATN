@@ -4,20 +4,14 @@ import { createCategoryResult, getAllCategoryResult } from './actions';
 import { createCategoryApi, getAllCategoryApi } from './api';
 import types from './type';
 
-function* getAllCategorySaga(props: any): any {
-  const { data } = props.payload;
+function* getAllCategorySaga(): any {
   try {
-    console.log(props, data);
     const res = yield call(getAllCategoryApi);
-    if (res.data?.success) {
-      if (res.headers) {
-        yield put(getAllCategoryResult(res.data));
-      }
-    } else {
-      const isSuccess = false;
-      yield put(getAllCategoryResult(res.data, isSuccess));
+    if (res.status === 200) {
+      yield put(getAllCategoryResult(res.data));
     }
   } catch (error) {
+    console.log(error);
     const isSuccess = false;
     yield put(getAllCategoryResult(error, isSuccess));
   }

@@ -57,7 +57,6 @@ const Content = ({ children, extraContent }: { children: ReactElement; extraCont
 };
 export const PageHeaderLayout = ({ title, subtitle, text }: { title: string; subtitle: string; text: string }) => {
   const { isAdmin, isTeacher } = useSelector(({ auth }) => auth);
-  console.log(isAdmin, isTeacher);
 
   return (
     <PageHeader title={title} className="site-page-header" subTitle={subtitle} ghost={false}>
