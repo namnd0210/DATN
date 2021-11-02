@@ -24,6 +24,24 @@ export default function categoryReducer(state: CategoryState = initState, action
       return { ...state, loadingCategory: false };
     }
 
+    case types.CREATE_CATEGORY: {
+      return { ...state, loadingCategory: true };
+    }
+
+    case types.CREATE_CATEGORY_SUCCESS: {
+      const { category } = action.payload;
+
+      return {
+        ...state,
+        loadingCategory: false,
+        categories: [...state.categories, category],
+      };
+    }
+
+    case types.CREATE_CATEGORY_FAILED: {
+      return { ...state, loadingCategory: false };
+    }
+
     case types.UPDATE_CATEGORY: {
       return { ...state, loadingCategory: true };
     }

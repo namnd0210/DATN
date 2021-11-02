@@ -24,6 +24,7 @@ function* createCategorySaga(props: any): any {
       yield put(createCategoryResult(res.data));
     }
   } catch (error) {
+    console.log(error);
     const isSuccess = false;
     yield put(createCategoryResult(error, isSuccess));
   }
@@ -37,6 +38,7 @@ function* updateCategorySaga(props: any): any {
       yield put(updateCategoryResult(res.data));
     }
   } catch (error) {
+    console.log(error);
     const isSuccess = false;
     yield put(updateCategoryResult(error, isSuccess));
   }
@@ -51,6 +53,7 @@ function* deleteCategorySaga(props: any): any {
       yield put(deleteCategoryResult(res.data));
     }
   } catch (error) {
+    console.log(error);
     const isSuccess = false;
     yield put(deleteCategoryResult(error, isSuccess));
   }

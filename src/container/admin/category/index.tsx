@@ -37,7 +37,6 @@ const CategoryManagement = () => {
     },
     {
       title: 'Hành động',
-      // title: "Action",
       dataIndex: 'action',
       key: 'action',
       render: (text: any, record: { _id: React.SetStateAction<null> }) => (
@@ -118,7 +117,6 @@ const CategoryManagement = () => {
         />
         <Divider />
         <Pagination
-          // current={+page || 1}
           current={+_.get(querystring.parse(location.search), 'page', 1)}
           key={+_.get(querystring.parse(location.search), 'page')}
           total={categories.length}
@@ -127,7 +125,6 @@ const CategoryManagement = () => {
         />
       </Col>
 
-      {/* add new modal */}
       <AddNewCategoryModal visible={visible} setVisible={setVisible} />
       <UpdateCategory visible={openUpdate} setVisible={setOpenUpdate} id={updateId} />
     </Row>
