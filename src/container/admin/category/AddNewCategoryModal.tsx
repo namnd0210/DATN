@@ -10,7 +10,6 @@ const AddNewCategoryModal = ({ visible, setVisible }: any) => {
   const dispatch = useDispatch();
 
   const onFinish = (values: any) => {
-    console.log(values);
     dispatch(createCategory(values));
     setVisible(false);
   };

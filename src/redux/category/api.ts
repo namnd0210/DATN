@@ -2,7 +2,7 @@ import Axios, { AxiosResponse } from 'axios';
 import { CategoryProps } from 'types/redux';
 
 export const getAllCategoryApi = (): Promise<AxiosResponse> => {
-  return Axios.get('/api/category/login');
+  return Axios.get('/api/category');
 };
 
 export const createCategoryApi = (data: CategoryProps): Promise<AxiosResponse> => {
