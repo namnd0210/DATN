@@ -1,0 +1,16 @@
+import mongoose from 'mongoose';
+const Schema = mongoose.Schema;
+
+const questionSchema = new Schema({
+  category: { type: Schema.Types.ObjectId, ref: 'category' },
+  question: { required: true, type: String, maxLength: 200 },
+  answers: [{ type: String, maxLength: 100 }],
+  correctAnswer: { required: true, type: Number, maxLength: 1 },
+  updated_at: { type: Date },
+  created_at: { type: Date, default: Date.now() },
+  updated_by: { type: Schema.Types.ObjectId, ref: 'User' },
+});
+
+const Question = mongoose.model('Question', questionSchema);
+
+export default Question;

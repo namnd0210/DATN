@@ -9,7 +9,9 @@ import passport from 'passport';
 import newLocal from './config/passport';
 import categoryRouter from './routes/category';
 import classRouter from './routes/class';
+import questionRouter from './routes/question';
 import userRouter from './routes/user';
+
 dotenv.config();
 
 const port = process.env.PORT || 5000;
@@ -28,6 +30,7 @@ app.use(passport.session());
 app.use('/api/user', userRouter);
 app.use('/api/class', classRouter);
 app.use('/api/category', categoryRouter);
+app.use('/api/question', questionRouter);
 
 // connect db
 mongoose
