@@ -6,12 +6,13 @@ import querystring from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { deleteQuestion, getAllQuestions } from 'redux/question/actions';
 import { useSelector } from 'redux/reducer';
 import { buildApiUrl } from 'utils';
 
 import { PageHeaderLayout } from '../../../common/PageHeaderLayout';
 import { AddNewQuestion } from './AddNewQuestion';
-import { UpdateQuestion } from './Updatequestion';
+import { UpdateQuestion } from './UpdateQuestion';
 
 export const QuestionManagement = () => {
   const columns: any = [
@@ -75,7 +76,7 @@ export const QuestionManagement = () => {
     },
   ];
 
-  const { loadingQuestions, questions, total } = useSelector((state) => state.question);
+  const { loadingQuestion, questions } = useSelector((state) => state.question);
   const [visible, setVisible] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [updateId, setUpdateId] = useState();
@@ -85,7 +86,7 @@ export const QuestionManagement = () => {
   const location = useLocation();
 
   const confirm = (id: any) => {
-    dispatch(removeQuestion(id));
+    dispatch(deleteQuestion(id));
   };
 
   const handleSizeChange = (page: any) => {
@@ -119,7 +120,7 @@ export const QuestionManagement = () => {
         </Button>
         <Table
           columns={columns}
-          loading={loadingQuestions}
+          loading={loadingQuestion}
           dataSource={questions}
           rowKey={(record) => record._id}
           pagination={false}
@@ -128,7 +129,7 @@ export const QuestionManagement = () => {
         <Pagination
           current={+_.get(querystring.parse(location.search), 'page', 1)}
           key={+_.get(querystring.parse(location.search), 'page')}
-          total={total}
+          total={questions.length}
           onChange={handleSizeChange}
           onShowSizeChange={handleSizeChange}
         />

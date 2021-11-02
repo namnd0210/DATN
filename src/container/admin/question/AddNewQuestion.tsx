@@ -1,11 +1,12 @@
-import '../../../assets/styles/modal.scss';
+import 'assets/styles/modal.scss';
 
-import { Input, message,Modal, Radio, Select } from 'antd';
+import { Input, message, Modal, Radio, Select } from 'antd';
+import { Key } from 'rc-select/lib/interface/generator';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { getAllCategories } from '../../../redux/actions/category';
-import { addNewQuestion } from '../../../redux/actions/question';
+import { useDispatch } from 'react-redux';
+import { getAllCategory } from 'redux/category/actions';
+import { createQuestion } from 'redux/question/actions';
+import { useSelector } from 'redux/reducer';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -39,16 +40,15 @@ const answerList = [
   },
 ];
 
-export const AddNewQuestion = ({ visible, setVisible }) => {
+export const AddNewQuestion = ({ visible, setVisible }: any) => {
   const dispatch = useDispatch();
-  const [questionInfo, setquestionInfo] = useState({ answers: [] });
+  const [questionInfo, setQuestionInfo] = useState({ answers: [], category: {}, correctAnswer: {} });
   const { categories, loadingCategory } = useSelector((state) => state.category);
-  const { loadingQuestions } = useSelector((state) => state.question);
 
   const handleAddNewQuestion = () => {
     console.log(questionInfo);
     const { category, correctAnswer } = questionInfo;
-    let tempQues = questionInfo;
+    let tempQues: any = questionInfo;
 
     if (!category) {
       tempQues.category = categories[0]._id || null;
@@ -70,25 +70,25 @@ export const AddNewQuestion = ({ visible, setVisible }) => {
     if (tempQues.answers.length < 4 || tempQues.question === '' || !tempQues.question) {
       message.error('Field is not empty!!');
     } else {
-      dispatch(addNewQuestion(tempQues));
-      // setquestionInfo({ answers: [] });
+      dispatch(createQuestion(tempQues));
+      // setQuestionInfo({ answers: [] });
     }
   };
 
-  const handleChangeCategory = (e) => {
-    setquestionInfo({ ...questionInfo, category: e });
+  const handleChangeCategory = (e: any) => {
+    setQuestionInfo({ ...questionInfo, category: e });
   };
 
-  const onChangeCheckBox = (e) => {
-    setquestionInfo({ ...questionInfo, correctAnswer: e.target.value });
+  const onChangeCheckBox = (e: any) => {
+    setQuestionInfo({ ...questionInfo, correctAnswer: e.target.value });
   };
 
-  const onChange = (e) => {
-    setquestionInfo({ ...questionInfo, [e.target.name]: e.target.value });
+  const onChange = (e: { target: { name: any; value: any } }) => {
+    setQuestionInfo({ ...questionInfo, [e.target.name]: e.target.value });
   };
 
   useEffect(() => {
-    dispatch(getAllCategories());
+    dispatch(getAllCategory());
     // eslint-disable-next-line
   }, []);
 
@@ -100,7 +100,6 @@ export const AddNewQuestion = ({ visible, setVisible }) => {
         onOk={() => handleAddNewQuestion()}
         onCancel={() => setVisible(false)}
         width={600}
-        loading={loadingQuestions}
       >
         <div className="modal-item">
           <div className="modal-item__label">Danh mục</div>
@@ -110,13 +109,20 @@ export const AddNewQuestion = ({ visible, setVisible }) => {
               style={{ width: '100%' }}
               onChange={handleChangeCategory}
               loading={loadingCategory}
-              name="category"
             >
-              {categories.map((e, i) => (
-                <Option value={e._id} key={i}>
-                  {e.name}
-                </Option>
-              ))}
+              {categories.map(
+                (
+                  e: {
+                    _id: Key;
+                    name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined;
+                  },
+                  i: string | number | undefined,
+                ) => (
+                  <Option value={e._id} key={i}>
+                    {e.name}
+                  </Option>
+                ),
+              )}
             </Select>
           </div>
         </div>
@@ -138,7 +144,6 @@ export const AddNewQuestion = ({ visible, setVisible }) => {
                   placeholder={e.placeholder}
                   prefix={`${e.name}-`}
                   className="modal-item__input"
-                  name={i}
                   onChange={onChange}
                 />
               </div>

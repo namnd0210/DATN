@@ -1,10 +1,10 @@
-import '../../../assets/styles/modal.scss';
+import 'assets/styles/modal.scss';
 
 import { Input, Modal, Radio, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { updateQuestion } from '../../../redux/actions/question';
+import { useDispatch } from 'react-redux';
+import { updateQuestion } from 'redux/question/actions';
+import { useSelector } from 'redux/reducer';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -37,18 +37,18 @@ const answerList = [
     value: 3,
   },
 ];
-export const UpdateQuestion = ({ visible, setVisible, id }) => {
+export const UpdateQuestion = ({ visible, setVisible, id }: any) => {
   const dispatch = useDispatch();
   const { categories, loadingCategory } = useSelector((state) => state.category);
   const { questions } = useSelector((state) => state.question);
 
-  const { loadingQuestions } = useSelector((state) => state.question);
-  const [question, setQuestion] = useState();
-  const [updateQues, setUpdateQues] = useState();
+  const { loadingQuestion } = useSelector((state) => state.question);
+  const [question, setQuestion] = useState<any>();
+  const [updateQues, setUpdateQues] = useState<any>();
 
-  const onChange = (e) => {
+  const onChange = (e: any) => {
     console.log(e.target.name);
-    if (/\d/.test(+e.target.name)) {
+    if (/\d/.test(e.target.name)) {
       let tempAnswers = [...updateQues.answers];
       tempAnswers[e.target.name] = e.target.value;
       setUpdateQues({ ...updateQues, answers: tempAnswers });
@@ -57,7 +57,7 @@ export const UpdateQuestion = ({ visible, setVisible, id }) => {
     }
   };
 
-  const onChangeCheckBox = (e) => {
+  const onChangeCheckBox = (e: any) => {
     setUpdateQues({ ...updateQues, correctAnswer: e.target.value });
   };
 
@@ -69,14 +69,14 @@ export const UpdateQuestion = ({ visible, setVisible, id }) => {
     dispatch(updateQuestion(data));
   };
 
-  const handleChangeCategory = (e) => {
+  const handleChangeCategory = (e: any) => {
     console.log(e);
     setUpdateQues({ ...updateQues, category: e });
   };
 
   useEffect(() => {
-    setQuestion(questions.find((e) => e._id === '' + id));
-    setUpdateQues(questions.find((e) => e._id === '' + id));
+    setQuestion(questions.find((e: { _id: string }) => e._id === '' + id));
+    setUpdateQues(questions.find((e: { _id: string }) => e._id === '' + id));
   }, [visible, questions, id]);
 
   return (
@@ -96,7 +96,6 @@ export const UpdateQuestion = ({ visible, setVisible, id }) => {
             setVisible(false);
           }}
           width={600}
-          loading={loadingQuestions}
         >
           <div className="modal-item">
             <div className="modal-item__label">Danh mục</div>
@@ -106,9 +105,8 @@ export const UpdateQuestion = ({ visible, setVisible, id }) => {
                 style={{ width: '100%' }}
                 onChange={handleChangeCategory}
                 loading={loadingCategory}
-                name="category"
               >
-                {categories.map((e, i) => (
+                {categories.map((e: any, i: number) => (
                   <Option value={e._id} key={i}>
                     {e.name}
                   </Option>
@@ -140,7 +138,7 @@ export const UpdateQuestion = ({ visible, setVisible, id }) => {
                     placeholder={e.placeholder}
                     prefix={`${e.name}-`}
                     className="modal-item__input"
-                    name={i}
+                    name={`answer-${i}`}
                     onChange={onChange}
                     defaultValue={question.answers[i]}
                   />

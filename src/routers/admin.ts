@@ -1,5 +1,6 @@
 import CategoryManagement from 'container/admin/category';
 import ClassManagement from 'container/admin/class/index';
+import { QuestionManagement } from 'container/admin/question';
 import { RouteType } from 'types/routers';
 
 export const adminRoutes: Array<RouteType> = [
@@ -13,6 +14,13 @@ export const adminRoutes: Array<RouteType> = [
   {
     path: '/category',
     component: CategoryManagement,
+    role: [0],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/question',
+    component: QuestionManagement,
     role: [0],
     exact: true,
     isPublic: false,

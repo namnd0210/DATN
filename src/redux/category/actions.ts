@@ -1,7 +1,7 @@
 import types from 'redux/category/type';
 import { Action } from 'types/redux';
 
-export const getAllCategory = (data: any): Action => ({
+export const getAllCategory = (data?: any): Action => ({
   type: types.GET_ALL_CATEGORY,
   payload: data,
 });
