@@ -13,6 +13,6 @@ export const updateCategoryApi = (data: CategoryProps): Promise<AxiosResponse> =
   return Axios.put(`/api/category/update`, data);
 };
 
-export const deleteCategoryApi = (data: CategoryProps): Promise<AxiosResponse> => {
-  return Axios.delete('/api/category/:id');
+export const deleteCategoryApi = (id: string): Promise<AxiosResponse> => {
+  return Axios.delete(`/api/category/${id}`);
 };

@@ -42,6 +42,24 @@ export default function categoryReducer(state: CategoryState = initState, action
       return { ...state, loadingCategory: false };
     }
 
+    case types.DELETE_CATEGORY: {
+      return { ...state, loadingCategory: true };
+    }
+
+    case types.DELETE_CATEGORY_SUCCESS: {
+      const { id } = action.payload;
+
+      return {
+        ...state,
+        loadingCategory: false,
+        categories: state.categories.filter((e) => e._id !== id),
+      };
+    }
+
+    case types.DELETE_CATEGORY_FAILED: {
+      return { ...state, loadingCategory: false };
+    }
+
     default:
       return state;
   }
