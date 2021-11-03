@@ -19,13 +19,11 @@ export const getAllQuestions = async (req, res) => {
 export const createQuestion = (req, res) => {
   const question = new Question(req.body);
   question
-    .populate({ path: 'category', model: 'Category' })
     .save()
     .then((question) => {
-      // res.status(200).json({ success: true, question });
-      Question.find({ _id: question._id })
+      Question.findOne({ _id: question._id })
         .populate({ path: 'category', model: 'Category' })
-        .then((ques) => res.status(200).json(ques));
+        .then((ques) => res.status(200).json({ question: ques }));
     })
     .catch((err) => {
       res.status(400).json(err);

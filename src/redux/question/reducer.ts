@@ -29,12 +29,12 @@ export default function questionReducer(state: QuestionState = initState, action
     }
 
     case types.CREATE_QUESTION_SUCCESS: {
-      const { category } = action.payload;
+      const { question } = action.payload;
 
       return {
         ...state,
         loadingQuestion: false,
-        questions: [...state.questions, category],
+        questions: [...state.questions, question],
       };
     }
 

@@ -42,30 +42,30 @@ const answerList = [
 
 export const AddNewQuestion = ({ visible, setVisible }: any) => {
   const dispatch = useDispatch();
-  const [questionInfo, setQuestionInfo] = useState({ answers: [], category: {}, correctAnswer: {} });
+  const [questionInfo, setQuestionInfo] = useState({
+    A: '',
+    B: '',
+    C: '',
+    D: '',
+    category: undefined,
+    correctAnswer: {},
+    question: '',
+  });
   const { categories, loadingCategory } = useSelector((state) => state.category);
 
   const handleAddNewQuestion = () => {
-    console.log(questionInfo);
-    const { category, correctAnswer } = questionInfo;
-    let tempQues: any = questionInfo;
+    let tempQues: any = {
+      answers: [],
+    };
 
-    if (!category) {
-      tempQues.category = categories[0]._id || null;
-    }
+    questionInfo.A && tempQues.answers.push(questionInfo.A);
+    questionInfo.B && tempQues.answers.push(questionInfo.B);
+    questionInfo.C && tempQues.answers.push(questionInfo.C);
+    questionInfo.D && tempQues.answers.push(questionInfo.D);
+    tempQues.question = questionInfo.question;
+    tempQues.correctAnswer = questionInfo.correctAnswer ?? answerList[0].value;
+    tempQues.category = questionInfo.category ?? categories[0]._id;
 
-    if (!correctAnswer) {
-      tempQues.correctAnswer = answerList[0].value;
-    }
-
-    let x = Object.keys(tempQues).filter((e) => {
-      return /\d/.test(e);
-    });
-
-    x.forEach((e, i) => {
-      tempQues.answers = [...tempQues.answers, tempQues[`${i}`]];
-      delete tempQues[`${i}`];
-    });
     console.log(tempQues);
     if (tempQues.answers.length < 4 || tempQues.question === '' || !tempQues.question) {
       message.error('Field is not empty!!');
@@ -83,7 +83,7 @@ export const AddNewQuestion = ({ visible, setVisible }: any) => {
     setQuestionInfo({ ...questionInfo, correctAnswer: e.target.value });
   };
 
-  const onChange = (e: { target: { name: any; value: any } }) => {
+  const onChange = (e: any) => {
     setQuestionInfo({ ...questionInfo, [e.target.name]: e.target.value });
   };
 
@@ -110,19 +110,11 @@ export const AddNewQuestion = ({ visible, setVisible }: any) => {
               onChange={handleChangeCategory}
               loading={loadingCategory}
             >
-              {categories.map(
-                (
-                  e: {
-                    _id: Key;
-                    name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined;
-                  },
-                  i: string | number | undefined,
-                ) => (
-                  <Option value={e._id} key={i}>
-                    {e.name}
-                  </Option>
-                ),
-              )}
+              {categories.map((e: { _id: Key; name: string }, i: number) => (
+                <Option value={e._id} key={i}>
+                  {e.name}
+                </Option>
+              ))}
             </Select>
           </div>
         </div>
@@ -135,11 +127,12 @@ export const AddNewQuestion = ({ visible, setVisible }: any) => {
         </div>
 
         <div className="modal-item">
-          <div className="modal-item__label">Đáp án </div>
+          <div className="modal-item__label">Đáp án</div>
           <div className="modal-item__main">
             {answerList.map((e, i) => (
               <div className="modal-item__answer" key={i}>
                 <Input
+                  name={e.name}
                   size="large"
                   placeholder={e.placeholder}
                   prefix={`${e.name}-`}

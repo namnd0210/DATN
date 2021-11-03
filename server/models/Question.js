@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const questionSchema = new Schema({
-  category: { type: Schema.Types.ObjectId, ref: 'category' },
+  category: { type: Schema.Types.ObjectId, ref: 'Category' },
   question: { required: true, type: String, maxLength: 200 },
   answers: [{ type: String, maxLength: 100 }],
   correctAnswer: { required: true, type: Number, maxLength: 1 },
