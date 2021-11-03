@@ -5,11 +5,12 @@ export const getAllQuestions = async (req, res) => {
   const { page } = req.query;
   Question.find({})
     .populate({ path: 'category', model: 'Category' })
+    .populate({ path: 'created_by', model: 'User' })
     .skip((page ? page - 1 : 0) * 10)
     .limit(10)
-    .then((ques) => {
+    .then((data) => {
       res.status(200).json({
-        data: ques,
+        data,
         total: count,
       });
     })
@@ -23,7 +24,10 @@ export const createQuestion = (req, res) => {
     .then((question) => {
       Question.findOne({ _id: question._id })
         .populate({ path: 'category', model: 'Category' })
-        .then((ques) => res.status(200).json({ question: ques }));
+        .populate({ path: 'created_by', model: 'User' })
+        .then((ques) => {
+          res.status(200).json({ question: ques });
+        });
     })
     .catch((err) => {
       res.status(400).json(err);
@@ -53,7 +57,7 @@ export const updateQuestion = (req, res) => {
 };
 
 export const deleteQuestion = (req, res) => {
-  Question.remove({ _id: req.params.id })
+  Question.deleteOne({ _id: req.params.id })
     .then((ques) => {
       res.status(200).json({ id: req.params.id });
     })

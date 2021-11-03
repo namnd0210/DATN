@@ -52,6 +52,7 @@ export const AddNewQuestion = ({ visible, setVisible }: any) => {
     question: '',
   });
   const { categories, loadingCategory } = useSelector((state) => state.category);
+  const { user } = useSelector((state) => state.auth);
 
   const handleAddNewQuestion = () => {
     let tempQues: any = {
@@ -65,6 +66,7 @@ export const AddNewQuestion = ({ visible, setVisible }: any) => {
     tempQues.question = questionInfo.question;
     tempQues.correctAnswer = questionInfo.correctAnswer ?? answerList[0].value;
     tempQues.category = questionInfo.category ?? categories[0]._id;
+    tempQues.created_by = user.id;
 
     console.log(tempQues);
     if (tempQues.answers.length < 4 || tempQues.question === '' || !tempQues.question) {

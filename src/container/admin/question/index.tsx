@@ -31,22 +31,24 @@ export const QuestionManagement = () => {
       title: 'Danh mục',
       dataIndex: 'length',
       key: 'length',
-      render: (
-        text: any,
-        record: {
-          category: { name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined };
-        },
-      ) => <span>{record.category?.name}</span>,
+      render: (text: any, record: any) => <span>{record.category?.name}</span>,
     },
     {
       title: 'Ngày tạo',
       dataIndex: 'createdAt',
       key: 'createdAt',
-      render: (text: moment.MomentInput, record: any) => <span>{moment(text).format('DD-MM-YYYY HH:MM:SS')}</span>,
+      render: (text: moment.MomentInput, record: any) => (
+        <span>{moment(record.created_at).format('DD-MM-YYYY HH:mm:ss')}</span>
+      ),
+    },
+    {
+      title: 'Người tạo',
+      dataIndex: 'createdBy',
+      key: 'createdBy',
+      render: (text: moment.MomentInput, record: any) => <span>{record.created_by.name}</span>,
     },
     {
       title: 'Hành động',
-      // title: "Action",
       dataIndex: 'action',
       key: 'action',
       render: (text: any, record: { _id: React.SetStateAction<undefined> }) => (
