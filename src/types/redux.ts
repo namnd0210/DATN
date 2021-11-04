@@ -46,3 +46,9 @@ export type QuestionState = {
   loadingQuestion: boolean;
   questions: any[];
 };
+
+export type ClassState = {
+  loading: boolean;
+  classes: any[];
+  currentClass: any;
+};
