@@ -48,7 +48,10 @@ export const updateQuestion = (req, res) => {
     { new: true, useFindAndModify: true },
   )
     .populate({ path: 'category', model: 'Category' })
+    .populate({ path: 'updated_by', model: 'User' })
+    .populate({ path: 'created_by', model: 'User' })
     .then((data) => {
+      console.log(data);
       res.status(200).json({ data });
     })
     .catch((err) => {

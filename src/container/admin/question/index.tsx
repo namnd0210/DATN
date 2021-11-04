@@ -12,7 +12,6 @@ import { buildApiUrl } from 'utils';
 
 import { PageHeaderLayout } from '../../../common/PageHeaderLayout';
 import { AddNewQuestion } from './AddNewQuestion';
-import { UpdateQuestion } from './UpdateQuestion';
 
 export const QuestionManagement = () => {
   const columns: any = [
@@ -57,8 +56,7 @@ export const QuestionManagement = () => {
             <EditOutlined
               onClick={() => {
                 setOpenUpdate(true);
-                setUpdateId(record._id);
-                console.log('22');
+                setSelectedQuestion(record);
               }}
             />
           </div>
@@ -81,7 +79,7 @@ export const QuestionManagement = () => {
   const { loadingQuestion, questions } = useSelector((state) => state.question);
   const [visible, setVisible] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
-  const [updateId, setUpdateId] = useState();
+  const [selectedQuestion, setSelectedQuestion] = useState<any>();
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -139,7 +137,14 @@ export const QuestionManagement = () => {
 
       {/* add new modal */}
       <AddNewQuestion visible={visible} setVisible={setVisible} />
-      <UpdateQuestion visible={openUpdate} setVisible={setOpenUpdate} id={updateId} />
+      <AddNewQuestion
+        visible={openUpdate}
+        setVisible={() => {
+          setSelectedQuestion(null);
+          setOpenUpdate(false);
+        }}
+        question={selectedQuestion}
+      />
     </Row>
   );
 };

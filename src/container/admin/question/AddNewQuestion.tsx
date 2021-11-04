@@ -5,7 +5,7 @@ import { Key } from 'rc-select/lib/interface/generator';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getAllCategory } from 'redux/category/actions';
-import { createQuestion } from 'redux/question/actions';
+import { createQuestion, updateQuestion } from 'redux/question/actions';
 import { useSelector } from 'redux/reducer';
 
 const { Option } = Select;
@@ -17,7 +17,7 @@ const radioStyle = {
   lineHeight: '30px',
 };
 
-const answerList = [
+const answerList: { name: string; placeholder: string; value: number }[] = [
   {
     name: 'A',
     placeholder: 'Đáp án A',
@@ -40,17 +40,19 @@ const answerList = [
   },
 ];
 
-export const AddNewQuestion = ({ visible, setVisible }: any) => {
+const initValueQuestion = {
+  A: '',
+  B: '',
+  C: '',
+  D: '',
+  category: undefined,
+  correctAnswer: {},
+  question: '',
+};
+
+export const AddNewQuestion = ({ visible, setVisible, question }: any) => {
   const dispatch = useDispatch();
-  const [questionInfo, setQuestionInfo] = useState({
-    A: '',
-    B: '',
-    C: '',
-    D: '',
-    category: undefined,
-    correctAnswer: {},
-    question: '',
-  });
+  const [questionInfo, setQuestionInfo] = useState<any>(initValueQuestion);
   const { categories, loadingCategory } = useSelector((state) => state.category);
   const { user } = useSelector((state) => state.auth);
 
@@ -68,12 +70,15 @@ export const AddNewQuestion = ({ visible, setVisible }: any) => {
     tempQues.category = questionInfo.category ?? categories[0]._id;
     tempQues.created_by = user.id;
 
-    console.log(tempQues);
     if (tempQues.answers.length < 4 || tempQues.question === '' || !tempQues.question) {
       message.error('Field is not empty!!');
     } else {
-      dispatch(createQuestion(tempQues));
-      // setQuestionInfo({ answers: [] });
+      if (!question) {
+        dispatch(createQuestion(tempQues));
+      } else {
+        dispatch(updateQuestion({ ...tempQues, _id: question._id }));
+      }
+      setQuestionInfo(initValueQuestion);
     }
   };
 
@@ -94,6 +99,23 @@ export const AddNewQuestion = ({ visible, setVisible }: any) => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (question) {
+      console.log(question);
+      const newQuestion = {
+        A: question.answers[0],
+        B: question.answers[1],
+        C: question.answers[2],
+        D: question.answers[3],
+        category: question.category,
+        correctAnswer: question.correctAnswer,
+        question: question.question,
+      };
+
+      setQuestionInfo(newQuestion);
+    }
+  }, [question]);
+
   return (
     <div>
       <Modal
@@ -106,50 +128,62 @@ export const AddNewQuestion = ({ visible, setVisible }: any) => {
         <div className="modal-item">
           <div className="modal-item__label">Danh mục</div>
           <div className="modal-item__main">
-            <Select
-              defaultValue={categories[0] && categories[0]._id}
-              style={{ width: '100%' }}
-              onChange={handleChangeCategory}
-              loading={loadingCategory}
-            >
-              {categories.map((e: { _id: Key; name: string }, i: number) => (
-                <Option value={e._id} key={i}>
-                  {e.name}
-                </Option>
-              ))}
-            </Select>
+            {categories.length > 0 && (
+              <Select
+                value={questionInfo.category?._id ?? categories[0]._id}
+                style={{ width: '100%' }}
+                onChange={handleChangeCategory}
+                loading={loadingCategory}
+              >
+                {categories.map((e: { _id: Key; name: string }, i: number) => (
+                  <Option value={e._id} key={i}>
+                    {e.name}
+                  </Option>
+                ))}
+              </Select>
+            )}
           </div>
         </div>
 
         <div className="modal-item">
           <div className="modal-item__label">Tiêu đề</div>
           <div className="modal-item__main">
-            <TextArea placeholder="Nhập tiêu đề câu hỏi của bạn" autoSize name="question" onChange={onChange} />
+            <TextArea
+              value={questionInfo.question ?? ''}
+              placeholder="Nhập tiêu đề câu hỏi của bạn"
+              autoSize
+              name="question"
+              onChange={onChange}
+            />
           </div>
         </div>
 
         <div className="modal-item">
           <div className="modal-item__label">Đáp án</div>
           <div className="modal-item__main">
-            {answerList.map((e, i) => (
-              <div className="modal-item__answer" key={i}>
-                <Input
-                  name={e.name}
-                  size="large"
-                  placeholder={e.placeholder}
-                  prefix={`${e.name}-`}
-                  className="modal-item__input"
-                  onChange={onChange}
-                />
-              </div>
-            ))}
+            {answerList.map((e, i) => {
+              console.log(questionInfo[e.name]);
+              return (
+                <div className="modal-item__answer" key={i}>
+                  <Input
+                    value={questionInfo[e.name]}
+                    name={e.name}
+                    size="large"
+                    placeholder={e.placeholder}
+                    prefix={`${e.name}-`}
+                    className="modal-item__input"
+                    onChange={onChange}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 
         <div className="modal-item">
           <div className="modal-item__label">Đáp án đúng </div>
           <div className="modal-item__main">
-            <Radio.Group onChange={onChangeCheckBox} defaultValue={answerList[0].name}>
+            <Radio.Group onChange={onChangeCheckBox} value={questionInfo.correctAnswer ?? answerList[0].name}>
               {answerList.map((e, i) => (
                 <Radio style={radioStyle} value={e.value} key={i}>
                   {e.name}
