@@ -8,6 +8,17 @@ export type LoginProps = {
   password: string;
 };
 
+export type QuestionProps = {
+  _id: string;
+  category: string;
+  question: string;
+  answers: string[];
+  correctAnswer: number;
+  updated_at: string;
+  created_at: string;
+  updated_by: string;
+};
+
 export type RegisterProps = {
   name: string;
   username: string;
@@ -25,6 +36,15 @@ export type CategoryProps = {
 };
 
 export type UserProps = {
+  _id: string;
+  title: string;
+  description: string;
+  questions: QuestionProps[];
+  created_by: string;
+  created_at: string;
+};
+
+export type ExamProps = {
   _id: string;
   name: string;
   email: string;
@@ -65,4 +85,9 @@ export type ClassState = {
 export type UserState = {
   loading: boolean;
   users: UserProps[];
+};
+
+export type ExamState = {
+  loading: boolean;
+  exams: ExamProps[];
 };
