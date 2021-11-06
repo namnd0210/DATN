@@ -24,6 +24,15 @@ export type CategoryProps = {
   created_by: string;
 };
 
+export type UserProps = {
+  _id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  date: string;
+  role: number;
+};
+
 export type AuthState = {
   isAuthenticated: boolean;
   loginLoading: boolean;
@@ -51,4 +60,9 @@ export type ClassState = {
   loading: boolean;
   classes: any[];
   currentClass: any;
+};
+
+export type UserState = {
+  loading: boolean;
+  users: UserProps[];
 };

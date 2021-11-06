@@ -64,7 +64,7 @@ export const login = (req, res) => {
   }
 };
 
-export const getUsers = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   const { role, page } = req.query;
   const query = role ? { role } : {};
   const total = await User.countDocuments(query);
