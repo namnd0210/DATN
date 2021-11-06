@@ -1,65 +1,65 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
-import { createClassResult, deleteClassResult, getAllClassesResult, updateClassResult } from './actions';
-import { createClassApi, deleteClassApi, getAllClassesApi, updateClassApi } from './api';
+import { createExamResult, deleteExamResult, getAllExamsResult, updateExamResult } from './actions';
+import { createExamApi, deleteExamApi, getAllExamsApi, updateExamApi } from './api';
 import types from './type';
 
-function* getAllClassesSaga(): any {
+function* getAllExamsSaga(): any {
   try {
-    const res = yield call(getAllClassesApi);
+    const res = yield call(getAllExamsApi);
     if (res.status === 200) {
-      yield put(getAllClassesResult(res.data));
+      yield put(getAllExamsResult(res.data));
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
-    yield put(getAllClassesResult(error, isSuccess));
+    yield put(getAllExamsResult(error, isSuccess));
   }
 }
 
-function* createClassSaga(props: any): any {
+function* createExamSaga(props: any): any {
   try {
-    const res = yield call(createClassApi, props.payload);
+    const res = yield call(createExamApi, props.payload);
     if (res.status === 200) {
-      yield put(createClassResult(res.data));
+      yield put(createExamResult(res.data));
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
-    yield put(createClassResult(error, isSuccess));
+    yield put(createExamResult(error, isSuccess));
   }
 }
 
-function* updateClassSaga(props: any): any {
+function* updateExamSaga(props: any): any {
   try {
-    const res = yield call(updateClassApi, props.payload);
+    const res = yield call(updateExamApi, props.payload);
     if (res.status === 200) {
-      yield put(updateClassResult(res.data));
+      yield put(updateExamResult(res.data));
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
-    yield put(updateClassResult(error, isSuccess));
+    yield put(updateExamResult(error, isSuccess));
   }
 }
 
-function* deleteClassSaga(props: any): any {
+function* deleteExamSaga(props: any): any {
   try {
-    const res = yield call(deleteClassApi, props.payload);
+    const res = yield call(deleteExamApi, props.payload);
     console.log(props.payload);
     if (res.status === 200) {
-      yield put(deleteClassResult(res.data));
+      yield put(deleteExamResult(res.data));
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
-    yield put(deleteClassResult(error, isSuccess));
+    yield put(deleteExamResult(error, isSuccess));
   }
 }
 
 export default function* rootSaga() {
-  yield all([takeEvery(types.GET_ALL_CLASSES, getAllClassesSaga)]);
-  yield all([takeEvery(types.CREATE_CLASS, createClassSaga)]);
-  yield all([takeEvery(types.UPDATE_CLASS, updateClassSaga)]);
-  yield all([takeEvery(types.DELETE_CLASS, deleteClassSaga)]);
+  yield all([takeEvery(types.GET_ALL_EXAMS, getAllExamsSaga)]);
+  yield all([takeEvery(types.CREATE_EXAM, createExamSaga)]);
+  yield all([takeEvery(types.UPDATE_EXAM, updateExamSaga)]);
+  yield all([takeEvery(types.DELETE_EXAM, deleteExamSaga)]);
 }

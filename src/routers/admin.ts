@@ -4,6 +4,8 @@ import { QuestionManagement } from 'container/admin/question';
 import UserManagement from 'container/admin/user';
 import { RouteType } from 'types/routers';
 
+import { ExamManagement } from './../container/admin/exam/index';
+
 export const adminRoutes: Array<RouteType> = [
   {
     path: '/class',
@@ -29,6 +31,13 @@ export const adminRoutes: Array<RouteType> = [
   {
     path: '/users',
     component: UserManagement,
+    role: [0],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/exams',
+    component: ExamManagement,
     role: [0],
     exact: true,
     isPublic: false,

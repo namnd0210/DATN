@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 
 import authReducer from './auth/reducer';
 import categoryReducer from './category/reducer';
+import examReducer from './exam/reducer';
 import questionReducer from './question/reducer';
 import userReducer from './user/reducer';
 
@@ -12,6 +13,7 @@ const reducers = combineReducers({
   category: categoryReducer,
   question: questionReducer,
   user: userReducer,
+  exam: examReducer,
 });
 
 type RootState = ReturnType<typeof reducers>;

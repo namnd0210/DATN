@@ -35,7 +35,7 @@ export type CategoryProps = {
   created_by: string;
 };
 
-export type UserProps = {
+export type ExamProps = {
   _id: string;
   title: string;
   description: string;
@@ -44,13 +44,25 @@ export type UserProps = {
   created_at: string;
 };
 
-export type ExamProps = {
+export type UserProps = {
   _id: string;
   name: string;
   email: string;
   avatar: string;
   date: string;
   role: number;
+};
+
+export type ClassProps = {
+  _id: string;
+  name: string;
+  teacher: string;
+  exam: string;
+  students: string[];
+  updated_at: string;
+  updated_by: string;
+  created_at: string;
+  created_by: string;
 };
 
 export type AuthState = {
@@ -73,12 +85,12 @@ export type CategoryState = {
 
 export type QuestionState = {
   loadingQuestion: boolean;
-  questions: any[];
+  questions: QuestionProps[];
 };
 
 export type ClassState = {
   loading: boolean;
-  classes: any[];
+  classes: ClassProps[];
   currentClass: any;
 };
 

@@ -2,7 +2,7 @@ import { Action } from 'types/redux';
 
 import types from './type';
 
-export const getAllExams = (data: any): Action => ({
+export const getAllExams = (data?: any): Action => ({
   type: types.GET_ALL_EXAMS,
   payload: data,
 });

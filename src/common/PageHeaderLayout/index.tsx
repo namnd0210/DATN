@@ -13,7 +13,7 @@ const content = (text: string, isAdmin: boolean, isTeacher: boolean) => (
     <div>
       {isAdmin || isTeacher ? (
         <>
-          <NavLink to="/exam" className="ant-btn" style={{ marginRight: 10 }}>
+          <NavLink to="/exams" className="ant-btn" style={{ marginRight: 10 }}>
             Bài thi
           </NavLink>
           <NavLink to="/question" className="ant-btn" style={{ marginRight: 10 }}>
