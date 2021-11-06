@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { deleteClass, getAllClasses } from 'redux/class/actions';
 import { useSelector } from 'redux/reducer';
+import { ClassProps, ExamProps, UserProps } from 'types/redux';
 import { buildApiUrl } from 'utils';
 
 import ClassFormModal from './ClassFormModal';
@@ -19,7 +20,7 @@ const ClassManagement = () => {
       title: 'ID',
       dataIndex: 'Stt',
       key: 'stt',
-      render: (text: any, record: any, index: number) => <span>{index + 1}</span>,
+      render: (text: any, record: UserProps, index: number) => <span>{index + 1}</span>,
     },
     {
       title: 'Tên lớp',
@@ -30,30 +31,25 @@ const ClassManagement = () => {
       title: 'Giáo viên',
       dataIndex: 'teacher',
       key: 'teacher',
-      render: (teacher: {
-        name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined;
-      }) => <span>{teacher?.name}</span>,
+      render: (teacher: UserProps) => <span>{teacher?.name}</span>,
     },
     {
       title: 'Bài thi',
       dataIndex: 'exam',
       key: 'exam',
-      render: (exam: {
-        _id: any;
-        title: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined;
-      }) => <Link to={`exam/edit/${exam?._id}`}>{exam?.title}</Link>,
+      render: (exam: ExamProps) => <Link to={`exam/edit/${exam?._id}`}>{exam?.title}</Link>,
     },
     {
       title: 'Số học sinh',
       dataIndex: 'students',
       key: 'students',
-      render: (students: string | any[]) => students?.length,
+      render: (students: UserProps[]) => students?.length,
     },
     {
       title: 'Ngày tạo',
       dataIndex: 'create',
       key: 'create',
-      render: (text: any, record: { created_at: any }) => (
+      render: (text: any, record: ClassProps) => (
         <span>{moment(record?.created_at || null).format('DD-MM-YYYY HH:mm')}</span>
       ),
     },
@@ -62,13 +58,16 @@ const ClassManagement = () => {
       //   title: "Action",
       dataIndex: 'action',
       key: 'action',
-      render: (text: any, record: { _id: string }) => (
+      render: (text: any, record: ClassProps) => (
         <div style={{ display: 'flex' }}>
-          {console.log(record)}
-          <div style={{ cursor: 'pointer', marginRight: 10 }}>
-            <Link to={`class/update/${record?._id}`}>
-              <EditOutlined />
-            </Link>
+          <div
+            onClick={() => {
+              setSelectedClass(record);
+              setVisible(true);
+            }}
+            style={{ cursor: 'pointer', marginRight: 10 }}
+          >
+            <EditOutlined />
           </div>
           {isAdmin && (
             <div>
@@ -91,6 +90,7 @@ const ClassManagement = () => {
   const history = useHistory();
   const location = useLocation();
   const [visible, setVisible] = useState(false);
+  const [selectedClass, setSelectedClass] = useState<ClassProps>();
 
   const { classes, loading } = useSelector((state) => state.class);
 
@@ -150,7 +150,7 @@ const ClassManagement = () => {
         />
       </Col>
 
-      <ClassFormModal visible={visible} setVisible={setVisible} />
+      {visible && <ClassFormModal onClose={() => setVisible(false)} selectedClass={selectedClass} />}
     </Row>
   );
 };

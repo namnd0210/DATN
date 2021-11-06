@@ -56,9 +56,9 @@ export type UserProps = {
 export type ClassProps = {
   _id: string;
   name: string;
-  teacher: string;
-  exam: string;
-  students: string[];
+  teacher: UserProps;
+  exam: ExamProps;
+  students: UserProps[];
   updated_at: string;
   updated_by: string;
   created_at: string;

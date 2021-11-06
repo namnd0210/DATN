@@ -1,11 +1,11 @@
 import { Button, Divider, Form, Input, Modal, PageHeader, Select } from 'antd';
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createClass } from 'redux/class/actions';
 import { getAllExams } from 'redux/exam/actions';
 import { useSelector } from 'redux/reducer';
 import { getAllUsers } from 'redux/user/actions';
-import { ExamProps, UserProps } from 'types/redux';
+import { ClassProps, ExamProps, UserProps } from 'types/redux';
 
 const { Option } = Select;
 
@@ -14,13 +14,13 @@ const layout = {
   wrapperCol: { span: 20 },
 };
 
-const ClassFormModal = ({ visible, setVisible }: any) => {
+const ClassFormModal = ({ onClose, selectedClass }: any) => {
   /* eslint-disable no-template-curly-in-string */
   const validateMessages = {
     required: '${label} không được để trống!',
   };
-  /* eslint-enable no-template-curly-in-string */
 
+  const [currentClass, setCurrentClass] = useState<ClassProps>();
   const dispatch = useDispatch();
   const { users, loading: userLoading } = useSelector(({ user }) => user);
   const { exams, loading: examLoading } = useSelector(({ exam }) => exam);
@@ -38,8 +38,18 @@ const ClassFormModal = ({ visible, setVisible }: any) => {
     // eslint-disable-next-line
   }, []);
 
+  useEffect(() => {
+    if (selectedClass) {
+      setCurrentClass(selectedClass);
+    }
+  }, [selectedClass]);
+
+  useEffect(() => {
+    console.log(currentClass);
+  }, [currentClass]);
+
   return (
-    <Modal title="Thêm mới lớp học" visible={visible} onCancel={() => setVisible(false)} width={600} footer={null}>
+    <Modal title="Thêm mới lớp học" visible onCancel={onClose} width={600} footer={null}>
       {/* <PageHeader
         className="site-page-header"
         onBack={() => window.history.back()}
@@ -53,9 +63,24 @@ const ClassFormModal = ({ visible, setVisible }: any) => {
           name="nest-messages"
           validateMessages={validateMessages}
           onFinish={onFinish}
-          // initialValues={{
-          //   teacher: users[0]?._id,
-          // }}
+          fields={[
+            {
+              name: ['name'],
+              value: currentClass?.name ?? '',
+            },
+            {
+              name: ['teacher'],
+              value: currentClass?.teacher._id ?? users.filter((e: UserProps) => e.role === 1)[0]?._id,
+            },
+            {
+              name: ['students'],
+              value: currentClass?.students?.map((e: UserProps) => e._id) ?? [],
+            },
+            {
+              name: ['exam'],
+              value: currentClass?.exam._id,
+            },
+          ]}
         >
           <Form.Item name="name" label="Tên lớp" rules={[{ required: true }]}>
             <Input />
