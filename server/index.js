@@ -9,6 +9,7 @@ import passport from 'passport';
 import newLocal from './config/passport';
 import categoryRouter from './routes/category';
 import classRouter from './routes/class';
+import examRouter from './routes/exam';
 import questionRouter from './routes/question';
 import userRouter from './routes/user';
 
@@ -31,6 +32,7 @@ app.use('/api/user', userRouter);
 app.use('/api/class', classRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/question', questionRouter);
+app.use('/api/exam', examRouter);
 
 // connect db
 mongoose

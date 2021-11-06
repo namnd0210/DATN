@@ -4,7 +4,6 @@ import { PageHeaderLayout } from 'common/PageHeaderLayout';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { deleteExam, getAllExams } from 'redux/exam/actions';
 import { useSelector } from 'redux/reducer';
 import { ExamProps } from 'types/redux';
@@ -32,20 +31,20 @@ export const ExamManagement = () => {
     },
     {
       title: 'Ngày tạo',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
+      dataIndex: 'created_at',
+      key: 'created_at',
       render: (text: any, record: ExamProps) => <span>{moment(text).format('DD-MM-YYYY HH:MM:SS')}</span>,
     },
     {
       title: 'Tạo bởi',
-      dataIndex: 'createdBy',
-      key: 'createdBy',
+      dataIndex: 'created_by',
+      key: 'created_by',
       render: (
         text: any,
         record: {
-          createdBy: { name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined };
+          created_by: { name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined };
         },
-      ) => <span>{record.createdBy.name}</span>,
+      ) => <span>{record.created_by.name}</span>,
     },
     {
       title: 'Hành động',
@@ -55,9 +54,16 @@ export const ExamManagement = () => {
         if (isAdmin || isTeacher)
           return (
             <div style={{ display: 'flex' }}>
-              <Link to={`/exam/edit/${record._id}`} style={{ cursor: 'pointer', marginRight: 10 }}>
+              <div
+                onClick={() => {
+                  setVisible(true);
+                  setSelectedExam(record);
+                }}
+                style={{ cursor: 'pointer', marginRight: 10 }}
+              >
                 <EditOutlined />
-              </Link>
+              </div>
+
               <div style={{ cursor: 'pointer', marginRight: 10 }}>
                 <Popconfirm
                   placement="topLeft"
@@ -72,7 +78,7 @@ export const ExamManagement = () => {
             </div>
           );
         return (
-          <div onClick={() => setSelectedExam(record)} style={{ cursor: 'pointer' }}>
+          <div style={{ cursor: 'pointer' }}>
             <PlayCircleOutlined />
           </div>
         );
@@ -108,7 +114,14 @@ export const ExamManagement = () => {
       </Col>
       <Col xl={24}>
         {isAdmin || isTeacher ? (
-          <Button onClick={() => setVisible(true)} type="dashed" style={{ width: '100%', margin: '10px 0 10px 0' }}>
+          <Button
+            onClick={() => {
+              setVisible(true);
+              setSelectedExam(undefined);
+            }}
+            type="dashed"
+            style={{ width: '100%', margin: '10px 0 10px 0' }}
+          >
             <PlusCircleOutlined /> Tạo bài thi mới
           </Button>
         ) : null}
@@ -116,7 +129,7 @@ export const ExamManagement = () => {
         <Table columns={columns} loading={loading} dataSource={exams} rowKey={(record) => record._id} />
       </Col>
 
-      <ExamFormModal visible={visible} setVisible={setVisible} selectedExam={selectedExam} />
+      {visible && <ExamFormModal onClose={() => setVisible(false)} selectedExam={selectedExam} />}
     </Row>
   );
 };

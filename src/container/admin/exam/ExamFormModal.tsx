@@ -3,9 +3,9 @@ import '../../../assets/styles/add-exam.scss';
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, Input, message, Modal, PageHeader, Row, Select } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createExam } from 'redux/exam/actions';
+import { createExam, updateExam } from 'redux/exam/actions';
 import { getAllQuestions } from 'redux/question/actions';
 import { useSelector } from 'redux/reducer';
 import { ExamProps, QuestionProps } from 'types/redux';
@@ -13,15 +13,14 @@ import { ExamProps, QuestionProps } from 'types/redux';
 import { AddNewQuestion } from '../question/AddNewQuestion';
 
 type Props = {
-  visible: boolean;
-  setVisible: (e: boolean) => void;
+  onClose: () => void;
   selectedExam?: ExamProps;
 };
 
-export const ExamFormModal = ({ visible, setVisible, selectedExam }: Props) => {
+export const ExamFormModal = ({ onClose, selectedExam }: Props) => {
   const dispatch = useDispatch();
   const [selectedAnswer, setSelectedAnswer] = useState<any>([]);
-  const [exam, setExam] = useState({});
+  const [exam, setExam] = useState<any>({});
   const { questions, loadingQuestion } = useSelector((state) => state.question);
 
   const {
@@ -38,14 +37,14 @@ export const ExamFormModal = ({ visible, setVisible, selectedExam }: Props) => {
     setExam({ ...exam, [e.target.name]: e.target.value });
   };
 
-  const onCreate = () => {
+  const handleSubmit = () => {
     let newExam: any = { ...exam, questions: selectedAnswer, created_by: id };
     if (newExam.title === '') {
       message.error('Không được để trống tên bộ câu hỏi');
     } else if (newExam.questions.length === 0) {
       message.error('Vui lòng chọn câu hỏi !');
     } else {
-      dispatch(createExam(newExam));
+      !selectedExam ? dispatch(createExam(newExam)) : dispatch(updateExam(newExam));
     }
   };
 
@@ -57,11 +56,12 @@ export const ExamFormModal = ({ visible, setVisible, selectedExam }: Props) => {
   useEffect(() => {
     if (selectedExam) {
       setExam(selectedExam);
+      setSelectedAnswer(selectedExam.questions.map((e) => e._id));
     }
   }, [selectedExam]);
 
   return (
-    <Modal title="Thêm mới lớp học" visible={visible} onCancel={() => setVisible(false)} width={600} footer={null}>
+    <Modal visible title="Thêm mới lớp học" onCancel={onClose} width={600} footer={null}>
       <PageHeader
         className="site-page-header"
         onBack={() => window.history.back()}
@@ -73,14 +73,26 @@ export const ExamFormModal = ({ visible, setVisible, selectedExam }: Props) => {
           <div className="add-exam-item">
             <div className="add-exam-item__label">Tên bài trắc nghiệm</div>
             <div className="add-exam-item__main">
-              <TextArea placeholder="Bài trắc nghiệm thứ nhất !" autoSize name="title" onChange={onChange} />
+              <TextArea
+                value={exam.title ?? ''}
+                placeholder="Bài trắc nghiệm thứ nhất !"
+                autoSize
+                name="title"
+                onChange={onChange}
+              />
             </div>
           </div>
 
           <div className="add-exam-item">
             <div className="add-exam-item__label">Mô tả</div>
             <div className="add-exam-item__main">
-              <TextArea placeholder="Bài trắc nghiệm về ..." autoSize name="des" onChange={onChange} />
+              <TextArea
+                value={exam.description}
+                placeholder="Bài trắc nghiệm về ..."
+                autoSize
+                name="description"
+                onChange={onChange}
+              />
             </div>
           </div>
 
@@ -88,6 +100,7 @@ export const ExamFormModal = ({ visible, setVisible, selectedExam }: Props) => {
             <div className="add-exam-item__label">Thời gian</div>
             <div className="add-exam-item__main">
               <Input
+                value={exam.time}
                 placeholder="Nhập thời gian để hoàn thành bài trắc nghiệm (phút)"
                 type="number"
                 name="time"
@@ -113,13 +126,13 @@ export const ExamFormModal = ({ visible, setVisible, selectedExam }: Props) => {
                   <div>
                     {menu}
                     <Divider style={{ margin: '4px 0' }} />
-                    <Button style={{ margin: '4px' }} onClick={() => setVisible(true)}>
+                    <Button style={{ margin: '4px' }}>
                       <PlusOutlined /> Thêm câu hỏi mới
                     </Button>
                   </div>
                 )}
               >
-                {filteredOptions.map((e: { _id: string; question: QuestionProps }) => (
+                {filteredOptions.map((e: QuestionProps) => (
                   <Select.Option key={e._id} value={e._id}>
                     {e.question}
                   </Select.Option>
@@ -131,8 +144,8 @@ export const ExamFormModal = ({ visible, setVisible, selectedExam }: Props) => {
           </div>
 
           <div className="btn-add-exam">
-            <Button type="primary" onClick={onCreate}>
-              Thêm mới
+            <Button type="primary" onClick={handleSubmit}>
+              {!selectedExam ? 'Thêm mới' : 'Cập nhật'}
             </Button>
           </div>
         </Col>

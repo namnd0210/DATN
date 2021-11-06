@@ -30,12 +30,12 @@ export default function examReducer(state: ExamState = initState, action: Action
     }
 
     case types.CREATE_EXAM_SUCCESS: {
-      const { data } = action.payload;
+      const { exam } = action.payload;
 
       return {
         ...state,
         loading: false,
-        exams: [...state.exams, data],
+        exams: [...state.exams, exam],
       };
     }
 
@@ -48,7 +48,7 @@ export default function examReducer(state: ExamState = initState, action: Action
     }
 
     case types.UPDATE_EXAM_SUCCESS: {
-      const exam = action.payload.data;
+      const { exam } = action.payload;
 
       return {
         ...state,

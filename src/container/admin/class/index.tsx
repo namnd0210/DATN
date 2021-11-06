@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Divider, Modal, Pagination, Popconfirm, Row, Table } from 'antd';
+import { Button, Col, Divider, Pagination, Popconfirm, Row, Table } from 'antd';
 import { PageHeaderLayout } from 'common/PageHeaderLayout';
 import _ from 'lodash';
 import moment from 'moment';
