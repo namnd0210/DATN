@@ -51,7 +51,7 @@ export default function authReducer(state: AuthState = initState, action: Action
     case types.REGISTER_SUCCESS: {
       return {
         ...state,
-        registerLoading: true,
+        registerLoading: false,
       };
     }
 

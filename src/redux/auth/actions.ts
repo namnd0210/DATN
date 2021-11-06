@@ -24,6 +24,11 @@ export const register = (data: { name: string; username: string; email: string; 
   payload: { data },
 });
 
+export const registerResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.REGISTER_SUCCESS : types.REGISTER_FAILED,
+  payload: result,
+});
+
 export const logout = () => {
   localStorage.removeItem('token');
   setAuthToken(false);

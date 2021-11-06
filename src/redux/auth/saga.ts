@@ -2,7 +2,7 @@ import sign from 'jwt-encode';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import setAuthToken from 'utils/setTokenAuth';
 
-import { loginResult, setCurrentUser } from './actions';
+import { loginResult, registerResult, setCurrentUser } from './actions';
 import { loginApi, registerApi } from './api';
 import types from './type';
 
@@ -37,20 +37,15 @@ function* registerSaga(props: any): any {
     console.log(data);
     const res = yield call(registerApi, data);
     if (res.data?.success) {
-      if (res.headers) {
-        // setAuthToken(res.headers);
-        const secret = 'secret';
-        const jwt = sign(res.headers, secret);
-        localStorage.setItem('token', jwt);
-        // yield put(loginActionResult(res));
-      }
-    } else {
-      const isSuccess = false;
-      // yield put(loginActionResult(res, isSuccess));
+      // setAuthToken(res.headers);
+      const secret = 'secret';
+      const jwt = sign(res.headers, secret);
+      localStorage.setItem('token', jwt);
+      yield put(registerResult(res));
     }
   } catch (error) {
     const isSuccess = false;
-    // yield put(loginActionResult(error, isSuccess));
+    yield put(registerResult(error, isSuccess));
   }
 }
 
