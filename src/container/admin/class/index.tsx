@@ -1,14 +1,16 @@
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Divider, Pagination, Popconfirm, Row, Table } from 'antd';
+import { Button, Col, Divider, Modal, Pagination, Popconfirm, Row, Table } from 'antd';
 import { PageHeaderLayout } from 'common/PageHeaderLayout';
 import _ from 'lodash';
 import moment from 'moment';
 import querystring from 'query-string';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'redux/reducer';
 import { buildApiUrl } from 'utils';
+
+import ClassFormModal from './ClassFormModal';
 
 const ClassManagement = () => {
   const columns: any[] = [
@@ -87,6 +89,7 @@ const ClassManagement = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
+  const [visible, setVisible] = useState(false);
 
   // const { classes, loadingClass, total, deleteStatus } = useSelector((_) => _.class);
 
@@ -125,13 +128,12 @@ const ClassManagement = () => {
           text="Dánh sách các lớp"
         />
       </Col>
+
       <Col xl={24}>
         {isAdmin && (
-          <Link to="class/add-new">
-            <Button type="dashed" style={{ width: '100%', margin: '10px 0 10px 0' }}>
-              <PlusCircleOutlined /> Thêm mới lớp học
-            </Button>
-          </Link>
+          <Button onClick={() => setVisible(true)} type="dashed" style={{ width: '100%', margin: '10px 0 10px 0' }}>
+            <PlusCircleOutlined /> Thêm mới lớp học
+          </Button>
         )}
         <Table
           columns={columns}
@@ -149,6 +151,8 @@ const ClassManagement = () => {
           onShowSizeChange={handleSizeChange}
         />
       </Col>
+
+      <ClassFormModal visible={visible} setVisible={setVisible} />
     </Row>
   );
 };
