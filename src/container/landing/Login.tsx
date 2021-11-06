@@ -20,13 +20,11 @@ export const LoginScreen = () => {
   };
 
   const handleLogin = (values: any) => {
-    console.log(values);
     dispatch(login(values));
   };
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log(role, name);
       setTimeout(() => {
         role === 2 ? history.push('/home') : history.push('/exam');
       }, 1000);

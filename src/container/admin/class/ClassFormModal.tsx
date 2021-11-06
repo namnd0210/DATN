@@ -22,7 +22,6 @@ const ClassFormModal = ({ visible, setVisible }: any) => {
   // const { exams, loadingCourse } = useSelector(({ exam }) => exam);
 
   const onFinish = (values: any) => {
-    console.log(values);
     // if (!values.teacher) values.teacher = users[0]._id || null;
     // dispatch(createClass(values));
   };

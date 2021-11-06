@@ -35,7 +35,6 @@ function* updateQuestionSaga(props: any): any {
   try {
     const res = yield call(updateQuestionApi, props.payload);
     if (res.status === 200) {
-      console.log(res);
       yield put(updateQuestionResult(res.data));
     }
   } catch (error) {
@@ -50,7 +49,6 @@ function* deleteQuestionSaga(props: any): any {
     const res = yield call(deleteQuestionApi, props.payload);
     console.log(props.payload);
     if (res.status === 200) {
-      console.log(res);
       yield put(deleteQuestionResult(res.data));
     }
   } catch (error) {

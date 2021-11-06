@@ -34,7 +34,6 @@ function* updateCategorySaga(props: any): any {
   try {
     const res = yield call(updateCategoryApi, props.payload);
     if (res.status === 200) {
-      console.log(res);
       yield put(updateCategoryResult(res.data));
     }
   } catch (error) {
@@ -49,7 +48,6 @@ function* deleteCategorySaga(props: any): any {
     const res = yield call(deleteCategoryApi, props.payload);
     console.log(props.payload);
     if (res.status === 200) {
-      console.log(res);
       yield put(deleteCategoryResult(res.data));
     }
   } catch (error) {

@@ -7,9 +7,11 @@ import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'redux/reducer';
 import { deleteUser, getAllUsers } from 'redux/user/actions';
+import { UserProps, UserState } from 'types/redux';
 import { buildApiUrl } from 'utils';
 
 import { PageHeaderLayout } from '../../../common/PageHeaderLayout';
+import UserFormModal from './UserFormModal';
 
 const UserManagement = () => {
   const columns = [
@@ -56,16 +58,15 @@ const UserManagement = () => {
       title: 'Action',
       dataIndex: 'action',
       key: 'action',
-      render: (text: any, record: { role: number; _id: React.SetStateAction<null> }) => {
+      render: (text: any, record: UserProps) => {
         return (
           record.role !== 0 && (
             <div style={{ display: 'flex' }}>
               <div style={{ cursor: 'pointer', marginRight: 10 }}>
                 <EditOutlined
                   onClick={() => {
-                    console.log(record);
-                    setUpdateId(record._id);
-                    setOpenUpdate(true);
+                    setSelectedUser(record);
+                    setVisible(true);
                   }}
                 />
               </div>
@@ -91,8 +92,8 @@ const UserManagement = () => {
   const history = useHistory();
   const location = useLocation();
   const { users, loading } = useSelector(({ user }) => user);
-  const [openUpdate, setOpenUpdate] = useState(false);
-  const [updateId, setUpdateId] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<UserProps>();
 
   const confirm = (id: any) => {
     id && dispatch(deleteUser(id));
@@ -125,7 +126,7 @@ const UserManagement = () => {
         {/* <Button
 					type="dashed"
 					style={{ width: "100%", margin: "10px 0 10px 0" }}
-					onClick={() => setvisible(true)}
+					onClick={() => setVisible(true)}
 				>
 					<PlusCircleOutlined /> Thêm mới danh mục câu hỏi
 				</Button> */}
@@ -147,7 +148,7 @@ const UserManagement = () => {
         />
       </Col>
 
-      {/* <UpdateUser visible={openUpdate} setvisible={setOpenUpdate} id={updateId} /> */}
+      <UserFormModal visible={visible} setVisible={setVisible} currentUser={selectedUser} />
     </Row>
   );
 };

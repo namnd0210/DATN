@@ -44,7 +44,6 @@ const CategoryManagement = () => {
           <div style={{ cursor: 'pointer', marginRight: 10 }}>
             <EditOutlined
               onClick={() => {
-                console.log(record);
                 setUpdateId(record._id);
                 setOpenUpdate(true);
               }}

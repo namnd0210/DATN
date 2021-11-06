@@ -7,7 +7,7 @@ const initState = {
   users: [],
 };
 
-export default function categoryReducer(state: UserState = initState, action: Action) {
+export default function userReducer(state: UserState = initState, action: Action) {
   switch (action.type) {
     case types.GET_ALL_USERS: {
       return { ...state, loading: true };
@@ -30,12 +30,12 @@ export default function categoryReducer(state: UserState = initState, action: Ac
     }
 
     case types.CREATE_USER_SUCCESS: {
-      const { category } = action.payload;
+      const { user } = action.payload;
 
       return {
         ...state,
         loading: false,
-        users: [...state.users, category],
+        users: [...state.users, user],
       };
     }
 
@@ -48,12 +48,12 @@ export default function categoryReducer(state: UserState = initState, action: Ac
     }
 
     case types.UPDATE_USER_SUCCESS: {
-      const newUser = action.payload.data;
+      const { user } = action.payload;
 
       return {
         ...state,
         loading: false,
-        users: state.users.map((e) => (e._id === newUser._id ? newUser : e)),
+        users: state.users.map((e) => (e._id === user._id ? user : e)),
       };
     }
 

@@ -34,7 +34,6 @@ function* updateClassSaga(props: any): any {
   try {
     const res = yield call(updateClassApi, props.payload);
     if (res.status === 200) {
-      console.log(res);
       yield put(updateClassResult(res.data));
     }
   } catch (error) {
@@ -49,7 +48,6 @@ function* deleteClassSaga(props: any): any {
     const res = yield call(deleteClassApi, props.payload);
     console.log(props.payload);
     if (res.status === 200) {
-      console.log(res);
       yield put(deleteClassResult(res.data));
     }
   } catch (error) {
