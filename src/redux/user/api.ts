@@ -1,8 +1,10 @@
 import Axios, { AxiosResponse } from 'axios';
 import { CategoryProps } from 'types/redux';
 
-export const getAllUsersApi = (): Promise<AxiosResponse> => {
-  return Axios.get('/api/user');
+import { buildApiUrl } from './../../utils/index';
+
+export const getAllUsersApi = (params: { role: number; page: number }): Promise<AxiosResponse> => {
+  return Axios.get(`/api/user/${buildApiUrl(params)}`);
 };
 
 export const createUserApi = (data: CategoryProps): Promise<AxiosResponse> => {

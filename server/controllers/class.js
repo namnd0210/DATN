@@ -13,10 +13,7 @@ export const getClasses = async (req, res) => {
   }
   let count = await Class.countDocuments(query);
   Class.find(query)
-    .populate({
-      path: 'teacher',
-      model: 'User',
-    })
+    .populate({ path: 'teacher', model: 'User' })
     .populate({
       path: 'exam',
       model: 'Exam',
@@ -25,10 +22,7 @@ export const getClasses = async (req, res) => {
         model: 'Question',
       },
     })
-    .populate({
-      path: 'students',
-      model: 'User',
-    })
+    .populate({ path: 'students', model: 'User' })
     .limit(10)
     .skip((page ? page - 1 : 0) * 10)
     .then((classData) => {
@@ -44,22 +38,16 @@ export const getClass = async (req, res) => {
   const student = await ClassStudent.find({ _id: id });
 
   Class.find({ _id: id })
-    .populate({
-      path: 'teacher',
-      model: 'User',
-    })
-    .populate({
-      path: 'exam',
-      model: 'Exam',
-    })
-    .populate({
-      path: 'students',
-      model: 'User',
-    })
+    .populate({ path: 'teacher', model: 'User' })
+    .populate({ path: 'exam', model: 'Exam' })
+    .populate({ path: 'students', model: 'User' })
     .limit(10)
     .skip((page ? page - 1 : 0) * 10)
     .then((classRes) => res.status(200).json({ data: { ...classRes, student }, total: count }))
-    .catch((err) => res.status(400).json({ err }));
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json(err);
+    });
 };
 
 export const updateClass = (req, res) => {
@@ -78,6 +66,7 @@ export const updateClass = (req, res) => {
       res.status(200).json({ data });
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).json(err);
     });
 };
@@ -87,9 +76,16 @@ export const createClass = (req, res) => {
   classModel
     .save()
     .then((classRes) => {
-      res.status(200).json({ success: true, classRes });
+      Class.findOne({ _id: classRes._id })
+        .populate({ path: 'students', model: 'User', select: 'name' })
+        .populate({ path: 'teacher', model: 'User', select: 'name' })
+        .populate({ path: 'exam', model: 'Exam' })
+        .then((foundedRes) => {
+          res.status(200).json({ success: true, data: foundedRes });
+        });
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).json(err);
     });
 };
@@ -100,6 +96,7 @@ export const deleteClass = (req, res) => {
       res.status(200).json({ id: req.params.id });
     })
     .catch((err) => {
+      console.log(err);
       res.status(400).json(err);
     });
 };

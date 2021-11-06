@@ -1,15 +1,13 @@
 import express from 'express';
-import passport from 'passport';
 
 import { createClass, deleteClass, getClass, getClasses, updateClass } from '../controllers/class';
-import admin from '../utils/admin';
 
 const router = express.Router();
 
-router.post('/', getClasses);
-router.post('/:id', getClass);
-router.put('/update', passport.authenticate('jwt', { session: false }), admin, updateClass);
-router.post('/', passport.authenticate('jwt', { session: false }), admin, createClass);
-router.delete('/:id', passport.authenticate('jwt', { session: false }), admin, deleteClass);
+router.get('/', getClasses);
+router.get('/:id', getClass);
+router.post('/', createClass);
+router.put('/update', updateClass);
+router.delete('/:id', deleteClass);
 
 export default router;

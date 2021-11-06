@@ -1,7 +1,11 @@
 import { Button, Divider, Form, Input, Modal, PageHeader, Select } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { createClass } from 'redux/class/actions';
+import { getAllExams } from 'redux/exam/actions';
 import { useSelector } from 'redux/reducer';
+import { getAllUsers } from 'redux/user/actions';
+import { ExamProps, UserProps } from 'types/redux';
 
 const { Option } = Select;
 
@@ -18,18 +22,19 @@ const ClassFormModal = ({ visible, setVisible }: any) => {
   /* eslint-enable no-template-curly-in-string */
 
   const dispatch = useDispatch();
-  // const { users, loadingUser, students } = useSelector(({ auth }) => auth);
-  // const { exams, loadingCourse } = useSelector(({ exam }) => exam);
+  const { users, loading: userLoading } = useSelector(({ user }) => user);
+  const { exams, loading: examLoading } = useSelector(({ exam }) => exam);
+  const { loading } = useSelector((state) => state.class);
 
   const onFinish = (values: any) => {
+    console.log(values);
     // if (!values.teacher) values.teacher = users[0]._id || null;
-    // dispatch(createClass(values));
+    dispatch(createClass(values));
   };
 
   useEffect(() => {
-    // dispatch(getAllUsers({ role: 1 }));
-    // dispatch(getAllExam());
-    // dispatch(getAllStudent());
+    dispatch(getAllUsers());
+    dispatch(getAllExams());
     // eslint-disable-next-line
   }, []);
 
@@ -57,15 +62,14 @@ const ClassFormModal = ({ visible, setVisible }: any) => {
           </Form.Item>
 
           <Form.Item name="teacher" label="Giáo viên">
-            <Select
-              style={{ width: '100%' }}
-              // loading={loadingUser}
-            >
-              {/* {users.map((e) => (
-                <Option value={e?._id} key={e._id}>
-                  {e?.name}
-                </Option>
-              ))} */}
+            <Select style={{ width: '100%' }} loading={userLoading}>
+              {users
+                .filter((e: UserProps) => e.role === 1)
+                .map((e: UserProps) => (
+                  <Option value={e?._id} key={e._id}>
+                    {e.name}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
 
@@ -75,29 +79,31 @@ const ClassFormModal = ({ visible, setVisible }: any) => {
               allowClear
               style={{ width: '100%' }}
               placeholder="Please select"
+              loading={userLoading}
               // onChange={handleChange}
             >
-              {/* {students.map((e) => (
-                <Option key={e._id}>{e.name}</Option>
-              ))} */}
+              {users
+                .filter((e: UserProps) => e.role === 2)
+                .map((e: UserProps) => (
+                  <Option value={e?._id} key={e._id}>
+                    {e.name}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
 
           <Form.Item name="exam" label="Bài thi trắc nghiệm">
-            <Select
-              style={{ width: '100%' }}
-              // loading={loadingCourse}
-            >
-              {/* {exams.map((e) => (
+            <Select style={{ width: '100%' }} loading={examLoading}>
+              {exams.map((e: ExamProps) => (
                 <Option value={e?._id} key={e._id}>
                   {e?.title}
                 </Option>
-              ))} */}
+              ))}
             </Select>
           </Form.Item>
 
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={loading}>
               Lưu
             </Button>
           </Form.Item>

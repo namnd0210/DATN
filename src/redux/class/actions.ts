@@ -1,7 +1,7 @@
 import types from 'redux/class/type';
 import { Action } from 'types/redux';
 
-export const getAllClasses = (data: any): Action => ({
+export const getAllClasses = (data?: any): Action => ({
   type: types.GET_ALL_CLASSES,
   payload: data,
 });

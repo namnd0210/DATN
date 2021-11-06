@@ -4,10 +4,9 @@ import { createUserResult, deleteUserResult, getAllUsersResult, updateUserResult
 import { createUserApi, deleteUserApi, getAllUsersApi, updateUserApi } from './api';
 import types from './type';
 
-function* getAllUsersSaga(): any {
-  console.log('tessss');
+function* getAllUsersSaga(props: any): any {
   try {
-    const res = yield call(getAllUsersApi);
+    const res = yield call(getAllUsersApi, props.payload);
     if (res.status === 200) {
       yield put(getAllUsersResult(res.data));
     }

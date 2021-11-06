@@ -4,9 +4,10 @@ import { PageHeaderLayout } from 'common/PageHeaderLayout';
 import _ from 'lodash';
 import moment from 'moment';
 import querystring from 'query-string';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import { deleteClass, getAllClasses } from 'redux/class/actions';
 import { useSelector } from 'redux/reducer';
 import { buildApiUrl } from 'utils';
 
@@ -91,12 +92,12 @@ const ClassManagement = () => {
   const location = useLocation();
   const [visible, setVisible] = useState(false);
 
-  // const { classes, loadingClass, total, deleteStatus } = useSelector((_) => _.class);
+  const { classes, loading } = useSelector((state) => state.class);
 
   const { isAdmin } = useSelector(({ auth }) => auth);
 
   const confirm = (id: string) => {
-    // id && dispatch(deleteClass(id));
+    id && dispatch(deleteClass(id));
   };
 
   const handleSizeChange = (page: any) => {
@@ -106,17 +107,14 @@ const ClassManagement = () => {
     history.push(`${location.pathname}${buildApiUrl(params)}`);
   };
 
-  // useEffect(() => {
-  //   const tmpPage = querystring.parse(location.search).page || 1;
-  //   const payload = {
-  //     page: tmpPage,
-  //   };
-  //   if (deleteStatus) {
-  //     dispatch(getAllClass(payload));
-  //     return;
-  //   }
-  //   dispatch(getAllClass(payload));
-  // }, [dispatch, location, deleteStatus]);
+  useEffect(() => {
+    const tmpPage = querystring.parse(location.search).page || 1;
+    const payload = {
+      page: tmpPage,
+    };
+
+    dispatch(getAllClasses(payload));
+  }, [dispatch, location]);
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
@@ -137,8 +135,8 @@ const ClassManagement = () => {
         )}
         <Table
           columns={columns}
-          // loading={loadingClass}
-          dataSource={[]}
+          loading={loading}
+          dataSource={classes}
           rowKey={(record: any) => record._id}
           pagination={false}
         />

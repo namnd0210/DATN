@@ -2,7 +2,7 @@ import { Action, UserState } from 'types/redux';
 
 import types from './type';
 
-const initState = {
+const initState: UserState = {
   loading: false,
   users: [],
 };
