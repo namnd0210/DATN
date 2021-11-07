@@ -1,10 +1,14 @@
 import '../../assets/styles/home.scss';
 
 import { Button, Spin } from 'antd';
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
+import { getAllClasses } from 'redux/class/actions';
+import { useSelector } from 'redux/reducer';
+// import { getAllClass } from '../../redux/actions/class';
+import { ClassProps, ExamProps } from 'types/redux';
 
 import course_1 from '../../assets/imgs/course-1.png';
 import course_2 from '../../assets/imgs/course-2.png';
@@ -16,7 +20,6 @@ import pig_2 from '../../assets/imgs/if-home2.svg';
 import pig_3 from '../../assets/imgs/if-home3.svg';
 import pig_4 from '../../assets/imgs/if-home4.svg';
 import users from '../../assets/imgs/users.svg';
-// import { getAllClass } from '../../redux/actions/class';
 
 const course_imgs = [course_1, course_2, course_3, course_4];
 
@@ -45,7 +48,7 @@ const items = [
 
 var settings = {
   infinite: true,
-  speed: 250,
+  speed: 500,
   slidesToShow: 4,
   slidesToScroll: 2,
   autoplay: true,
@@ -54,19 +57,17 @@ var settings = {
 };
 
 export const Home = () => {
-  // const dispatch = useDispatch();
-  // const { isAdmin, isTeacher, user } = useSelector(({ auth }) => auth);
-  // const { loadingClass } = useSelector((state) => state.class);
-  // const exams = useSelector((state) => state.class.classes.map((e) => e.exam));
-
-  // useEffect(() => {
-  //   let payload = {};
-  //   if (!isAdmin && !isTeacher) {
-  //     payload.id = user.id;
-  //   }
-  //   dispatch(getAllClass(payload));
-  //   // eslint-disable-next-line
-  // }, [isAdmin, isTeacher, user]);
+  const dispatch = useDispatch();
+  const { isAdmin, isTeacher, user } = useSelector(({ auth }) => auth);
+  const { loading } = useSelector((state) => state.class);
+  const exams: ExamProps[] = useSelector((state) => state.class.classes.map((e: ClassProps) => e.exam));
+  console.log(exams);
+  useEffect(() => {
+    if (!isAdmin && !isTeacher) {
+      dispatch(getAllClasses({ id: user.id }));
+    }
+    // eslint-disable-next-line
+  }, [isAdmin, isTeacher, user]);
 
   return (
     <div>
@@ -86,8 +87,8 @@ export const Home = () => {
 
       <div className="home-recomendation">
         <h3>Bài thi đề xuất</h3>
-        {/* <div className="slide-wrap">
-          {loadingClass ? (
+        <div className="slide-wrap">
+          {loading ? (
             <div className="example">
               <Spin size="large" />
             </div>
@@ -101,7 +102,7 @@ export const Home = () => {
                       <p>{e?.title}</p>
                       <img src={heart} alt="" />
                     </div>
-                    <div className="des">{e?.des || ''}</div>
+                    <div className="des">{e?.description || ''}</div>
                     <div className="route">
                       <div className="react">
                         <img src={heart} alt="" />
@@ -120,7 +121,7 @@ export const Home = () => {
               ))}
             </Slider>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );
