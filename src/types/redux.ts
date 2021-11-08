@@ -3,6 +3,15 @@ export type Action = {
   payload?: any;
 };
 
+export type UserProps = {
+  _id: string;
+  name: string;
+  email: string;
+  avatar: string;
+  date: string;
+  role: number;
+};
+
 export type LoginProps = {
   email: string;
   password: string;
@@ -44,13 +53,13 @@ export type ExamProps = {
   created_at: string;
 };
 
-export type UserProps = {
+export type ResultProps = {
   _id: string;
-  name: string;
-  email: string;
-  avatar: string;
-  date: string;
-  role: number;
+  exam: ExamProps;
+  user: UserProps;
+  result: string;
+  updated_at: string;
+  created_at: string;
 };
 
 export type ClassProps = {
@@ -103,4 +112,10 @@ export type ExamState = {
   loading: boolean;
   exams: ExamProps[];
   exam: ExamProps | {};
+};
+
+export type ResultState = {
+  loading: boolean;
+  results: ResultProps[];
+  result: ResultProps | {};
 };
