@@ -1,5 +1,6 @@
 import { Home } from 'container/home/Home';
 import { Landing } from 'container/landing';
+import { TakeExam } from 'container/user/TakeExam';
 import { RouteType } from 'types/routers';
 
 export const commonRoutes: Array<RouteType> = [
@@ -13,6 +14,13 @@ export const commonRoutes: Array<RouteType> = [
   {
     path: '/home',
     component: Home,
+    role: [0, 1, 2],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/exam/take/:id',
+    component: TakeExam,
     role: [0, 1, 2],
     exact: true,
     isPublic: false,

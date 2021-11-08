@@ -18,11 +18,11 @@ export const getAllExams = (req, res) => {
 };
 
 export const getExam = (req, res) => {
-  Exam.find({ _id: req.params.id })
+  Exam.findOne({ _id: req.params.id })
     .populate({ path: 'questions', model: 'Question' })
     .populate({ path: 'created_by', model: 'User' })
     .then((exam) => {
-      res.status(200).json(exam);
+      res.status(200).json({ exam });
     })
     .catch((err) => {
       res.status(400).json(err);

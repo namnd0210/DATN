@@ -102,4 +102,5 @@ export type UserState = {
 export type ExamState = {
   loading: boolean;
   exams: ExamProps[];
+  exam: ExamProps | {};
 };

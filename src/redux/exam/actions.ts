@@ -12,6 +12,16 @@ export const getAllExamsResult = (result: any, isSuccess = true): Action => ({
   payload: result,
 });
 
+export const getExamById = (data: any): Action => ({
+  type: types.GET_EXAM_BY_ID,
+  payload: data,
+});
+
+export const getExamByIdResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.GET_EXAM_BY_ID_SUCCESS : types.GET_EXAM_BY_ID_FAILED,
+  payload: result,
+});
+
 export const createExam = (data: any): Action => ({
   type: types.CREATE_EXAM,
   payload: data,

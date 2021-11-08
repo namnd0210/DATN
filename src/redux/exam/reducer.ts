@@ -5,6 +5,7 @@ import types from './type';
 const initState = {
   exams: [],
   loading: false,
+  exam: {},
 };
 
 export default function examReducer(state: ExamState = initState, action: Action) {
@@ -22,6 +23,24 @@ export default function examReducer(state: ExamState = initState, action: Action
     }
 
     case types.GET_ALL_EXAMS_FAILED: {
+      return { ...state, loading: false };
+    }
+
+    case types.GET_EXAM_BY_ID: {
+      return { ...state, loading: true };
+    }
+
+    case types.GET_EXAM_BY_ID_SUCCESS: {
+      const { exam } = action.payload;
+
+      return {
+        ...state,
+        loading: false,
+        exam,
+      };
+    }
+
+    case types.GET_EXAM_BY_ID_FAILED: {
       return { ...state, loading: false };
     }
 

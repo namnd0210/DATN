@@ -61,7 +61,7 @@ export const Home = () => {
   const { isAdmin, isTeacher, user } = useSelector(({ auth }) => auth);
   const { loading } = useSelector((state) => state.class);
   const exams: ExamProps[] = useSelector((state) => state.class.classes.map((e: ClassProps) => e.exam));
-  console.log(exams);
+
   useEffect(() => {
     if (!isAdmin && !isTeacher) {
       dispatch(getAllClasses({ id: user.id }));
