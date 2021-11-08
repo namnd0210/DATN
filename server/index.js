@@ -11,6 +11,7 @@ import categoryRouter from './routes/category';
 import classRouter from './routes/class';
 import examRouter from './routes/exam';
 import questionRouter from './routes/question';
+import resultRouter from './routes/result';
 import userRouter from './routes/user';
 
 dotenv.config();
@@ -33,6 +34,7 @@ app.use('/api/class', classRouter);
 app.use('/api/category', categoryRouter);
 app.use('/api/question', questionRouter);
 app.use('/api/exam', examRouter);
+app.use('/api/result', resultRouter);
 
 // connect db
 mongoose
