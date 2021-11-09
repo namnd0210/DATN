@@ -15,7 +15,7 @@ const { Header, Content, Footer } = Layout;
 export const LayoutWrapper = (props: { children: React.ReactChild }) => {
   const dispatch = useDispatch();
   const {
-    user: { name },
+    user: { name, role },
   } = useSelector((state) => state.auth);
   // const [collapsed, setcollapsed] = useState(false);
   // const toggle = () => {
@@ -48,9 +48,13 @@ export const LayoutWrapper = (props: { children: React.ReactChild }) => {
             <img src={logo} alt="" />
             <ul>
               {menus.map((e, i) => (
-                <li key={i}>
-                  <Link to={e.link}>{e.title}</Link>
-                </li>
+                <>
+                  {e.role.includes(role) && (
+                    <li key={i}>
+                      <Link to={e.link}>{e.title}</Link>
+                    </li>
+                  )}
+                </>
               ))}
             </ul>
           </div>
