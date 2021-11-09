@@ -13,33 +13,33 @@ const content = (text: string, isAdmin: boolean, isTeacher: boolean) => (
     <div>
       {isAdmin || isTeacher ? (
         <>
-          <NavLink to="/exams" className="ant-btn" style={{ marginRight: 10 }}>
+          <NavLink to="/manage/exams" className="ant-btn" style={{ marginRight: 10 }}>
             Bài thi
           </NavLink>
-          <NavLink to="/question" className="ant-btn" style={{ marginRight: 10 }}>
+          <NavLink to="/manage/question" className="ant-btn" style={{ marginRight: 10 }}>
             Câu hỏi
           </NavLink>
-          <NavLink to="/category" className="ant-btn" style={{ marginRight: 10 }}>
+          <NavLink to="/manage/category" className="ant-btn" style={{ marginRight: 10 }}>
             Danh mục câu hỏi
           </NavLink>
-          <NavLink to="/class" className="ant-btn" style={{ marginRight: 10 }}>
+          <NavLink to="/manage/class" className="ant-btn" style={{ marginRight: 10 }}>
             Lớp
           </NavLink>
         </>
       ) : (
-        <NavLink to="/my-class" className="ant-btn" style={{ marginRight: 10 }}>
+        <NavLink to="/manage/my-class" className="ant-btn" style={{ marginRight: 10 }}>
           Lớp học
         </NavLink>
       )}
 
       {isAdmin && (
-        <NavLink to="/users" className="ant-btn" style={{ marginRight: 10 }}>
+        <NavLink to="/manage/users" className="ant-btn" style={{ marginRight: 10 }}>
           {/* Reports */}
           Thành viên
         </NavLink>
       )}
 
-      <NavLink to="/report" className="ant-btn" style={{ marginRight: 10 }}>
+      <NavLink to="/manage/report" className="ant-btn" style={{ marginRight: 10 }}>
         {/* Reports */}
         Kết quả
       </NavLink>

@@ -11,12 +11,8 @@ export const menus = [
     title: 'Kết quả',
     link: '/report',
   },
-  // {
-  //     title: "About us",
-  //     link:"/about-us"
-  // },
-  // {
-  //     title: "Contact",
-  //     link:"/contact"
-  // },
+  {
+    title: 'Quản lí',
+    link: '/manage/report',
+  },
 ];

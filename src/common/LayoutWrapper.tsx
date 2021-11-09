@@ -1,8 +1,3 @@
-// import {
-// 	DesktopOutlined,
-// 	UserOutlined,
-// 	DashboardOutlined,
-// } from "@ant-design/icons";
 import '../assets/styles/layout.scss';
 
 import { Dropdown, Layout, Menu } from 'antd';
@@ -16,7 +11,6 @@ import { useSelector } from 'redux/reducer';
 import logo from '../assets/imgs/l.svg';
 
 const { Header, Content, Footer } = Layout;
-// const { SubMenu } = Menu;
 
 export const LayoutWrapper = (props: { children: React.ReactChild }) => {
   const dispatch = useDispatch();
