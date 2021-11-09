@@ -6,6 +6,7 @@ const initState = {
   results: [],
   loading: false,
   result: {},
+  total: 0,
 };
 
 export default function resultReducer(state: ResultState = initState, action: Action) {
@@ -19,6 +20,7 @@ export default function resultReducer(state: ResultState = initState, action: Ac
         ...state,
         loading: false,
         results: action.payload.data,
+        total: action.payload.total,
       };
     }
 

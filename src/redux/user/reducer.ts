@@ -5,6 +5,7 @@ import types from './type';
 const initState: UserState = {
   loading: false,
   users: [],
+  total: 0,
 };
 
 export default function userReducer(state: UserState = initState, action: Action) {
@@ -18,6 +19,7 @@ export default function userReducer(state: UserState = initState, action: Action
         ...state,
         loading: false,
         users: action.payload.data,
+        total: action.payload.total,
       };
     }
 

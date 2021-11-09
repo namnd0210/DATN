@@ -7,6 +7,7 @@ import categoryReducer from './category/reducer';
 import classReducer from './class/reducer';
 import examReducer from './exam/reducer';
 import questionReducer from './question/reducer';
+import resultReducer from './result/reducer';
 import userReducer from './user/reducer';
 
 const reducers = combineReducers({
@@ -16,6 +17,7 @@ const reducers = combineReducers({
   user: userReducer,
   exam: examReducer,
   class: classReducer,
+  result: resultReducer,
 });
 
 type RootState = ReturnType<typeof reducers>;

@@ -4,6 +4,7 @@ import { Action, CategoryState } from 'types/redux';
 const initState = {
   loadingCategory: false,
   categories: [],
+  total: 0,
 };
 
 export default function categoryReducer(state: CategoryState = initState, action: Action) {
@@ -17,6 +18,7 @@ export default function categoryReducer(state: CategoryState = initState, action
         ...state,
         loadingCategory: false,
         categories: action.payload.data,
+        total: action.payload.total,
       };
     }
 

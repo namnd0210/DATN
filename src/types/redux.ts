@@ -90,32 +90,38 @@ export type AuthState = {
 export type CategoryState = {
   loadingCategory: boolean;
   categories: CategoryProps[];
+  total: number;
 };
 
 export type QuestionState = {
   loadingQuestion: boolean;
   questions: QuestionProps[];
+  total: number;
 };
 
 export type ClassState = {
   loading: boolean;
   classes: ClassProps[];
+  total: number;
   currentClass: any;
 };
 
 export type UserState = {
   loading: boolean;
   users: UserProps[];
+  total: number;
 };
 
 export type ExamState = {
   loading: boolean;
   exams: ExamProps[];
+  total: number;
   exam: ExamProps | {};
 };
 
 export type ResultState = {
   loading: boolean;
   results: ResultProps[];
+  total: number;
   result: ResultProps | {};
 };

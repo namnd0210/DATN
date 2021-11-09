@@ -5,6 +5,7 @@ const initState = {
   classes: [],
   loading: false,
   currentClass: {},
+  total: 0,
 };
 
 export default function classReducer(state: ClassState = initState, action: Action) {
@@ -18,6 +19,7 @@ export default function classReducer(state: ClassState = initState, action: Acti
         ...state,
         loading: false,
         classes: action.payload.data,
+        total: action.payload.total,
       };
     }
 

@@ -4,13 +4,13 @@ import Exam from '../models/Exam';
 
 const router = express.Router();
 
-export const getAllExams = (req, res) => {
-  let query = {};
-  Exam.find(query)
+export const getAllExams = async (req, res) => {
+  let count = await Exam.countDocuments();
+  Exam.find({})
     .populate({ path: 'questions', model: 'Question' })
     .populate({ path: 'created_by', model: 'User' })
     .then((data) => {
-      res.status(200).json({ data });
+      res.status(200).json({ data, total: count });
     })
     .catch((err) => {
       res.status(400).json(err);

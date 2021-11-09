@@ -4,6 +4,7 @@ import { Action, QuestionState } from 'types/redux';
 const initState = {
   loadingQuestion: false,
   questions: [],
+  total: 0,
 };
 
 export default function questionReducer(state: QuestionState = initState, action: Action) {
@@ -17,6 +18,7 @@ export default function questionReducer(state: QuestionState = initState, action
         ...state,
         loadingQuestion: false,
         questions: action.payload.data,
+        total: action.payload.total,
       };
     }
 

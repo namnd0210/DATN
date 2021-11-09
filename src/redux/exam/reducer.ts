@@ -6,6 +6,7 @@ const initState = {
   exams: [],
   loading: false,
   exam: {},
+  total: 0,
 };
 
 export default function examReducer(state: ExamState = initState, action: Action) {
@@ -19,6 +20,7 @@ export default function examReducer(state: ExamState = initState, action: Action
         ...state,
         loading: false,
         exams: action.payload.data,
+        total: action.payload.total,
       };
     }
 
