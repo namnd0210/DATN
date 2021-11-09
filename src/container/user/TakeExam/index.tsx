@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getExamById } from 'redux/exam/actions';
 import { useSelector } from 'redux/reducer';
+import { createResult } from 'redux/result/actions';
 
 import { CourseSkeleton } from '../CourseSkeleton';
 import { HeaderCourse } from '../HeaderCourse';
@@ -29,34 +30,30 @@ export const TakeExam = () => {
       let data: any = {};
       let trueAnswer = 0;
 
-      exam.questions.forEach(
-        (e: { _id: any; answers: { [x: string]: any }; correctAnswer: string | number }, i: string | number) => {
-          let item = {
-            isTrue: false,
-            questionId: e._id,
-            answer: answersList[i],
-          };
-          if (e.answers[e.correctAnswer] === answersList[i]) {
-            item.isTrue = true;
-            trueAnswer++;
-          }
-          tempResults = [...tempResults, item];
-        },
-      );
+      exam.questions.forEach((e: any, i: number) => {
+        let item = {
+          isTrue: false,
+          questionId: e._id,
+          answer: answersList[i],
+        };
+        if (e.answers[e.correctAnswer] === answersList[i]) {
+          item.isTrue = true;
+          trueAnswer++;
+        }
+        tempResults = [...tempResults, item];
+      });
 
       data.exam = exam._id;
       data.user = user.id;
       data.result = `${trueAnswer}/${tempResults.length}`;
       setResult(data);
-      console.log(data);
-      //   dispatch(createResult(data));
+      dispatch(createResult(data));
       setVisible(true);
     },
     [dispatch, user.id],
   );
 
   const onChange = (e: any) => {
-    console.log(answersList);
     const value = e.target.value;
     let tempAns: any[] = [...answersList];
     tempAns[currentQuestion] = value;
@@ -98,8 +95,8 @@ export const TakeExam = () => {
             {exam?.questions?.map(
               (
                 e: {
-                  _id: React.Key | null | undefined;
-                  question: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined;
+                  _id: string;
+                  question: string;
                   answers: any[];
                 },
                 i: number,
@@ -108,16 +105,11 @@ export const TakeExam = () => {
                   <div>
                     <h3>{e.question}</h3>
                     <Radio.Group onChange={onChange} value={JSON.parse(localStorage.getItem('answersList') ?? '[]')[i]}>
-                      {e.answers.map(
-                        (
-                          e: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined,
-                          k: React.Key | null | undefined,
-                        ) => (
-                          <Radio value={e} key={k}>
-                            {e}
-                          </Radio>
-                        ),
-                      )}
+                      {e.answers.map((e: string, k: number) => (
+                        <Radio value={e} key={k}>
+                          {e}
+                        </Radio>
+                      ))}
                     </Radio.Group>
                   </div>
                 </TabPane>

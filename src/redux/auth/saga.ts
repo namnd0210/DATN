@@ -9,7 +9,6 @@ import types from './type';
 function* loginSaga(props: any): any {
   const { data, setLoginErr } = props.payload;
   try {
-    console.log(data);
     const res = yield call(loginApi, data);
     if (res.data?.success) {
       if (res.headers) {
@@ -34,7 +33,6 @@ function* loginSaga(props: any): any {
 function* registerSaga(props: any): any {
   const { data } = props.payload;
   try {
-    console.log(data);
     const res = yield call(registerApi, data);
     if (res.data?.success) {
       // setAuthToken(res.headers);
@@ -53,7 +51,6 @@ function* logoutSaga(props: any): any {
   const { data } = props.payload;
 
   try {
-    console.log(data);
     const res = yield call(registerApi, data);
     if (res.data?.success) {
       localStorage.removeItem('token');

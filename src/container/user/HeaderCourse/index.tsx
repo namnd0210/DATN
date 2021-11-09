@@ -4,7 +4,6 @@ import React, { useEffect, useState } from 'react';
 import Countdown from 'react-countdown';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'redux/reducer';
-import { ExamProps } from 'types/redux';
 const { Title, Paragraph } = Typography;
 
 export const HeaderCourse = React.memo(({ start, setStart, done, isDone }: any) => {
@@ -42,9 +41,7 @@ export const HeaderCourse = React.memo(({ start, setStart, done, isDone }: any) 
   const { exam } = useSelector(({ exam }) => exam);
 
   const renderDate = (time: string) => {
-    console.log(time);
     let localTime = JSON.parse(localStorage?.getItem('time') ?? '[]');
-    console.log(localTime);
     if (localTime && localTime?.id === id && localTime?.examId === params?.id) {
       return Date.now() + (localTime.minutes * 60 + localTime.seconds) * 1000;
     }

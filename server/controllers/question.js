@@ -51,7 +51,6 @@ export const updateQuestion = (req, res) => {
     .populate({ path: 'updated_by', model: 'User' })
     .populate({ path: 'created_by', model: 'User' })
     .then((data) => {
-      console.log(data);
       res.status(200).json({ data });
     })
     .catch((err) => {
