@@ -4,10 +4,10 @@ import {
   createResultResult,
   deleteResultResult,
   getAllResultsResult,
-  getResultByIdResult,
+  getResultByUserIdResult,
   updateResultResult,
 } from './actions';
-import { createResultApi, deleteResultApi, getAllResultsApi, getResultByIdApi, updateResultApi } from './api';
+import { createResultApi, deleteResultApi, getAllResultsApi, getResultByUserIdApi, updateResultApi } from './api';
 import types from './type';
 
 function* getAllResultsSaga(): any {
@@ -23,16 +23,16 @@ function* getAllResultsSaga(): any {
   }
 }
 
-function* getResultByIdSaga(props: any): any {
+function* getResultByUserIdSaga(props: any): any {
   try {
-    const res = yield call(getResultByIdApi, props.payload);
+    const res = yield call(getResultByUserIdApi, props.payload.id);
     if (res.status === 200) {
-      yield put(getResultByIdResult(res.data));
+      yield put(getResultByUserIdResult(res.data));
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
-    yield put(getResultByIdResult(error, isSuccess));
+    yield put(getResultByUserIdResult(error, isSuccess));
   }
 }
 
@@ -78,7 +78,7 @@ function* deleteResultSaga(props: any): any {
 
 export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_RESULTS, getAllResultsSaga)]);
-  yield all([takeEvery(types.GET_RESULT_BY_ID, getResultByIdSaga)]);
+  yield all([takeEvery(types.GET_RESULT_BY_USER_ID, getResultByUserIdSaga)]);
   yield all([takeEvery(types.CREATE_RESULT, createResultSaga)]);
   yield all([takeEvery(types.UPDATE_RESULT, updateResultSaga)]);
   yield all([takeEvery(types.DELETE_RESULT, deleteResultSaga)]);

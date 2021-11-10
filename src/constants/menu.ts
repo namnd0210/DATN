@@ -11,7 +11,7 @@ export const menus = [
   },
   {
     title: 'Kết quả',
-    link: '/report',
+    link: '/manage/report',
     role: [0, 1, 2],
   },
   {

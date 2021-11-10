@@ -11,9 +11,11 @@ import { getAllResults } from 'redux/result/actions';
 import { ResultProps } from 'types/redux';
 import { buildApiUrl } from 'utils';
 
+import { getResultByUserId } from './../../redux/result/actions';
+
 export const Report = () => {
   const { results, loading, total } = useSelector(({ result }) => result);
-
+  const { user, isAdmin } = useSelector(({ auth }) => auth);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -69,7 +71,7 @@ export const Report = () => {
     const payload = {
       page: tmpPage,
     };
-    dispatch(getAllResults(payload));
+    isAdmin ? dispatch(getAllResults(payload)) : dispatch(getResultByUserId({ id: user.id }));
     // eslint-disable-next-line
   }, [location]);
 

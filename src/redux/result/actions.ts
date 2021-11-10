@@ -12,13 +12,13 @@ export const getAllResultsResult = (result: any, isSuccess = true): Action => ({
   payload: result,
 });
 
-export const getResultById = (data: any): Action => ({
-  type: types.GET_RESULT_BY_ID,
+export const getResultByUserId = (data: any): Action => ({
+  type: types.GET_RESULT_BY_USER_ID,
   payload: data,
 });
 
-export const getResultByIdResult = (result: any, isSuccess = true): Action => ({
-  type: isSuccess ? types.GET_RESULT_BY_ID_SUCCESS : types.GET_RESULT_BY_ID_FAILED,
+export const getResultByUserIdResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.GET_RESULT_BY_USER_ID_SUCCESS : types.GET_RESULT_BY_USER_ID_FAILED,
   payload: result,
 });
 

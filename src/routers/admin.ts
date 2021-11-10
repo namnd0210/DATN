@@ -1,6 +1,5 @@
 import CategoryManagement from 'container/admin/category';
 import ClassManagement from 'container/admin/class/index';
-import GeneralManagement from 'container/admin/general-manage';
 import { QuestionManagement } from 'container/admin/question';
 import UserManagement from 'container/admin/user';
 import { RouteType } from 'types/routers';
@@ -43,11 +42,4 @@ export const adminRoutes: Array<RouteType> = [
     exact: true,
     isPublic: false,
   },
-  // {
-  //   path: '/manage',
-  //   component: GeneralManagement,
-  //   role: [0],
-  //   exact: false,
-  //   isPublic: false,
-  // },
 ];

@@ -4,8 +4,8 @@ export const getAllResultsApi = (): Promise<AxiosResponse> => {
   return Axios.get('/api/result');
 };
 
-export const getResultByIdApi = (id: string): Promise<AxiosResponse> => {
-  return Axios.get(`/api/result/${id}`);
+export const getResultByUserIdApi = (id: string): Promise<AxiosResponse> => {
+  return Axios.get(`/api/result/user/${id}`);
 };
 
 export const createResultApi = (data: any): Promise<AxiosResponse> => {

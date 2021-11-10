@@ -28,21 +28,21 @@ export default function resultReducer(state: ResultState = initState, action: Ac
       return { ...state, loading: false };
     }
 
-    case types.GET_RESULT_BY_ID: {
+    case types.GET_RESULT_BY_USER_ID: {
       return { ...state, loading: true };
     }
 
-    case types.GET_RESULT_BY_ID_SUCCESS: {
-      const { exam } = action.payload;
+    case types.GET_RESULT_BY_USER_ID_SUCCESS: {
+      const { results } = action.payload;
 
       return {
         ...state,
         loading: false,
-        exam,
+        results,
       };
     }
 
-    case types.GET_RESULT_BY_ID_FAILED: {
+    case types.GET_RESULT_BY_USER_ID_FAILED: {
       return { ...state, loading: false };
     }
 
