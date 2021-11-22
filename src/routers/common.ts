@@ -1,3 +1,4 @@
+import Assignment from 'container/assignment';
 import { Home } from 'container/home/Home';
 import { Landing } from 'container/landing';
 import { Report } from 'container/report/Report';
@@ -30,6 +31,13 @@ export const commonRoutes: Array<RouteType> = [
     path: '/manage/report',
     component: Report,
     role: [0, 1, 2],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/assignment',
+    component: Assignment,
+    role: [2],
     exact: true,
     isPublic: false,
   },

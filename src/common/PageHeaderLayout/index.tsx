@@ -25,6 +25,9 @@ const content = (text: string, isAdmin: boolean, isTeacher: boolean) => (
           <NavLink to="/manage/class" className="ant-btn" style={{ marginRight: 10 }}>
             Lớp
           </NavLink>
+          <NavLink to="/manage/assignment" className="ant-btn" style={{ marginRight: 10 }}>
+            Bài tập
+          </NavLink>
         </>
       ) : (
         <NavLink to="/manage/my-class" className="ant-btn" style={{ marginRight: 10 }}>

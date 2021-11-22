@@ -1,54 +1,136 @@
-import './assignment.scss';
+import { DeleteOutlined, EditOutlined, PlayCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Button, Col, Popconfirm, Row, Table } from 'antd';
+import { PageHeaderLayout } from 'common/PageHeaderLayout';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteExam, getAllExams } from 'redux/exam/actions';
+import { useSelector } from 'redux/reducer';
+import { ExamProps } from 'types/redux';
 
-import { Col, Divider, Row } from 'antd';
-import bookmark from 'assets/imgs/bookmark.svg';
-import more_vertical from 'assets/imgs/more-vertical.svg';
-import React from 'react';
-
-type AssignmentData = {
-  id: string;
-  title: string;
-  due_date: Number;
-};
-
-const data: AssignmentData[] = [
-  {
-    id: '123',
-    title: 'Bai tap lon',
-    due_date: Date.now(),
-  },
-];
+import { AssignmentFormModal } from './AssignmentFormModal';
 
 const AssignmentManagement = () => {
-  return (
-    <div>
-      <Row>
-        <Col className="divider" span={8}>
-          <Divider orientation="left" plain>
-            Bài tập đến hạn
-          </Divider>
+  const columns: any = [
+    {
+      title: 'STT',
+      dataIndex: 'Stt',
+      key: 'stt',
+      render: (text: any, record: ExamProps, index: number) => <span>{index + 1}</span>,
+    },
+    {
+      title: 'Tên bài thi',
+      dataIndex: 'title',
+      key: 'title',
+    },
+    {
+      title: 'Số lượng câu hỏi',
+      dataIndex: 'length',
+      key: 'length',
+      render: (text: any, record: ExamProps) => <span>{record.questions.length}</span>,
+    },
+    {
+      title: 'Ngày tạo',
+      dataIndex: 'created_at',
+      key: 'created_at',
+      render: (text: any, record: ExamProps) => <span>{moment(text).format('DD-MM-YYYY HH:MM:SS')}</span>,
+    },
+    {
+      title: 'Tạo bởi',
+      dataIndex: 'created_by',
+      key: 'created_by',
+      render: (
+        text: any,
+        record: {
+          created_by: { name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined };
+        },
+      ) => <span>{record.created_by.name}</span>,
+    },
+    {
+      title: 'Hành động',
+      dataIndex: 'action',
+      key: 'action',
+      render: (text: any, record: ExamProps) => {
+        if (isAdmin || isTeacher)
+          return (
+            <div style={{ display: 'flex' }}>
+              <div
+                onClick={() => {
+                  setVisible(true);
+                  setSelectedAssignment(record);
+                }}
+                style={{ cursor: 'pointer', marginRight: 10 }}
+              >
+                <EditOutlined />
+              </div>
 
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed nonne merninisti licere mihi ista probare, quae
-            sunt a te dicta? Refert tamen, quo modo.
-          </p>
-        </Col>
-
-        <Col span={16}>
-          {data.map((e) => (
-            <div className="assignment-wrapper">
-              <img width={40} height={40} src={bookmark} onError={() => null} alt="bookmark" />
-
-              <div className="assignment-title-wrapper">
-                <div>{e.title}</div>
-
-                <img src={more_vertical} onError={() => null} alt="more option" />
+              <div style={{ cursor: 'pointer', marginRight: 10 }}>
+                <Popconfirm
+                  placement="topLeft"
+                  title={'Bạn chắc chắn muốn xóa bộ câu hỏi này không ?'}
+                  onConfirm={() => confirm(record._id)}
+                  okText="Có"
+                  cancelText="Không"
+                >
+                  <DeleteOutlined />
+                </Popconfirm>
               </div>
             </div>
-          ))}
-        </Col>
-      </Row>
-    </div>
+          );
+        return (
+          <div style={{ cursor: 'pointer' }}>
+            <PlayCircleOutlined />
+          </div>
+        );
+      },
+    },
+  ];
+
+  const confirm = (id: any) => {
+    dispatch(deleteExam(id));
+  };
+
+  const dispatch = useDispatch();
+  const [visible, setVisible] = useState<boolean>(false);
+  const [selectedAssignment, setSelectedAssignment] = useState<ExamProps>();
+  const { loading, exams } = useSelector((state) => state.exam);
+  const { isAdmin, isTeacher } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    dispatch(getAllExams());
+    console.log(isAdmin);
+    // eslint-disable-next-line
+  }, []);
+
+  return (
+    <Row className="card-list" gutter={[0, 5]}>
+      <Col xl={24}>
+        <PageHeaderLayout
+          title="Bài thi"
+          subtitle="Xin chào"
+          // text="Exam list, chose one couse and complete or can create new one"
+          text="Danh sách bài thi"
+        />
+      </Col>
+      <Col xl={24}>
+        {isAdmin || isTeacher ? (
+          <Button
+            onClick={() => {
+              setVisible(true);
+              setSelectedAssignment(undefined);
+            }}
+            type="dashed"
+            style={{ width: '100%', margin: '10px 0 10px 0' }}
+          >
+            <PlusCircleOutlined /> Tạo bài thi mới
+          </Button>
+        ) : null}
+
+        <Table columns={columns} loading={loading} dataSource={exams} rowKey={(record) => record._id} />
+      </Col>
+
+      {visible && <AssignmentFormModal onClose={() => setVisible(false)} selectedAssignment={selectedAssignment} />}
+    </Row>
   );
 };
 

@@ -46,7 +46,7 @@ export const adminRoutes: Array<RouteType> = [
   {
     path: '/manage/assignment',
     component: AssignmentManagement,
-    role: [0],
+    role: [1],
     exact: true,
     isPublic: false,
   },
