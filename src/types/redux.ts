@@ -62,6 +62,17 @@ export type ResultProps = {
   created_at: string;
 };
 
+export type AssignmentProps = {
+  _id: string;
+  title: string;
+  description: string;
+  images: string[];
+  comments: any[];
+  due_at: string;
+  user: UserProps;
+  created_by: string;
+};
+
 export type ClassProps = {
   _id: string;
   name: string;
@@ -124,4 +135,10 @@ export type ResultState = {
   results: ResultProps[];
   total: number;
   result: ResultProps | {};
+};
+
+export type AssignmentState = {
+  loading: boolean;
+  assignments: AssignmentProps[];
+  total: number;
 };

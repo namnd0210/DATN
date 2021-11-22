@@ -105,12 +105,7 @@ const AssignmentManagement = () => {
   return (
     <Row className="card-list" gutter={[0, 5]}>
       <Col xl={24}>
-        <PageHeaderLayout
-          title="Bài thi"
-          subtitle="Xin chào"
-          // text="Exam list, chose one couse and complete or can create new one"
-          text="Danh sách bài thi"
-        />
+        <PageHeaderLayout title="Bài thi" subtitle="Xin chào" text="Danh sách bài thi" />
       </Col>
       <Col xl={24}>
         {isAdmin || isTeacher ? (
