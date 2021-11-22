@@ -19,4 +19,9 @@ export const menus = [
     link: '/manage/report',
     role: [0, 1],
   },
+  {
+    title: 'Giao bài tập',
+    link: '/manage/assignment',
+    role: [0, 1],
+  },
 ];

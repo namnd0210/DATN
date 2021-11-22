@@ -1,0 +1,18 @@
+.divider {
+  border-right: 2px solid #dedede;
+}
+
+.assignment-wrapper {
+  border-radius: 0.5rem;
+  border: 0.0625rem solid #dadce0;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assignment-title-wrapper {
+  flex-basis: 80%;
+  display: flex;
+  justify-content: space-between;
+}

@@ -1,3 +1,4 @@
+import AssignmentManagement from 'container/admin/assignment';
 import CategoryManagement from 'container/admin/category';
 import ClassManagement from 'container/admin/class/index';
 import { QuestionManagement } from 'container/admin/question';
@@ -38,6 +39,13 @@ export const adminRoutes: Array<RouteType> = [
   {
     path: '/manage/exams',
     component: ExamManagement,
+    role: [0],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/manage/assignment',
+    component: AssignmentManagement,
     role: [0],
     exact: true,
     isPublic: false,

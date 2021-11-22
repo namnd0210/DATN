@@ -8,6 +8,7 @@ const assignmentSchema = new Schema({
   images: [{ type: String }],
   comments: { type: Schema.Types.ObjectId, ref: 'Comment' },
   point: { type: Number },
+  due_date: { type: Date, required: true },
   updated_at: { type: Date },
   created_at: { type: Date, default: Date.now() },
   created_by: { type: Schema.Types.ObjectId, ref: 'User' },
