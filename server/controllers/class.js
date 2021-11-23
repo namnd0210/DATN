@@ -23,6 +23,7 @@ export const getClasses = async (req, res) => {
       },
     })
     .populate({ path: 'students', model: 'User' })
+    .populate({ path: 'assignments', model: 'Assignment' })
     .limit(10)
     .skip((page ? page - 1 : 0) * 10)
     .then((classData) => {
@@ -58,6 +59,7 @@ export const updateClass = (req, res) => {
       teacher: req.body.teacher,
       exam: req.body.exam,
       students: req.body.students,
+      assignments: req.body.assignments,
       updated_at: Date.now(),
     },
     { new: true, useFindAndModify: false },
