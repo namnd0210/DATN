@@ -12,6 +12,16 @@ export const getAllAssignmentsResult = (result: any, isSuccess = true): Action =
   payload: result,
 });
 
+export const getAllAssignmentByUserId = (data: any): Action => ({
+  type: types.GET_ALL_ASSIGNMENT_BY_USER_ID,
+  payload: data,
+});
+
+export const getAllAssignmentByUserIdResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.GET_ALL_ASSIGNMENT_BY_USER_ID_SUCCESS : types.GET_ALL_ASSIGNMENT_BY_USER_ID_FAILED,
+  payload: result,
+});
+
 export const createAssignment = (data: any): Action => ({
   type: types.CREATE_ASSIGNMENT,
   payload: data,
