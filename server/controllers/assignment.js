@@ -14,6 +14,20 @@ export const getAllAssignments = async (req, res) => {
     .catch((err) => res.status(400).json({ err }));
 };
 
+export const getAllAssignmentsByUserId = async (req, res) => {
+  let count = await Assignment.countDocuments();
+  const id = req.params.id;
+  Assignment.find({ created_by: id })
+    .populate({ path: 'created_by', model: 'User' })
+    .then((data) => {
+      res.status(200).json({
+        data,
+        total: count,
+      });
+    })
+    .catch((err) => res.status(400).json({ err }));
+};
+
 export const createAssignment = (req, res) => {
   const assignment = new Assignment(req.body);
   assignment

@@ -7,6 +7,7 @@ import querystring from 'query-string';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+import { getAllAssignmentByUserId } from 'redux/assignment/actions';
 import { deleteClass, getAllClasses } from 'redux/class/actions';
 import { useSelector } from 'redux/reducer';
 import { ClassProps, ExamProps, UserProps } from 'types/redux';
@@ -94,7 +95,10 @@ const ClassManagement = () => {
 
   const { classes, loading } = useSelector((state) => state.class);
 
-  const { isAdmin } = useSelector(({ auth }) => auth);
+  const {
+    isAdmin,
+    user: { id },
+  } = useSelector(({ auth }) => auth);
 
   const confirm = (id: string) => {
     id && dispatch(deleteClass(id));
@@ -113,8 +117,9 @@ const ClassManagement = () => {
       page: tmpPage,
     };
 
+    dispatch(getAllAssignmentByUserId(id));
     dispatch(getAllClasses(payload));
-  }, [dispatch, location]);
+  }, [dispatch, id, location]);
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
