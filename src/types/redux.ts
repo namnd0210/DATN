@@ -92,6 +92,7 @@ export type AuthState = {
   user: {
     role: number;
     name: string;
+    classes?: string[];
   };
   error: string;
   isAdmin: boolean;

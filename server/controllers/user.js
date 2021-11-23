@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
+import Class from '../models/Class';
 import User from '../models/User';
 
 export const register = (req, res) => {
@@ -43,16 +44,31 @@ export const login = (req, res) => {
       }
       bcrypt.compare(password, user.password).then((match) => {
         if (match) {
-          const payload = {
-            id: user.id,
-            username: user.username,
-            role: user.role,
-            email: user.email,
-            name: user.name,
-          };
-          jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
-            if (err) res.json(err);
-            res.json({ success: true, data: payload, token: `Bearer ${token}` });
+          Class.find({ teacher: user.id }).then((classes) => {
+            console.log(classes.map((e) => e._id));
+
+            const payload =
+              user.role === 1
+                ? {
+                    id: user.id,
+                    username: user.username,
+                    role: user.role,
+                    email: user.email,
+                    name: user.name,
+                    classes: classes.map((e) => e._id),
+                  }
+                : {
+                    id: user.id,
+                    username: user.username,
+                    role: user.role,
+                    email: user.email,
+                    name: user.name,
+                  };
+
+            jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+              if (err) res.json(err);
+              res.json({ success: true, data: payload, token: `Bearer ${token}` });
+            });
           });
         } else {
           return res.status(400).json({ err: 'Password incorrect' });

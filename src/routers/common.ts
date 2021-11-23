@@ -1,7 +1,7 @@
-import Assignment from 'container/assignment';
 import { Home } from 'container/home/Home';
 import { Landing } from 'container/landing';
 import { Report } from 'container/report/Report';
+import Assignment from 'container/user/assignment';
 import { TakeExam } from 'container/user/TakeExam';
 import { RouteType } from 'types/routers';
 
