@@ -23,7 +23,7 @@ export const createAssignment = (req, res) => {
         .populate({ path: 'comments', model: 'Comment' })
         .populate({ path: 'created_by', model: 'User' })
         .then((c) => {
-          res.status(200).json({ assignment: c });
+          res.status(200).json({ data: c });
         });
     })
     .catch((err) => {
@@ -32,11 +32,13 @@ export const createAssignment = (req, res) => {
 };
 
 export const updateAssignment = (req, res) => {
-  Question.findByIdAndUpdate(
+  Assignment.findByIdAndUpdate(
     req.body._id,
     {
-      content: req.body.content,
-      images: req.body.images,
+      title: req.body.title,
+      images: req.body.images ?? [],
+      description: req.body.description,
+      due_date: req.body.due_date,
       updated_at: Date.now(),
     },
     { new: true, useFindAndModify: true },

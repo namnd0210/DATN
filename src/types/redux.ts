@@ -66,11 +66,11 @@ export type AssignmentProps = {
   _id: string;
   title: string;
   description: string;
-  images: string[];
-  comments: any[];
+  images?: string[];
+  comments?: any[];
   due_at: string;
   user: UserProps;
-  created_by: string;
+  created_by: UserProps;
 };
 
 export type ClassProps = {

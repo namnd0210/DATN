@@ -2,6 +2,7 @@ import { TypedUseSelectorHook } from 'react-redux';
 import { useSelector as rawUseSelector } from 'react-redux';
 import { combineReducers } from 'redux';
 
+import assignmentReducer from './assignment/reducer';
 import authReducer from './auth/reducer';
 import categoryReducer from './category/reducer';
 import classReducer from './class/reducer';
@@ -18,6 +19,7 @@ const reducers = combineReducers({
   exam: examReducer,
   class: classReducer,
   result: resultReducer,
+  assignment: assignmentReducer,
 });
 
 type RootState = ReturnType<typeof reducers>;

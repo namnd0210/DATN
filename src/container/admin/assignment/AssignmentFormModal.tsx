@@ -1,41 +1,52 @@
 import '../../../assets/styles/add-exam.scss';
 
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, Col, Divider, Input, message, Modal, PageHeader, Row, Select } from 'antd';
+import { Button, Col, DatePicker, Input, message, Modal, Row } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { createExam, updateExam } from 'redux/exam/actions';
+import { createAssignment, updateAssignment } from 'redux/assignment/actions';
 import { getAllQuestions } from 'redux/question/actions';
 import { useSelector } from 'redux/reducer';
-import { ExamProps, QuestionProps } from 'types/redux';
+import { AssignmentProps } from 'types/redux';
 
 type Props = {
   onClose: () => void;
-  selectedAssignment?: ExamProps;
+  selectedAssignment?: AssignmentProps;
 };
 
 export const AssignmentFormModal = ({ onClose, selectedAssignment }: Props) => {
   const dispatch = useDispatch();
-  const [exam, setExam] = useState<any>({});
+  const [assignment, setAssignment] = useState<any>({
+    title: '',
+    description: '',
+  });
 
   const {
     user: { id },
   } = useSelector((state) => state.auth);
 
   const onChange = (e: any) => {
-    setExam({ ...exam, [e.target.name]: e.target.value });
+    setAssignment({ ...assignment, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = () => {
-    let newExam: any = { ...exam, created_by: id };
-    if (newExam.title === '') {
-      message.error('Không được để trống tên bộ câu hỏi');
-    } else if (newExam.questions.length === 0) {
-      message.error('Vui lòng chọn câu hỏi !');
+    let newAssignment: any = { ...assignment, created_by: id };
+    if (newAssignment.title === '') {
+      message.error('Không được để trống tiêu đề');
+    } else if (newAssignment.description === '') {
+      message.error('Không được để trống mô tả');
     } else {
-      !selectedAssignment ? dispatch(createExam(newExam)) : dispatch(updateExam(newExam));
+      !selectedAssignment
+        ? dispatch(createAssignment(newAssignment))
+        : dispatch(updateAssignment({ ...newAssignment, _id: selectedAssignment._id }));
     }
+  };
+
+  const onOk = (value: any) => {
+    setAssignment({
+      ...assignment,
+      due_date: value,
+    });
   };
 
   useEffect(() => {
@@ -45,31 +56,25 @@ export const AssignmentFormModal = ({ onClose, selectedAssignment }: Props) => {
 
   useEffect(() => {
     if (selectedAssignment) {
-      setExam(selectedAssignment);
+      setAssignment(selectedAssignment);
       // setSelectedAssignment(selectedAssignment.questions.map((e) => e._id));
     }
   }, [selectedAssignment]);
 
   return (
-    <Modal visible title="Thêm mới lớp học" onCancel={onClose} width={600} footer={null}>
-      <PageHeader
-        className="site-page-header"
-        onBack={() => window.history.back()}
-        title="Thêm bài thi trắc nghiệm"
-        subTitle="Thêm bài thi trắc nghiệm mới"
-      />
+    <Modal
+      visible
+      title={!selectedAssignment ? 'Thêm bài tập' : 'Cập nhật bài tập'}
+      onCancel={onClose}
+      width={600}
+      footer={null}
+    >
       <Row gutter={16} style={{ background: '#fff', margin: '1rem 0' }}>
         <Col xl={24}>
           <div className="add-exam-item">
-            <div className="add-exam-item__label">Tên bài trắc nghiệm</div>
+            <div className="add-exam-item__label">Tên bài tập</div>
             <div className="add-exam-item__main">
-              <TextArea
-                value={exam.title}
-                placeholder="Bài trắc nghiệm thứ nhất !"
-                autoSize
-                name="title"
-                onChange={onChange}
-              />
+              <Input value={assignment.title} placeholder="Tiêu đề bài tập" name="title" onChange={onChange} />
             </div>
           </div>
 
@@ -77,8 +82,8 @@ export const AssignmentFormModal = ({ onClose, selectedAssignment }: Props) => {
             <div className="add-exam-item__label">Mô tả</div>
             <div className="add-exam-item__main">
               <TextArea
-                value={exam.description}
-                placeholder="Bài trắc nghiệm về ..."
+                value={assignment.description}
+                placeholder="Mô tả bài tập"
                 autoSize
                 name="description"
                 onChange={onChange}
@@ -87,47 +92,9 @@ export const AssignmentFormModal = ({ onClose, selectedAssignment }: Props) => {
           </div>
 
           <div className="add-exam-item">
-            <div className="add-exam-item__label">Thời gian</div>
+            <div className="add-exam-item__label">Hạn nộp</div>
             <div className="add-exam-item__main">
-              <Input
-                value={exam.time}
-                placeholder="Nhập thời gian để hoàn thành bài trắc nghiệm (phút)"
-                type="number"
-                name="time"
-                onChange={onChange}
-              />
-            </div>
-          </div>
-
-          <div className="add-exam-item">
-            <div className="add-exam-item__label">Danh sách câu hỏi</div>
-            <div className="add-exam-item__main">
-              {/* <Select
-                loading={loadingQuestion}
-                mode="multiple"
-                placeholder="Chọn danh sách câu hỏi"
-                value={selectedAnswer}
-                onChange={handleChange}
-                style={{ width: '100%' }}
-                filterOption={(input: any, option: any) =>
-                  option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                }
-                dropdownRender={(menu) => (
-                  <div>
-                    {menu}
-                    <Divider style={{ margin: '4px 0' }} />
-                    <Button style={{ margin: '4px' }}>
-                      <PlusOutlined /> Thêm câu hỏi mới
-                    </Button>
-                  </div>
-                )}
-              >
-                {filteredOptions.map((e: QuestionProps) => (
-                  <Select.Option key={e._id} value={e._id}>
-                    {e.question}
-                  </Select.Option>
-                ))}
-              </Select> */}
+              <DatePicker showTime onOk={onOk} />
             </div>
           </div>
 

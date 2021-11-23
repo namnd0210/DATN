@@ -32,12 +32,12 @@ export default function assignmentReducer(state: AssignmentState = initState, ac
     }
 
     case types.CREATE_ASSIGNMENT_SUCCESS: {
-      const { result } = action.payload;
+      const { data } = action.payload;
 
       return {
         ...state,
         loading: false,
-        assignments: [...state.assignments, result],
+        assignments: [...state.assignments, data],
       };
     }
 
@@ -50,12 +50,12 @@ export default function assignmentReducer(state: AssignmentState = initState, ac
     }
 
     case types.UPDATE_ASSIGNMENT_SUCCESS: {
-      const { result } = action.payload;
+      const { data } = action.payload;
 
       return {
         ...state,
         loading: false,
-        assignments: state.assignments.map((e) => (e._id === result._id ? result : e)),
+        assignments: state.assignments.map((e) => (e._id === data._id ? data : e)),
       };
     }
 

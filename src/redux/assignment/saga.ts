@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 import {
@@ -27,10 +28,12 @@ function* createAssignmentSaga(props: any): any {
     const res = yield call(createAssignmentApi, props.payload);
     if (res.status === 200) {
       yield put(createAssignmentResult(res.data));
+      message.success('Thêm thành công');
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
+    message.error('Thêm thất bại');
     yield put(createAssignmentResult(error, isSuccess));
   }
 }
@@ -40,10 +43,12 @@ function* updateAssignmentSaga(props: any): any {
     const res = yield call(updateAssignmentApi, props.payload);
     if (res.status === 200) {
       yield put(updateAssignmentResult(res.data));
+      message.success('Cập nhật thành công');
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
+    message.error('Cập nhật thất bại');
     yield put(updateAssignmentResult(error, isSuccess));
   }
 }
@@ -54,10 +59,12 @@ function* deleteAssignmentSaga(props: any): any {
     console.log(props.payload);
     if (res.status === 200) {
       yield put(deleteAssignmentResult(res.data));
+      message.success('Xóa thành công');
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
+    message.error('Xoá thất bại');
     yield put(deleteAssignmentResult(error, isSuccess));
   }
 }
