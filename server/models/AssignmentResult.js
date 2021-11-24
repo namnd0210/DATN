@@ -7,7 +7,8 @@ const assignmentResultSchema = new Schema({
   images: [{ type: String }],
   point: { type: Number },
   assignment: { type: Schema.Types.ObjectId, ref: 'Assignment' },
-  due_date: { type: Date, required: true },
+  class: { type: Schema.Types.ObjectId, ref: 'Class' },
+  status: { type: 'SUBMITTED' | 'NOT_SUBMITTED' | 'SUBMITTED_LATE' },
   created_at: { type: Date, default: Date.now() },
   created_by: { type: Schema.Types.ObjectId, ref: 'User' },
 });

@@ -101,7 +101,6 @@ export const AddNewQuestion = ({ visible, setVisible, question }: any) => {
 
   useEffect(() => {
     if (question) {
-      console.log(question);
       const newQuestion = {
         A: question.answers[0],
         B: question.answers[1],

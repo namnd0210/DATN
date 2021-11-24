@@ -79,6 +79,7 @@ export type ClassProps = {
   teacher: UserProps;
   exam: ExamProps;
   students: UserProps[];
+  assignments: AssignmentProps[];
   updated_at: string;
   updated_by: string;
   created_at: string;

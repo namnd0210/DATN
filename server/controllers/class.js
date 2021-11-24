@@ -52,6 +52,7 @@ export const getClass = async (req, res) => {
 };
 
 export const updateClass = (req, res) => {
+  console.log(req.body);
   Class.findByIdAndUpdate(
     req.body._id,
     {
@@ -61,9 +62,16 @@ export const updateClass = (req, res) => {
       students: req.body.students,
       assignments: req.body.assignments,
       updated_at: Date.now(),
+      updated_by: req.body.updated_by,
     },
     { new: true, useFindAndModify: false },
   )
+    .populate({ path: 'exam', model: 'Exam' })
+    .populate({ path: 'teacher', model: 'User' })
+    .populate({ path: 'students', model: 'User' })
+    .populate({ path: 'assignments', model: 'Assignment' })
+    .populate({ path: 'created_by', model: 'User' })
+    .populate({ path: 'updated_by', model: 'User' })
     .then((data) => {
       res.status(200).json({ data });
     })

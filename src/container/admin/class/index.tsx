@@ -10,7 +10,7 @@ import { Link, useHistory, useLocation } from 'react-router-dom';
 import { getAllAssignmentByUserId } from 'redux/assignment/actions';
 import { deleteClass, getAllClasses } from 'redux/class/actions';
 import { useSelector } from 'redux/reducer';
-import { ClassProps, ExamProps, UserProps } from 'types/redux';
+import { AssignmentProps, ClassProps, ExamProps, UserProps } from 'types/redux';
 import { buildApiUrl } from 'utils';
 
 import ClassFormModal from './ClassFormModal';
@@ -45,6 +45,12 @@ const ClassManagement = () => {
       dataIndex: 'students',
       key: 'students',
       render: (students: UserProps[]) => students?.length,
+    },
+    {
+      title: 'Số lượng bài tập',
+      dataIndex: 'assignments',
+      key: 'assignments',
+      render: (assignments: AssignmentProps[]) => assignments?.length,
     },
     {
       title: 'Ngày tạo',
