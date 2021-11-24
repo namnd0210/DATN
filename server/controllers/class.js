@@ -2,6 +2,7 @@ import express from 'express';
 
 import Class from '../models/Class';
 import ClassStudent from '../models/ClassStudent';
+import User from '../models/User';
 
 const router = express.Router();
 
@@ -51,10 +52,15 @@ export const getClass = async (req, res) => {
     });
 };
 
-export const updateClass = (req, res) => {
-  console.log(req.body);
-  Class.findByIdAndUpdate(
-    req.body._id,
+export const updateClass = async (req, res) => {
+  const classId = req.body._id;
+
+  await req.body.students.forEach(async (studentId) => {
+    await User.findByIdAndUpdate(studentId, { $addToSet: { classes: classId } }, { upsert: true });
+  });
+
+  await Class.findByIdAndUpdate(
+    classId,
     {
       name: req.body.name,
       teacher: req.body.teacher,

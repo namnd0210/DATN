@@ -6,7 +6,7 @@ export const menus = [
   },
   {
     title: 'Lớp học',
-    link: '/class',
+    link: '/my-class',
     role: [0, 1, 2],
   },
   {

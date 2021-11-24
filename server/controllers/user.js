@@ -45,8 +45,6 @@ export const login = (req, res) => {
       bcrypt.compare(password, user.password).then((match) => {
         if (match) {
           Class.find({ teacher: user.id }).then((classes) => {
-            console.log(classes.map((e) => e._id));
-
             const payload =
               user.role === 1
                 ? {
@@ -63,6 +61,7 @@ export const login = (req, res) => {
                     role: user.role,
                     email: user.email,
                     name: user.name,
+                    classes: user.classes,
                   };
 
             jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
