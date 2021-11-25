@@ -58,11 +58,10 @@ export const getClassesByIds = async (req, res) => {
     });
 };
 
-export const getClass = async (req, res) => {
+export const getClassById = async (req, res) => {
   const { page } = req.query;
   const { id } = req.params;
   let count = await Class.countDocuments();
-  const student = await ClassStudent.find({ _id: id });
 
   Class.find({ _id: id })
     .populate({ path: 'teacher', model: 'User' })
@@ -70,7 +69,7 @@ export const getClass = async (req, res) => {
     .populate({ path: 'students', model: 'User' })
     .limit(10)
     .skip((page ? page - 1 : 0) * 10)
-    .then((classRes) => res.status(200).json({ data: { ...classRes, student }, total: count }))
+    .then((classRes) => res.status(200).json({ data: { ...classRes }, total: count }))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);

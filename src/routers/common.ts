@@ -1,7 +1,7 @@
 import { Home } from 'container/home/Home';
 import { Landing } from 'container/landing';
 import { Report } from 'container/report/Report';
-import MyClass from 'container/user/MyClass';
+import MyClasses from 'container/user/MyClasses';
 import { TakeExam } from 'container/user/TakeExam';
 import { RouteType } from 'types/routers';
 
@@ -38,6 +38,13 @@ export const commonRoutes: Array<RouteType> = [
   },
   {
     path: '/my-class',
+    component: MyClasses,
+    role: [2],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/my-class/:classId',
     component: MyClass,
     role: [2],
     exact: true,
