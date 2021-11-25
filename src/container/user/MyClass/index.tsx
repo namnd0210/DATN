@@ -1,6 +1,11 @@
 import { Col, Row, Table } from 'antd';
 import { PageHeaderLayout } from 'common/PageHeaderLayout';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { getAllClassesByIds } from 'redux/class/actions';
+import { useSelector } from 'redux/reducer';
 import { ClassProps } from 'types/redux';
+import { buildApiUrl } from 'utils';
 
 const MyClass = () => {
   const columns: any = [
@@ -17,6 +22,17 @@ const MyClass = () => {
       render: (text: any) => <span>{text.name}</span>,
     },
   ];
+
+  const {
+    user: { classes },
+  } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (classes.length > 0) {
+      dispatch(getAllClassesByIds({ classes: classes }));
+    }
+  }, [dispatch, classes]);
 
   return (
     <Row className="card-list" gutter={[0, 5]}>

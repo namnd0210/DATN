@@ -1,7 +1,13 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
-import { createClassResult, deleteClassResult, getAllClassesResult, updateClassResult } from './actions';
-import { createClassApi, deleteClassApi, getAllClassesApi, updateClassApi } from './api';
+import {
+  createClassResult,
+  deleteClassResult,
+  getAllClassesByIdsResult,
+  getAllClassesResult,
+  updateClassResult,
+} from './actions';
+import { createClassApi, deleteClassApi, getAllClassesApi, getAllClassesByIdsApi, updateClassApi } from './api';
 import types from './type';
 
 function* getAllClassesSaga(): any {
@@ -14,6 +20,19 @@ function* getAllClassesSaga(): any {
     console.log(error);
     const isSuccess = false;
     yield put(getAllClassesResult(error, isSuccess));
+  }
+}
+
+function* getAllClassesByIdsSaga(props: any): any {
+  try {
+    const res = yield call(getAllClassesByIdsApi, props.payload);
+    if (res.status === 200) {
+      yield put(getAllClassesByIdsResult(res.data));
+    }
+  } catch (error) {
+    console.log(error);
+    const isSuccess = false;
+    yield put(getAllClassesByIdsResult(error, isSuccess));
   }
 }
 
@@ -59,6 +78,7 @@ function* deleteClassSaga(props: any): any {
 
 export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_CLASSES, getAllClassesSaga)]);
+  yield all([takeEvery(types.GET_ALL_CLASSES_BY_IDS, getAllClassesByIdsSaga)]);
   yield all([takeEvery(types.CREATE_CLASS, createClassSaga)]);
   yield all([takeEvery(types.UPDATE_CLASS, updateClassSaga)]);
   yield all([takeEvery(types.DELETE_CLASS, deleteClassSaga)]);

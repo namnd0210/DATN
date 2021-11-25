@@ -4,6 +4,12 @@ export const getAllClassesApi = (): Promise<AxiosResponse> => {
   return Axios.get('/api/class');
 };
 
+export const getAllClassesByIdsApi = (ids: string[]): Promise<AxiosResponse> => {
+  return Axios.get('/api/class/ids', {
+    params: ids,
+  });
+};
+
 export const createClassApi = (data: any): Promise<AxiosResponse> => {
   return Axios.post('/api/class', data);
 };

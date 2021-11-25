@@ -7,6 +7,7 @@ import User from '../models/User';
 const router = express.Router();
 
 export const getClasses = async (req, res) => {
+  console.log('all');
   const { page, id } = req.query;
   let query = {};
   if (id) {
@@ -31,6 +32,30 @@ export const getClasses = async (req, res) => {
       res.status(200).json({ data: classData, total: count });
     })
     .catch((err) => res.status(400).json({ err }));
+};
+
+export const getClassesByIds = async (req, res) => {
+  const classes = req.query.classes;
+
+  await Class.find({ _id: { $in: classes } })
+    .populate({ path: 'teacher', model: 'User', select: 'name' })
+    .populate({
+      path: 'exam',
+      model: 'Exam',
+      populate: {
+        path: 'questions',
+        model: 'Question',
+      },
+    })
+    .populate({ path: 'students', model: 'User', select: 'name' })
+    .populate({ path: 'assignments', model: 'Assignment' })
+    .then((classData) => {
+      res.status(200).json({ data: classData });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(400).json({ err });
+    });
 };
 
 export const getClass = async (req, res) => {

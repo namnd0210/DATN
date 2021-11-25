@@ -27,6 +27,23 @@ export default function classReducer(state: ClassState = initState, action: Acti
       return { ...state, loading: false };
     }
 
+    case types.GET_ALL_CLASSES_BY_IDS: {
+      return { ...state, loading: true };
+    }
+
+    case types.GET_ALL_CLASSES_BY_IDS_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        classes: action.payload.data,
+        total: action.payload.total,
+      };
+    }
+
+    case types.GET_ALL_CLASSES_BY_IDS_FAILED: {
+      return { ...state, loading: false };
+    }
+
     case types.CREATE_CLASS: {
       return { ...state, loading: true };
     }
