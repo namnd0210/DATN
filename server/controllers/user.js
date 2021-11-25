@@ -38,42 +38,57 @@ export const login = (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    User.findOne({ username }).then((user) => {
-      if (!user) {
-        return res.status(400).json({ err: 'User not found!!!' });
-      }
-      bcrypt.compare(password, user.password).then((match) => {
-        if (match) {
-          Class.find({ teacher: user.id }).then((classes) => {
-            const payload =
-              user.role === 1
-                ? {
-                    id: user.id,
-                    username: user.username,
-                    role: user.role,
-                    email: user.email,
-                    name: user.name,
-                    classes: classes.map((e) => e._id),
-                  }
-                : {
-                    id: user.id,
-                    username: user.username,
-                    role: user.role,
-                    email: user.email,
-                    name: user.name,
-                    classes: user.classes,
-                  };
-
-            jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
-              if (err) res.json(err);
-              res.json({ success: true, data: payload, token: `Bearer ${token}` });
-            });
-          });
-        } else {
-          return res.status(400).json({ err: 'Password incorrect' });
+    User.findOne({ username })
+      .populate({
+        path: 'classes',
+        model: 'Class',
+        populate: [
+          {
+            path: 'assignments',
+            model: 'Assignment',
+          },
+          {
+            path: 'teacher',
+            model: 'User',
+          },
+        ],
+      })
+      .then((user) => {
+        if (!user) {
+          return res.status(400).json({ err: 'User not found!!!' });
         }
+        bcrypt.compare(password, user.password).then((match) => {
+          if (match) {
+            Class.find({ teacher: user.id }).then((classes) => {
+              const payload =
+                user.role === 1
+                  ? {
+                      id: user.id,
+                      username: user.username,
+                      role: user.role,
+                      email: user.email,
+                      name: user.name,
+                      classes: classes.map((e) => e._id),
+                    }
+                  : {
+                      id: user.id,
+                      username: user.username,
+                      role: user.role,
+                      email: user.email,
+                      name: user.name,
+                      classes: user.classes,
+                    };
+
+              jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+                if (err) res.json(err);
+                res.json({ success: true, data: payload, token: `Bearer ${token}` });
+              });
+            });
+          } else {
+            return res.status(400).json({ err: 'Password incorrect' });
+          }
+        });
       });
-    });
   } catch (e) {
     console.log(e);
   }
