@@ -1,10 +1,11 @@
 import { Home } from 'container/home/Home';
 import { Landing } from 'container/landing';
 import { Report } from 'container/report/Report';
-import Assignment from 'container/user/assignment';
 import MyClass from 'container/user/MyClass';
 import { TakeExam } from 'container/user/TakeExam';
 import { RouteType } from 'types/routers';
+
+import AssignmentList from '../container/user/AssignmentList/index';
 
 export const commonRoutes: Array<RouteType> = [
   {
@@ -43,8 +44,8 @@ export const commonRoutes: Array<RouteType> = [
     isPublic: false,
   },
   {
-    path: '/assignment',
-    component: Assignment,
+    path: '/assignment/:assignmentId',
+    component: AssignmentList,
     role: [2],
     exact: true,
     isPublic: false,

@@ -1,9 +1,13 @@
-import './assignment.scss';
+import './style.scss';
 
 import { Col, Divider, Row } from 'antd';
 import bookmark from 'assets/imgs/bookmark.svg';
 import more_vertical from 'assets/imgs/more-vertical.svg';
 import moment from 'moment';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getAllAssignmentById } from 'redux/assignment/actions';
 
 type AssignmentData = {
   id: string;
@@ -19,7 +23,15 @@ const data: AssignmentData[] = [
   },
 ];
 
-const AssignmentManagement = () => {
+const AssignmentList = () => {
+  const dispatch = useDispatch();
+  const { assignmentId } = useParams<any>();
+  console.log(assignmentId);
+
+  useEffect(() => {
+    dispatch(getAllAssignmentById(assignmentId));
+  }, [dispatch, assignmentId]);
+
   return (
     <div style={{ padding: 12 }}>
       <Row>
@@ -60,4 +72,4 @@ const AssignmentManagement = () => {
   );
 };
 
-export default AssignmentManagement;
+export default AssignmentList;

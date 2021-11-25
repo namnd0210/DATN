@@ -55,7 +55,7 @@ const MyClass = () => {
                       </div>
                       <div className="link">
                         <Button type="primary">
-                          <Link to={`assignment/${e?._id}`}>Chi tiết</Link>
+                          <Link to={`assignment/${e._id}`}>Chi tiết</Link>
                         </Button>
                       </div>
                     </div>

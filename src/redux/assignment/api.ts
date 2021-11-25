@@ -4,8 +4,12 @@ export const getAllAssignmentsApi = (): Promise<AxiosResponse> => {
   return Axios.get('/api/assignment');
 };
 
-export const getAllAssignmentByUserIdApi = (id: string): Promise<AxiosResponse> => {
+export const getAllAssignmentByIdApi = (id: string): Promise<AxiosResponse> => {
   return Axios.get(`/api/assignment/${id}`);
+};
+
+export const getAllAssignmentByUserIdApi = (id: string): Promise<AxiosResponse> => {
+  return Axios.get(`/api/assignment/user/${id}`);
 };
 
 export const createAssignmentApi = (data: any): Promise<AxiosResponse> => {

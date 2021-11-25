@@ -27,6 +27,23 @@ export default function assignmentReducer(state: AssignmentState = initState, ac
       return { ...state, loading: false };
     }
 
+    case types.GET_ALL_ASSIGNMENT_BY_ID: {
+      return { ...state, loading: true };
+    }
+
+    case types.GET_ALL_ASSIGNMENT_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        assignments: action.payload.data,
+        total: action.payload.total,
+      };
+    }
+
+    case types.GET_ALL_ASSIGNMENT_BY_ID_FAILED: {
+      return { ...state, loading: false };
+    }
+
     case types.GET_ALL_ASSIGNMENT_BY_USER_ID: {
       return { ...state, loading: true };
     }
