@@ -1,35 +1,24 @@
 import './style.scss';
 
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import Slider from '@ant-design/react-slick';
-import { Avatar, Button, Card, Col, Divider, Row, Skeleton } from 'antd';
+import { Avatar, Card, Col, Row, Skeleton } from 'antd';
 import Meta from 'antd/lib/card/Meta';
-import assignment from 'assets/imgs/book-open.svg';
-import course_1 from 'assets/imgs/course-1.png';
-import course_2 from 'assets/imgs/course-2.png';
-import course_3 from 'assets/imgs/course-3.png';
-import course_4 from 'assets/imgs/course-4.png';
-import heart from 'assets/imgs/heart.png';
-import users from 'assets/imgs/users.svg';
+import BackButton from 'components/BackButton';
+import moment from 'moment';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useSelector } from 'redux/reducer';
 import { AssignmentProps, ClassProps } from 'types/redux';
-
-const course_imgs = [course_1, course_2, course_3, course_4];
 
 const AssignmentDetail = () => {
   const { classId, assignmentId } = useParams<any>();
   const [loading, setLoading] = useState<boolean>(true);
 
-  console.log({ classId, assignmentId });
-
   const {
     user: { classes },
   } = useSelector((state) => state.auth);
 
-  const currentClass = classes.find((e: ClassProps) => e._id === classId);
-  const currentAssignment = currentClass.assignments.find((a: AssignmentProps) => a._id === assignmentId);
+  const currentClass: ClassProps = classes.find((e: ClassProps) => e._id === classId);
+  const currentAssignment: any = currentClass.assignments.find((a: AssignmentProps) => a._id === assignmentId);
 
   console.log(currentAssignment);
 
@@ -42,35 +31,48 @@ const AssignmentDetail = () => {
   }, []);
 
   return (
-    <div style={{ padding: 12 }}>
-      <Row>
-        <Col span={24}>
-          <div className="home-recommendation">
-            <div className="slide-wrap">
-              {loading && (
-                <div style={{ padding: '1.5rem 0.5rem', background: '#fff' }}>
-                  <Skeleton avatar active />
-                </div>
-              )}
+    <Row>
+      <Col span={24}>
+        <div className="home-recommendation">
+          <div className="slide-wrap">
+            {loading && (
+              <div style={{ padding: '1.5rem 0.5rem', background: '#fff' }}>
+                <Skeleton avatar active />
+              </div>
+            )}
 
-              {!loading && (
-                <Card
-                  title={currentClass.name}
-                  style={{ width: '100%', marginTop: '1rem' }}
-                  extra={<EllipsisOutlined key="ellipsis" />}
-                >
-                  <Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-                    title={currentAssignment.title}
-                    description={currentAssignment.description}
-                  />
-                </Card>
-              )}
-            </div>
+            {!loading && (
+              <Card
+                title={<BackButton link={`/my-class/${classId}`} title={currentClass.name} />}
+                style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
+              >
+                <Meta
+                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                  title={
+                    <div className="assignment-title-wrapper-01">
+                      <div>
+                        <div className="assignment-title">{currentAssignment.title}</div>
+
+                        <div className="info">
+                          {currentClass.teacher.name} • {moment(currentClass.updated_at).format('MMM DD yyyy')}
+                        </div>
+
+                        <div className="point">{currentAssignment.point ?? 'Chưa chấm'} điểm</div>
+                      </div>
+
+                      <div className="due-date">
+                        Hạn nộp: {moment(currentAssignment.due_date).format('MMM DD yyyy, HH:mm')}
+                      </div>
+                    </div>
+                  }
+                  description={<div className="assignment-des">{currentAssignment.description}</div>}
+                />
+              </Card>
+            )}
           </div>
-        </Col>
-      </Row>
-    </div>
+        </div>
+      </Col>
+    </Row>
   );
 };
 

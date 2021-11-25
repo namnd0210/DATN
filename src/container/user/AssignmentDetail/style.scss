@@ -72,11 +72,6 @@
 }
 
 .home-recommendation {
-  h3 {
-    font-size: 27px;
-    text-transform: uppercase;
-    margin: 20px 0;
-  }
   .slick-slide {
     background: #f0f2f5;
   }
@@ -140,4 +135,44 @@
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.assignment-title {
+  font-size: 2rem;
+  color: #1967d2;
+}
+
+.info {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #5f6368;
+}
+
+.point {
+  margin-top: 0.5rem;
+  color: #3c4043;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.due-date {
+  margin-right: 1rem;
+}
+
+.assignment-title-wrapper-01 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #dedede;
+}
+
+.assignment-des {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  letter-spacing: 0.01428571em;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  color: #3c4043;
 }
