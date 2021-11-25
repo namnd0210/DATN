@@ -176,3 +176,31 @@
   line-height: 1.25rem;
   color: #3c4043;
 }
+
+.submit-title-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .title {
+    font-size: 1.125rem;
+  }
+
+  .status-submit {
+    font-size: 0.875rem;
+  }
+}
+
+.assignment-submit-button {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    border-radius: 0.25rem;
+  }
+}

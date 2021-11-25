@@ -1,6 +1,7 @@
 import './style.scss';
 
-import { Avatar, Card, Col, Row, Skeleton } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Col, Row, Skeleton } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import BackButton from 'components/BackButton';
 import moment from 'moment';
@@ -32,7 +33,7 @@ const AssignmentDetail = () => {
 
   return (
     <Row>
-      <Col span={24}>
+      <Col span={18}>
         <div className="home-recommendation">
           <div className="slide-wrap">
             {loading && (
@@ -71,6 +72,25 @@ const AssignmentDetail = () => {
             )}
           </div>
         </div>
+      </Col>
+
+      <Col span={6}>
+        <Card
+          title={
+            <div className="submit-title-wrapper">
+              <div className="title">Nộp bài tập</div>
+
+              <div className="status-submit">Missing</div>
+            </div>
+          }
+          style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
+        >
+          <div className="assignment-submit-button">
+            <Button icon={<PlusOutlined />}>Thêm hoặc tạo mới</Button>
+
+            <Button type="primary">Nộp</Button>
+          </div>
+        </Card>
       </Col>
     </Row>
   );
