@@ -50,10 +50,6 @@ const ClassFormModal = ({ onClose, selectedClass }: any) => {
     }
   }, [selectedClass]);
 
-  useEffect(() => {
-    console.log(currentClass);
-  }, [currentClass]);
-
   return (
     <Modal title="Thêm mới lớp học" visible onCancel={onClose} width={600} footer={null}>
       <div style={{ background: '#fff', padding: '40px 20px 20px 20px' }}>

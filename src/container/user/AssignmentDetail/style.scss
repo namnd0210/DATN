@@ -1,0 +1,143 @@
+.divider {
+  border-right: 2px solid #dedede;
+}
+
+.coming-up {
+  padding: 0.5rem 1rem;
+}
+
+.list-assignment {
+  padding: 0.5rem;
+}
+
+.assignment-wrapper {
+  border-radius: 0.5rem;
+  border: 0.0625rem solid #dadce0;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+
+  &:hover {
+    background-color: #e8f0fe;
+    cursor: pointer;
+  }
+}
+
+.assignment-title-wrapper {
+  flex-basis: 80%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.date-title {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-home {
+  padding: 15px 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .row {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    .item {
+      width: calc(25% - 10px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      img {
+        width: 50px;
+      }
+      p {
+        font-size: 16px;
+        color: #084c94;
+        text-transform: uppercase;
+        margin: 10px 0;
+      }
+      span {
+        font-size: 40px;
+        color: #f99d21;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.home-recommendation {
+  h3 {
+    font-size: 27px;
+    text-transform: uppercase;
+    margin: 20px 0;
+  }
+  .slick-slide {
+    background: #f0f2f5;
+  }
+  .slide-wrap {
+    .info-course {
+      padding: 15px 20px;
+      .title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+          color: #f99d21;
+          font-size: 20px;
+          margin: 0;
+        }
+        img {
+          width: 15px;
+        }
+      }
+      .des {
+        border-bottom: 1px solid #dee2e6;
+        margin: 0 0 10px;
+        padding: 0 0 10px 0;
+      }
+      .route {
+        display: flex;
+        justify-content: space-between;
+        .react {
+          display: flex;
+          align-items: center;
+          img {
+            margin: 0 7px;
+          }
+        }
+
+        img {
+          width: 15px;
+        }
+      }
+    }
+  }
+}
+
+.slick-slider {
+  position: relative;
+}
+
+.slick-arrow {
+  position: absolute;
+  top: -40px;
+  cursor: pointer;
+
+  &.slick-prev {
+    right: 60px;
+  }
+  &.slick-next {
+    right: 0;
+  }
+}
+.example {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
