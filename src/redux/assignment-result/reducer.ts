@@ -87,12 +87,13 @@ export default function resultReducer(state: AssignmentResultState = initState, 
     }
 
     case types.UPDATE_ASSIGNMENT_RESULT_SUCCESS: {
-      const { result } = action.payload;
+      const { result, data } = action.payload;
 
       return {
         ...state,
         loading: false,
         results: state.results.map((e) => (e._id === result._id ? result : e)),
+        result: data,
       };
     }
 
