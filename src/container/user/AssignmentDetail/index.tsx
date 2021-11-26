@@ -7,12 +7,15 @@ import UploadFile from 'components/UploadFile';
 import storage from 'constants/firebase.config';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { createAssignmentResult } from 'redux/assignment-result/actions';
 import { useSelector } from 'redux/reducer';
 import { AssignmentProps, ClassProps } from 'types/redux';
 import { v4 as uuidv4 } from 'uuid';
 
 const AssignmentDetail = () => {
+  const dispatch = useDispatch();
   const { classId, assignmentId } = useParams<any>();
   const [loading, setLoading] = useState<boolean>(true);
   const [files, setFiles] = useState<any[]>([]);
@@ -25,13 +28,13 @@ const AssignmentDetail = () => {
   const currentAssignment: any = currentClass.assignments.find((a: AssignmentProps) => a._id === assignmentId);
 
   const handleSubmit = async () => {
-    let imageNames = [];
+    let fileNames: string[] = [];
 
     await files
       .map((file) => file.originFileObj)
       .map((file) => {
         const fileName = uuidv4();
-        imageNames.push(fileName);
+        fileNames.push(fileName);
 
         return storage
           .ref(`/assignments/${assignmentId}/${userId}/${fileName}`)
@@ -44,6 +47,15 @@ const AssignmentDetail = () => {
             },
           );
       });
+
+    const payload = {
+      files: fileNames,
+      assignment: assignmentId,
+      class: classId,
+      created_by: userId,
+    };
+
+    dispatch(createAssignmentResult(payload));
   };
 
   useEffect(() => {

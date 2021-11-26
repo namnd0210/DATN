@@ -47,15 +47,14 @@ export const LayoutWrapper = (props: { children: React.ReactChild }) => {
           <div className="main-header">
             <img src={logo} alt="" />
             <ul>
-              {menus.map((e, i) => (
-                <>
-                  {e.role.includes(role) && (
+              {menus.map(
+                (e, i) =>
+                  e.role.includes(role) && (
                     <li key={i}>
                       <Link to={e.link}>{e.title}</Link>
                     </li>
-                  )}
-                </>
-              ))}
+                  ),
+              )}
             </ul>
           </div>
           <Dropdown overlay={menu} className="header-user">

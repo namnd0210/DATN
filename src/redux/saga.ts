@@ -1,4 +1,5 @@
 import assignmentSagas from 'redux/assignment/saga';
+import assignmentResultSagas from 'redux/assignment-result/saga';
 import authSagas from 'redux/auth/saga';
 import categorySagas from 'redux/category/saga';
 import classSaga from 'redux/class/saga';
@@ -18,5 +19,6 @@ export default function* rootSaga() {
     classSaga(),
     resultSagas(),
     assignmentSagas(),
+    assignmentResultSagas(),
   ]);
 }

@@ -1,12 +1,6 @@
 import express from 'express';
 
-import {
-  createResult,
-  //   getAllResults,
-  //   getAllByAssignmentId,
-  //   getAllByClassId,
-  getResultByUserId,
-} from '../controllers/assignment';
+import { createResult, getResultByUserId } from '../controllers/assignmentResult';
 
 const router = express.Router();
 

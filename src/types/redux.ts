@@ -66,7 +66,7 @@ export type AssignmentProps = {
   _id: string;
   title: string;
   description: string;
-  images?: string[];
+  files: string[];
   comments?: any[];
   due_at: string;
   user: UserProps;
@@ -84,6 +84,16 @@ export type ClassProps = {
   updated_by: string;
   created_at: string;
   created_by: string;
+};
+
+export type AssignmentResultProps = {
+  _id: string;
+  files: string[];
+  point?: number;
+  assignment: AssignmentProps;
+  class: ClassProps;
+  created_by: UserProps;
+  created_at: string;
 };
 
 export type AuthState = {
@@ -142,5 +152,11 @@ export type ResultState = {
 export type AssignmentState = {
   loading: boolean;
   assignments: AssignmentProps[];
+  total: number;
+};
+
+export type AssignmentResultState = {
+  loading: boolean;
+  results: AssignmentResultProps[];
   total: number;
 };
