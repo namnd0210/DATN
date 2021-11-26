@@ -25,7 +25,7 @@ const UploadFile = ({ files, setFiles }: { files: any[]; setFiles: any }) => {
   };
 
   return (
-    <Upload multiple defaultFileList={files} {...props}>
+    <Upload multiple fileList={files} {...props}>
       <Button icon={<PlusOutlined />}>Thêm hoặc tạo mới</Button>
     </Upload>
   );

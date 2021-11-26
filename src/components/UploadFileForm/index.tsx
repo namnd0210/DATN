@@ -22,6 +22,7 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
 
   const handleSubmit = async () => {
     let fileNames: string[] = [];
+    let promises: any[] = [];
 
     await files
       .map((file) => file.originFileObj)
@@ -29,28 +30,34 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
         const fileName = uuidv4();
         fileNames.push(fileName);
 
-        return storage
-          .ref(`/assignments/${assignmentId}/${userId}/${fileName}`)
-          .put(file)
-          .on(
-            'state_changed',
-            (snapshot) => {},
-            (error) => {
-              console.log(error);
-            },
-          );
+        const uploadTask = storage.ref(`/assignments/${assignmentId}/${userId}/${fileName}`).put(file);
+        promises.push(uploadTask);
+
+        return uploadTask.on(
+          'state_changed',
+          (snapshot) => {},
+          (error) => {
+            console.log(error);
+          },
+        );
       });
 
-    const payload = {
-      files: fileNames,
-      assignment: assignmentId,
-      class: classId,
-      created_by: userId,
-    };
+    Promise.all(promises)
+      .then(() => {
+        const payload = {
+          files: fileNames,
+          assignment: assignmentId,
+          class: classId,
+          created_by: userId,
+        };
 
-    currentFiles.length === 0
-      ? dispatch(createAssignmentResult(payload))
-      : dispatch(updateAssignmentResult({ ...payload, _id: id }));
+        currentFiles.length === 0
+          ? dispatch(createAssignmentResult(payload))
+          : dispatch(updateAssignmentResult({ ...payload, _id: id }));
+
+        setFiles([]);
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
