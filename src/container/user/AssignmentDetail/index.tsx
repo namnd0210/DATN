@@ -1,9 +1,10 @@
 import './style.scss';
 
-import { PlusOutlined } from '@ant-design/icons';
-import { Avatar, Button, Card, Col, Row, Skeleton } from 'antd';
+import { FileAddOutlined, FileExcelOutlined, FileImageOutlined, PlusOutlined } from '@ant-design/icons';
+import { Avatar, Button, Card, Col, Dropdown, Menu, Row, Skeleton, Upload } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import BackButton from 'components/BackButton';
+import UploadFile from 'components/UploadFile';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -13,6 +14,9 @@ import { AssignmentProps, ClassProps } from 'types/redux';
 const AssignmentDetail = () => {
   const { classId, assignmentId } = useParams<any>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [files, setFiles] = useState<any[]>([]);
+
+  console.log(files);
 
   const {
     user: { classes },
@@ -20,8 +24,6 @@ const AssignmentDetail = () => {
 
   const currentClass: ClassProps = classes.find((e: ClassProps) => e._id === classId);
   const currentAssignment: any = currentClass.assignments.find((a: AssignmentProps) => a._id === assignmentId);
-
-  console.log(currentAssignment);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -86,7 +88,7 @@ const AssignmentDetail = () => {
           style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
         >
           <div className="assignment-submit-button">
-            <Button icon={<PlusOutlined />}>Thêm hoặc tạo mới</Button>
+            <UploadFile files={files} setFiles={setFiles} />
 
             <Button type="primary">Nộp</Button>
           </div>

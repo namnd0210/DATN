@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const assignmentSchema = new Schema({
   title: { type: String, required: true, maxLength: 100 },
   description: { type: String, required: true },
-  images: [{ type: String }],
+  files: [{ type: String }],
   comments: { type: Schema.Types.ObjectId, ref: 'Comment' },
   due_date: { type: Date, required: true },
   updated_at: { type: Date },
