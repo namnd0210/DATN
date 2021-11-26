@@ -8,6 +8,7 @@ import passport from 'passport';
 
 import newLocal from './config/passport';
 import assignmentRouter from './routes/assignment';
+import assignmentResultRouter from './routes/assignmentResult';
 import categoryRouter from './routes/category';
 import classRouter from './routes/class';
 import commentRouter from './routes/comment';
@@ -38,6 +39,7 @@ app.use('/api/question', questionRouter);
 app.use('/api/exam', examRouter);
 app.use('/api/result', resultRouter);
 app.use('/api/assignment', assignmentRouter);
+app.use('/api/assignmentResult', assignmentResultRouter);
 app.use('/api/comment', commentRouter);
 
 // connect db
