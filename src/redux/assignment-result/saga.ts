@@ -33,7 +33,7 @@ function* getAllResultsSaga(): any {
 
 function* getResultByUserIdSaga(props: any): any {
   try {
-    const res = yield call(getAssignmentResultByUserIdApi, props.payload.id);
+    const res = yield call(getAssignmentResultByUserIdApi, props.payload);
     if (res.status === 200) {
       yield put(getAssignmentResultByUserIdResult(res.data));
     }
@@ -44,9 +44,9 @@ function* getResultByUserIdSaga(props: any): any {
   }
 }
 
-function* getResultByAssigmentIdSaga(props: any): any {
+function* getResultByAssignmentIdSaga(props: any): any {
   try {
-    const res = yield call(getAssignmentResultByAssignmentIdApi, props.payload.id);
+    const res = yield call(getAssignmentResultByAssignmentIdApi, props.payload);
     if (res.status === 200) {
       yield put(getAssignmentResultByAssignmentIdResult(res.data));
     }
@@ -100,7 +100,7 @@ function* deleteResultSaga(props: any): any {
 export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_ASSIGNMENT_RESULTS, getAllResultsSaga)]);
   yield all([takeEvery(types.GET_ASSIGNMENT_RESULT_BY_USER_ID, getResultByUserIdSaga)]);
-  yield all([takeEvery(types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID, getResultByAssigmentIdSaga)]);
+  yield all([takeEvery(types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID, getResultByAssignmentIdSaga)]);
   yield all([takeEvery(types.CREATE_ASSIGNMENT_RESULT, createResultSaga)]);
   yield all([takeEvery(types.UPDATE_ASSIGNMENT_RESULT, updateResultSaga)]);
   yield all([takeEvery(types.DELETE_ASSIGNMENT_RESULT, deleteResultSaga)]);

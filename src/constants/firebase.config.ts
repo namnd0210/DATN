@@ -12,5 +12,14 @@ const firebaseConfig = {
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
+
+export const getFirebaseImageUrl = ({ path, id }: { path: string[]; id: string }) => {
+  const baseUrl = 'https://firebasestorage.googleapis.com/v0/b';
+  const storageBucket = firebaseConfig.storageBucket;
+  const folderPath = path.join('%2F');
+
+  return `${baseUrl}/${storageBucket}/o/${folderPath}%2F${id}?alt=media`;
+};
+
 const storage = firebase.storage();
 export default storage;

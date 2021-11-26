@@ -3,13 +3,14 @@ import './style.scss';
 import { Avatar, Button, Card, Col, Row, Skeleton } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import BackButton from 'components/BackButton';
+import HandledImage from 'components/HandledImage';
 import UploadFile from 'components/UploadFile';
-import storage from 'constants/firebase.config';
+import storage, { getFirebaseImageUrl } from 'constants/firebase.config';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { createAssignmentResult } from 'redux/assignment-result/actions';
+import { createAssignmentResult, getAssignmentResultByAssignmentId } from 'redux/assignment-result/actions';
 import { useSelector } from 'redux/reducer';
 import { AssignmentProps, ClassProps } from 'types/redux';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,6 +24,8 @@ const AssignmentDetail = () => {
   const {
     user: { classes, id: userId },
   } = useSelector((state) => state.auth);
+
+  const { result: currentAssignmentResult } = useSelector((state) => state.assignmentResult);
 
   const currentClass: ClassProps = classes.find((e: ClassProps) => e._id === classId);
   const currentAssignment: any = currentClass.assignments.find((a: AssignmentProps) => a._id === assignmentId);
@@ -65,6 +68,11 @@ const AssignmentDetail = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  console.log(currentAssignmentResult);
+  useEffect(() => {
+    dispatch(getAssignmentResultByAssignmentId(assignmentId));
+  }, [assignmentId, dispatch]);
 
   return (
     <Row>
@@ -121,8 +129,15 @@ const AssignmentDetail = () => {
           style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
         >
           <div className="assignment-submit-button">
+            <div className="list-assignment-images">
+              {currentAssignmentResult.files?.length > 0 &&
+                currentAssignmentResult.files.map((e: string) => (
+                  <div key={e} style={{ margin: 1, width: 50, height: 50 }}>
+                    <HandledImage src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId] })} />
+                  </div>
+                ))}
+            </div>
             <UploadFile files={files} setFiles={setFiles} />
-
             <Button onClick={handleSubmit} type="primary">
               Nộp
             </Button>
