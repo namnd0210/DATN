@@ -1,29 +1,50 @@
 import './style.scss';
 
-import { FileAddOutlined, FileExcelOutlined, FileImageOutlined, PlusOutlined } from '@ant-design/icons';
-import { Avatar, Button, Card, Col, Dropdown, Menu, Row, Skeleton, Upload } from 'antd';
+import { Avatar, Button, Card, Col, Row, Skeleton } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import BackButton from 'components/BackButton';
 import UploadFile from 'components/UploadFile';
+import storage from 'constants/firebase.config';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'redux/reducer';
 import { AssignmentProps, ClassProps } from 'types/redux';
+import { v4 as uuidv4 } from 'uuid';
 
 const AssignmentDetail = () => {
   const { classId, assignmentId } = useParams<any>();
   const [loading, setLoading] = useState<boolean>(true);
   const [files, setFiles] = useState<any[]>([]);
 
-  console.log(files);
-
   const {
-    user: { classes },
+    user: { classes, id: userId },
   } = useSelector((state) => state.auth);
 
   const currentClass: ClassProps = classes.find((e: ClassProps) => e._id === classId);
   const currentAssignment: any = currentClass.assignments.find((a: AssignmentProps) => a._id === assignmentId);
+
+  const handleSubmit = async () => {
+    let imageNames = [];
+
+    await files
+      .map((file) => file.originFileObj)
+      .map((file) => {
+        const fileName = uuidv4();
+        imageNames.push(fileName);
+
+        return storage
+          .ref(`/assignments/${assignmentId}/${userId}/${fileName}`)
+          .put(file)
+          .on(
+            'state_changed',
+            (snapshot) => {},
+            (error) => {
+              console.log(error);
+            },
+          );
+      });
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -90,7 +111,9 @@ const AssignmentDetail = () => {
           <div className="assignment-submit-button">
             <UploadFile files={files} setFiles={setFiles} />
 
-            <Button type="primary">Nộp</Button>
+            <Button onClick={handleSubmit} type="primary">
+              Nộp
+            </Button>
           </div>
         </Card>
       </Col>

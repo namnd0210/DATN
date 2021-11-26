@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Upload } from 'antd';
+import { Button, Upload } from 'antd';
 
 const dummyRequest = ({ file, onSuccess }: any) => {
   setTimeout(() => {
@@ -11,12 +11,7 @@ const UploadFile = ({ files, setFiles }: { files: any[]; setFiles: any }) => {
   const props: any = {
     name: 'file',
     onChange(info: any) {
-      if (info.file.status === 'done') {
-        setFiles(info.file);
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
+      setFiles(info.fileList);
     },
     progress: {
       strokeColor: {
