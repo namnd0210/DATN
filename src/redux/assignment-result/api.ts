@@ -8,6 +8,10 @@ export const getAssignmentResultByUserIdApi = (id: string): Promise<AxiosRespons
   return Axios.get(`/api/assignment-result/user/${id}`);
 };
 
+export const getAssignmentResultByAssignmentIdApi = (id: string): Promise<AxiosResponse> => {
+  return Axios.get(`/api/assignment-result/assignment/${id}`);
+};
+
 export const createAssignmentResultApi = (data: any): Promise<AxiosResponse> => {
   return Axios.post('/api/assignment-result', data);
 };

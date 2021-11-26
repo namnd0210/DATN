@@ -159,4 +159,5 @@ export type AssignmentResultState = {
   loading: boolean;
   results: AssignmentResultProps[];
   total: number;
+  result: AssignmentResultProps | {};
 };

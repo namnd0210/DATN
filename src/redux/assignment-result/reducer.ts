@@ -46,6 +46,24 @@ export default function resultReducer(state: AssignmentResultState = initState, 
       return { ...state, loading: false };
     }
 
+    case types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID: {
+      return { ...state, loading: true };
+    }
+
+    case types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID_SUCCESS: {
+      const { result } = action.payload;
+
+      return {
+        ...state,
+        loading: false,
+        result,
+      };
+    }
+
+    case types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID_FAILED: {
+      return { ...state, loading: false };
+    }
+
     case types.CREATE_ASSIGNMENT_RESULT: {
       return { ...state, loading: true };
     }
