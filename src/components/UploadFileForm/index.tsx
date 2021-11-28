@@ -1,9 +1,12 @@
 import './style.scss';
 
+import { FileExcelTwoTone, FileWordTwoTone } from '@ant-design/icons';
+import { file } from '@babel/types';
 import { Button, Card } from 'antd';
 import HandledImage from 'components/HandledImage';
 import UploadFileButton from 'components/UploadFileButton';
 import storage, { getFirebaseImageUrl } from 'constants/firebase.config';
+import { handleFileType } from 'constants/handleFile';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
@@ -27,7 +30,7 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
     await files
       .map((file) => file.originFileObj)
       .map((file) => {
-        const fileName = uuidv4();
+        const fileName = handleFileType(file.type) + '_' + uuidv4();
         fileNames.push(fileName);
 
         const uploadTask = storage.ref(`/assignments/${assignmentId}/${userId}/${fileName}`).put(file);
@@ -51,7 +54,7 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
           created_by: userId,
         };
 
-        currentFiles.length === 0
+        files.length === 0
           ? dispatch(createAssignmentResult(payload))
           : dispatch(updateAssignmentResult({ ...payload, _id: id }));
 
@@ -74,16 +77,26 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
       <div className="assignment-submit-button">
         <div className="list-assignment-images">
           {currentFiles?.length > 0 &&
-            currentFiles.map((e: string) => (
-              <div key={e} style={{ margin: 1, width: 50, height: 50 }}>
-                <HandledImage src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId] })} />
-              </div>
-            ))}
+            currentFiles.map((e: string) => {
+              const [typeFile, urlId] = e.split('_');
+
+              return (
+                <div key={e} className="file-display-wrapper">
+                  {typeFile === 'image' && (
+                    <HandledImage src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId] })} />
+                  )}
+
+                  {typeFile === 'docx' && <FileWordTwoTone style={{ fontSize: 50 }} />}
+
+                  {typeFile === 'xlsx' && <FileExcelTwoTone style={{ fontSize: 50 }} twoToneColor="#52c41a" />}
+                </div>
+              );
+            })}
         </div>
 
         <UploadFileButton files={files} setFiles={setFiles} />
 
-        <Button onClick={handleSubmit} type="primary">
+        <Button onClick={handleSubmit} type="primary" disabled={file.length === 0}>
           Nộp
         </Button>
       </div>

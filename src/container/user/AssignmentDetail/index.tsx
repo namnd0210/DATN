@@ -34,7 +34,6 @@ const AssignmentDetail = () => {
     return () => clearInterval(interval);
   }, []);
 
-  console.log(currentAssignmentResult);
   useEffect(() => {
     dispatch(getAssignmentResultByAssignmentId(assignmentId));
   }, [assignmentId, dispatch]);
