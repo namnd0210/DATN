@@ -2,22 +2,26 @@ import './style.scss';
 
 import { FileExcelTwoTone, FileWordTwoTone } from '@ant-design/icons';
 import { file } from '@babel/types';
-import { Button, Card } from 'antd';
+import { Button, Card, Modal } from 'antd';
 import HandledImage from 'components/HandledImage';
 import UploadFileButton from 'components/UploadFileButton';
 import storage, { getFirebaseImageUrl } from 'constants/firebase.config';
 import { handleFileType } from 'constants/handleFile';
 import { useState } from 'react';
+// import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { createAssignmentResult, updateAssignmentResult } from 'redux/assignment-result/actions';
 import { useSelector } from 'redux/reducer';
 import { v4 as uuidv4 } from 'uuid';
 
+import DocViewer from './doc';
+
 const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string[] }) => {
   const dispatch = useDispatch();
   const [files, setFiles] = useState<any[]>([]);
   const { classId, assignmentId } = useParams<any>();
+  const [fileUrl, setFileUrl] = useState<{ type: string; url: string } | undefined>(undefined);
 
   const {
     user: { id: userId },
@@ -78,10 +82,14 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
         <div className="list-assignment-images">
           {currentFiles?.length > 0 &&
             currentFiles.map((e: string) => {
-              const [typeFile, urlId] = e.split('_');
+              const [typeFile, urlLink] = e.split('_');
 
               return (
-                <div key={e} className="file-display-wrapper">
+                <div
+                  key={e}
+                  className="file-display-wrapper"
+                  onClick={() => setFileUrl({ type: typeFile, url: urlLink })}
+                >
                   {typeFile === 'image' && (
                     <HandledImage src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId] })} />
                   )}
@@ -100,6 +108,32 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
           Nộp
         </Button>
       </div>
+
+      {!!fileUrl && (
+        <Modal title="Basic Modal" visible={!!fileUrl} onCancel={() => setFileUrl(undefined)} footer={null}>
+          <div>
+            <DocViewer
+              source={getFirebaseImageUrl({
+                id: fileUrl.url,
+                path: ['assignments', assignmentId, userId],
+              })}
+            />
+
+            {/* <DocViewer
+              pluginRenderers={DocViewerRenderers}
+              documents={[
+                {
+                  uri: getFirebaseImageUrl({
+                    id: fileUrl.url,
+                    path: ['assignments', assignmentId, userId],
+                  }),
+                  fileType: fileUrl.type,
+                },
+              ]}
+            /> */}
+          </div>
+        </Modal>
+      )}
     </Card>
   );
 };

@@ -1,6 +1,7 @@
 import { Home } from 'container/home/Home';
 import { Landing } from 'container/landing';
 import { Report } from 'container/report/Report';
+import StressFlow from 'container/StressTest';
 import AssignmentDetail from 'container/user/AssignmentDetail';
 import ClassDetail from 'container/user/ClassDetail';
 import MyClasses from 'container/user/MyClasses';
@@ -8,6 +9,13 @@ import { TakeExam } from 'container/user/TakeExam';
 import { RouteType } from 'types/routers';
 
 export const commonRoutes: Array<RouteType> = [
+  {
+    path: '/stress',
+    component: StressFlow,
+    role: [0, 1, 2],
+    exact: true,
+    isPublic: true,
+  },
   {
     path: '/',
     component: Landing,
