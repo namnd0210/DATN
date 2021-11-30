@@ -31,15 +31,19 @@ export const getAllAssignmentsByTeacherId = async (req, res) => {
     .catch((err) => res.status(400).json({ err }));
 };
 
-export const getAllAssignmentsById = async (req, res) => {
+export const getAssignmentById = async (req, res) => {
   let count = await Assignment.countDocuments();
   const id = req.params.id;
-  Assignment.find({ _id: id })
+  Assignment.findOne({ _id: id })
     .then((data) => {
-      res.status(200).json({
-        data,
-        total: count,
-      });
+      AssignmentResult.find({ assignment: data._id })
+        .then((arData) => {
+          res.status(200).json({
+            data: { ...data, assignmentResults: arData },
+            total: count,
+          });
+        })
+        .catch((err) => res.status(400).json({ err }));
     })
     .catch((err) => res.status(400).json({ err }));
 };

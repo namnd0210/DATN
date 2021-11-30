@@ -32,9 +32,9 @@ const AssignmentDetail = () => {
   useEffect(() => {
     if (assignmentId) {
       dispatch(getAssignmentById(assignmentId));
-      dispatch(getAssignmentResultByAssignmentId(assignmentId));
+      !isAdmin && !isTeacher && dispatch(getAssignmentResultByAssignmentId(assignmentId));
     }
-  }, [assignmentId, classId, dispatch]);
+  }, [assignmentId, classId, dispatch, isAdmin, isTeacher]);
 
   const loading = classLoading || assignmentLoading;
 
@@ -88,7 +88,7 @@ const AssignmentDetail = () => {
         </Col>
       )}
 
-      {currentAssignmentResult && !isEqual(currentAssignmentResult, {}) && (
+      {!isAdmin && !isTeacher && currentAssignmentResult && !isEqual(currentAssignmentResult, {}) && (
         <Col span={6}>
           <UploadFileForm id={currentAssignmentResult._id} currentFiles={currentAssignmentResult.files} />
         </Col>

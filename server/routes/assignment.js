@@ -4,15 +4,15 @@ import {
   createAssignment,
   deleteAssignment,
   getAllAssignments,
-  getAllAssignmentsById,
   getAllAssignmentsByTeacherId,
+  getAssignmentById,
   updateAssignment,
 } from '../controllers/assignment';
 
 const router = express.Router();
 
 router.get('/', getAllAssignments);
-router.get('/:id', getAllAssignmentsById);
+router.get('/:id', getAssignmentById);
 router.get('/user/:id', getAllAssignmentsByTeacherId);
 router.post('/', createAssignment);
 router.put('/update', updateAssignment);
