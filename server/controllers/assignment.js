@@ -34,16 +34,21 @@ export const getAllAssignmentsByTeacherId = async (req, res) => {
 export const getAssignmentById = async (req, res) => {
   let count = await Assignment.countDocuments();
   const id = req.params.id;
-  Assignment.findOne({ _id: id })
+  let assignmentResults = [];
+
+  await AssignmentResult.find({ assignment: id })
+    .then((arData) => (assignmentResults = arData))
+    .catch((err) => res.status(400).json({ err }));
+
+  await Assignment.findOne({ _id: id })
+    .lean()
     .then((data) => {
-      AssignmentResult.find({ assignment: data._id })
-        .then((arData) => {
-          res.status(200).json({
-            data: { ...data, assignmentResults: arData },
-            total: count,
-          });
-        })
-        .catch((err) => res.status(400).json({ err }));
+      const newData = { ...data, assignmentResults };
+
+      res.status(200).json({
+        data: newData,
+        total: count,
+      });
     })
     .catch((err) => res.status(400).json({ err }));
 };

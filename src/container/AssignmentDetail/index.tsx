@@ -23,6 +23,8 @@ const AssignmentDetail = () => {
   const { loading: assignmentLoading, assignment: currentAssignment } = useSelector((state) => state.assignment);
   const { result: currentAssignmentResult } = useSelector((state) => state.assignmentResult);
 
+  const isStudent = !isAdmin && !isTeacher;
+
   useEffect(() => {
     if (classId) {
       dispatch(getClassById(classId));
@@ -32,68 +34,72 @@ const AssignmentDetail = () => {
   useEffect(() => {
     if (assignmentId) {
       dispatch(getAssignmentById(assignmentId));
-      !isAdmin && !isTeacher && dispatch(getAssignmentResultByAssignmentId(assignmentId));
+      isStudent && dispatch(getAssignmentResultByAssignmentId(assignmentId));
     }
-  }, [assignmentId, classId, dispatch, isAdmin, isTeacher]);
+  }, [assignmentId, classId, dispatch, isAdmin, isStudent, isTeacher]);
 
   const loading = classLoading || assignmentLoading;
 
   return (
-    <Row>
-      {!isEqual(currentClass, {}) && !isEqual(currentAssignment, {}) && (
-        <Col span={18}>
-          <div className="home-recommendation">
-            <div className="slide-wrap">
-              {loading && (
-                <div style={{ padding: '1.5rem 0.5rem', background: '#fff' }}>
-                  <Skeleton avatar active />
-                </div>
-              )}
+    <>
+      <Row>
+        {!isEqual(currentClass, {}) && !isEqual(currentAssignment, {}) && (
+          <Col span={isStudent ? 18 : 24}>
+            <div className="home-recommendation">
+              <div className="slide-wrap">
+                {loading && (
+                  <div style={{ padding: '1.5rem 0.5rem', background: '#fff' }}>
+                    <Skeleton avatar active />
+                  </div>
+                )}
 
-              {!loading && (
-                <Card
-                  title={
-                    <BackButton
-                      link={isAdmin || isTeacher ? `/manage/class/${classId}` : `/my-class/${classId}`}
-                      title={currentClass.name}
-                    />
-                  }
-                  style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
-                >
-                  <Meta
-                    avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                {!loading && (
+                  <Card
                     title={
-                      <div className="assignment-title-wrapper-01">
-                        <div>
-                          <div className="assignment-title">{currentAssignment.title}</div>
+                      <BackButton
+                        link={!isStudent ? `/manage/class/${classId}` : `/my-class/${classId}`}
+                        title={currentClass.name}
+                      />
+                    }
+                    style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
+                  >
+                    <Meta
+                      avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+                      title={
+                        <div className="assignment-title-wrapper-01">
+                          <div>
+                            <div className="assignment-title">{currentAssignment.title}</div>
 
-                          <div className="info">
-                            {currentClass.teacher.name} • {moment(currentClass.updated_at).format('MMM DD yyyy')}
+                            <div className="info">
+                              {currentClass.teacher.name} • {moment(currentClass.updated_at).format('MMM DD yyyy')}
+                            </div>
+
+                            <div className="point">{currentAssignment.point ?? 'Chưa chấm'} điểm</div>
                           </div>
 
-                          <div className="point">{currentAssignment.point ?? 'Chưa chấm'} điểm</div>
+                          <div className="due-date">
+                            Hạn nộp: {moment(currentAssignment.due_date).format('MMM DD yyyy, HH:mm')}
+                          </div>
                         </div>
-
-                        <div className="due-date">
-                          Hạn nộp: {moment(currentAssignment.due_date).format('MMM DD yyyy, HH:mm')}
-                        </div>
-                      </div>
-                    }
-                    description={<div className="assignment-des">{currentAssignment.description}</div>}
-                  />
-                </Card>
-              )}
+                      }
+                      description={<div className="assignment-des">{currentAssignment.description}</div>}
+                    />
+                  </Card>
+                )}
+              </div>
             </div>
-          </div>
-        </Col>
-      )}
+          </Col>
+        )}
 
-      {!isAdmin && !isTeacher && currentAssignmentResult && !isEqual(currentAssignmentResult, {}) && (
-        <Col span={6}>
-          <UploadFileForm id={currentAssignmentResult._id} currentFiles={currentAssignmentResult.files} />
-        </Col>
-      )}
-    </Row>
+        {isStudent && currentAssignmentResult && !isEqual(currentAssignmentResult, {}) && (
+          <Col span={6}>
+            <UploadFileForm id={currentAssignmentResult._id} currentFiles={currentAssignmentResult.files} />
+          </Col>
+        )}
+      </Row>
+
+      {!isStudent && <div>List Assignment result</div>}
+    </>
   );
 };
 
