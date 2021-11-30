@@ -1,4 +1,5 @@
 import Assignment from '../models/Assignment';
+import AssignmentResult from './../models/AssignmentResult';
 
 export const getAllAssignments = async (req, res) => {
   let count = await Assignment.countDocuments();
@@ -14,9 +15,11 @@ export const getAllAssignments = async (req, res) => {
     .catch((err) => res.status(400).json({ err }));
 };
 
-export const getAllAssignmentsByUserId = async (req, res) => {
+export const getAllAssignmentsByTeacherId = async (req, res) => {
   let count = await Assignment.countDocuments();
   const id = req.params.id;
+  // check role before return
+
   Assignment.find({ created_by: id })
     .populate({ path: 'created_by', model: 'User' })
     .then((data) => {

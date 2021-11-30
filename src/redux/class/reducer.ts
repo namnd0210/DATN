@@ -3,6 +3,7 @@ import { Action, ClassState } from 'types/redux';
 
 const initState = {
   classes: [],
+  class: {},
   loading: false,
   currentClass: {},
   total: 0,
@@ -24,6 +25,23 @@ export default function classReducer(state: ClassState = initState, action: Acti
     }
 
     case types.GET_ALL_CLASSES_FAILED: {
+      return { ...state, loading: false };
+    }
+
+    case types.GET_CLASS_BY_ID: {
+      return { ...state, loading: true };
+    }
+
+    case types.GET_CLASS_BY_ID_SUCCESS: {
+      return {
+        ...state,
+        loading: false,
+        class: action.payload.data,
+        total: action.payload.total,
+      };
+    }
+
+    case types.GET_CLASS_BY_ID_FAILED: {
       return { ...state, loading: false };
     }
 

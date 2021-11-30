@@ -21,6 +21,16 @@ export const getAllClassesByIdsResult = (result: any, isSuccess = true): Action 
   payload: result,
 });
 
+export const getClassById = (data?: any): Action => ({
+  type: types.GET_CLASS_BY_ID,
+  payload: data,
+});
+
+export const getClassByIdResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.GET_CLASS_BY_ID_SUCCESS : types.GET_CLASS_BY_ID_FAILED,
+  payload: result,
+});
+
 export const createClass = (data: any): Action => ({
   type: types.CREATE_CLASS,
   payload: data,

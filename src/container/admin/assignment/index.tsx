@@ -1,8 +1,10 @@
+import './style.scss';
+
 import { DeleteOutlined, EditOutlined, PlayCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Popconfirm, Row, Table } from 'antd';
 import { PageHeaderLayout } from 'common/PageHeaderLayout';
 import moment from 'moment';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteAssignment, getAllAssignments } from 'redux/assignment/actions';
 import { useSelector } from 'redux/reducer';
@@ -22,13 +24,13 @@ const AssignmentManagement = () => {
       title: 'Tiêu đề',
       dataIndex: 'title',
       key: 'title',
-      render: (text: any, record: AssignmentProps) => <span>{record.title}</span>,
+      render: (text: any, record: AssignmentProps) => <span className="ellipsis">{record.title}</span>,
     },
     {
       title: 'Mô tả',
       dataIndex: 'description',
       key: 'description',
-      render: (text: any, record: AssignmentProps) => <span>{record.description}</span>,
+      render: (text: any, record: AssignmentProps) => <span className="ellipsis">{record.description}</span>,
     },
     {
       title: 'Hạn nộp',

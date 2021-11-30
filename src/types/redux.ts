@@ -124,6 +124,7 @@ export type QuestionState = {
 
 export type ClassState = {
   loading: boolean;
+  class: ClassProps | {};
   classes: ClassProps[];
   total: number;
   currentClass: any;

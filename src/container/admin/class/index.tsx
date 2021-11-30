@@ -27,6 +27,11 @@ const ClassManagement = () => {
       title: 'Tên lớp',
       dataIndex: 'name',
       key: 'name',
+      render: (text: any, record: ClassProps) => (
+        <span onClick={() => history.push(`/manage/class/${record._id}`)} style={{ cursor: 'pointer' }}>
+          {text}
+        </span>
+      ),
     },
     {
       title: 'Giáo viên',

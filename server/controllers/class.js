@@ -63,13 +63,14 @@ export const getClassById = async (req, res) => {
   const { id } = req.params;
   let count = await Class.countDocuments();
 
-  Class.find({ _id: id })
-    .populate({ path: 'teacher', model: 'User' })
+  Class.findOne({ _id: id })
+    .populate({ path: 'teacher', model: 'User', select: 'name' })
     .populate({ path: 'exam', model: 'Exam' })
-    .populate({ path: 'students', model: 'User' })
+    .populate({ path: 'students', model: 'User', select: 'name' })
+    .populate({ path: 'assignments', model: 'Assignment' })
     .limit(10)
     .skip((page ? page - 1 : 0) * 10)
-    .then((classRes) => res.status(200).json({ data: { ...classRes }, total: count }))
+    .then((classRes) => res.status(200).json({ data: classRes, total: count }))
     .catch((err) => {
       console.log(err);
       res.status(400).json(err);

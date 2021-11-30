@@ -10,6 +10,10 @@ export const getAllClassesByIdsApi = (ids: string[]): Promise<AxiosResponse> => 
   });
 };
 
+export const getClassByIdApi = (id: string): Promise<AxiosResponse> => {
+  return Axios.get(`/api/class/${id}`);
+};
+
 export const createClassApi = (data: any): Promise<AxiosResponse> => {
   return Axios.post('/api/class', data);
 };

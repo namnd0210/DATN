@@ -5,9 +5,17 @@ import {
   deleteClassResult,
   getAllClassesByIdsResult,
   getAllClassesResult,
+  getClassByIdResult,
   updateClassResult,
 } from './actions';
-import { createClassApi, deleteClassApi, getAllClassesApi, getAllClassesByIdsApi, updateClassApi } from './api';
+import {
+  createClassApi,
+  deleteClassApi,
+  getAllClassesApi,
+  getAllClassesByIdsApi,
+  getClassByIdApi,
+  updateClassApi,
+} from './api';
 import types from './type';
 
 function* getAllClassesSaga(): any {
@@ -33,6 +41,19 @@ function* getAllClassesByIdsSaga(props: any): any {
     console.log(error);
     const isSuccess = false;
     yield put(getAllClassesByIdsResult(error, isSuccess));
+  }
+}
+
+function* getAllClassByIdSaga(props: any): any {
+  try {
+    const res = yield call(getClassByIdApi, props.payload);
+    if (res.status === 200) {
+      yield put(getClassByIdResult(res.data));
+    }
+  } catch (error) {
+    console.log(error);
+    const isSuccess = false;
+    yield put(getClassByIdResult(error, isSuccess));
   }
 }
 
@@ -79,6 +100,7 @@ function* deleteClassSaga(props: any): any {
 export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_CLASSES, getAllClassesSaga)]);
   yield all([takeEvery(types.GET_ALL_CLASSES_BY_IDS, getAllClassesByIdsSaga)]);
+  yield all([takeEvery(types.GET_CLASS_BY_ID, getAllClassByIdSaga)]);
   yield all([takeEvery(types.CREATE_CLASS, createClassSaga)]);
   yield all([takeEvery(types.UPDATE_CLASS, updateClassSaga)]);
   yield all([takeEvery(types.DELETE_CLASS, deleteClassSaga)]);

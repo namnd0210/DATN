@@ -44,10 +44,6 @@ export const login = (req, res) => {
         model: 'Class',
         populate: [
           {
-            path: 'assignments',
-            model: 'Assignment',
-          },
-          {
             path: 'teacher',
             model: 'User',
           },
