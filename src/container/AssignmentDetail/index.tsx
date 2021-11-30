@@ -18,6 +18,7 @@ const AssignmentDetail = () => {
   const dispatch = useDispatch();
   const { classId, assignmentId } = useParams<any>();
 
+  const { isAdmin, isTeacher } = useSelector((state) => state.auth);
   const { loading: classLoading, class: currentClass } = useSelector((state) => state.class);
   const { loading: assignmentLoading, assignment: currentAssignment } = useSelector((state) => state.assignment);
   const { result: currentAssignmentResult } = useSelector((state) => state.assignmentResult);
@@ -51,7 +52,12 @@ const AssignmentDetail = () => {
 
               {!loading && (
                 <Card
-                  title={<BackButton link={`/my-class/${classId}`} title={currentClass.name} />}
+                  title={
+                    <BackButton
+                      link={isAdmin || isTeacher ? `/manage/class/${classId}` : `/my-class/${classId}`}
+                      title={currentClass.name}
+                    />
+                  }
                   style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
                 >
                   <Meta
@@ -82,7 +88,7 @@ const AssignmentDetail = () => {
         </Col>
       )}
 
-      {!isEqual(currentAssignmentResult, {}) && (
+      {currentAssignmentResult && !isEqual(currentAssignmentResult, {}) && (
         <Col span={6}>
           <UploadFileForm id={currentAssignmentResult._id} currentFiles={currentAssignmentResult.files} />
         </Col>
