@@ -41,7 +41,6 @@ export function getElements(xElements = 10, yElements = 10) {
     }
   }
 
-  console.log(count, initialElements.length);
   return initialElements;
 }
 

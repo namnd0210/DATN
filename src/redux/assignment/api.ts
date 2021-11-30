@@ -4,7 +4,7 @@ export const getAllAssignmentsApi = (): Promise<AxiosResponse> => {
   return Axios.get('/api/assignment');
 };
 
-export const getAllAssignmentByIdApi = (id: string): Promise<AxiosResponse> => {
+export const getAssignmentByIdApi = (id: string): Promise<AxiosResponse> => {
   return Axios.get(`/api/assignment/${id}`);
 };
 

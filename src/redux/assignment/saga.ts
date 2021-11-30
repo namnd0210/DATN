@@ -4,17 +4,17 @@ import { all, call, put, takeEvery } from 'redux-saga/effects';
 import {
   createAssignmentResult,
   deleteAssignmentResult,
-  getAllAssignmentByIdResult,
   getAllAssignmentByUserIdResult,
   getAllAssignmentsResult,
+  getAssignmentByIdResult,
   updateAssignmentResult,
 } from './actions';
 import {
   createAssignmentApi,
   deleteAssignmentApi,
-  getAllAssignmentByIdApi,
   getAllAssignmentByUserIdApi,
   getAllAssignmentsApi,
+  getAssignmentByIdApi,
   updateAssignmentApi,
 } from './api';
 import types from './type';
@@ -32,16 +32,16 @@ function* getAllAssignmentsSaga(): any {
   }
 }
 
-function* getAllAssignmentByIdSaga(props: any): any {
+function* getAssignmentByIdSaga(props: any): any {
   try {
-    const res = yield call(getAllAssignmentByIdApi, props.payload);
+    const res = yield call(getAssignmentByIdApi, props.payload);
     if (res.status === 200) {
-      yield put(getAllAssignmentByIdResult(res.data));
+      yield put(getAssignmentByIdResult(res.data));
     }
   } catch (error) {
     console.log(error);
     const isSuccess = false;
-    yield put(getAllAssignmentByIdResult(error, isSuccess));
+    yield put(getAssignmentByIdResult(error, isSuccess));
   }
 }
 
@@ -107,7 +107,7 @@ function* deleteAssignmentSaga(props: any): any {
 export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_ASSIGNMENTS, getAllAssignmentsSaga)]);
   yield all([takeEvery(types.GET_ALL_ASSIGNMENT_BY_USER_ID, getAllAssignmentByUserIdSaga)]);
-  yield all([takeEvery(types.GET_ALL_ASSIGNMENT_BY_ID, getAllAssignmentByIdSaga)]);
+  yield all([takeEvery(types.GET_ASSIGNMENT_BY_ID, getAssignmentByIdSaga)]);
   yield all([takeEvery(types.CREATE_ASSIGNMENT, createAssignmentSaga)]);
   yield all([takeEvery(types.UPDATE_ASSIGNMENT, updateAssignmentSaga)]);
   yield all([takeEvery(types.DELETE_ASSIGNMENT, deleteAssignmentSaga)]);

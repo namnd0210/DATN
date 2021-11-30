@@ -161,7 +161,6 @@ export const AddNewQuestion = ({ visible, setVisible, question }: any) => {
           <div className="modal-item__label">Đáp án</div>
           <div className="modal-item__main">
             {answerList.map((e, i) => {
-              console.log(questionInfo[e.name]);
               return (
                 <div className="modal-item__answer" key={i}>
                   <Input

@@ -3,6 +3,7 @@ import { Action, AssignmentState } from 'types/redux';
 import types from './type';
 
 const initState = {
+  assignment: {},
   assignments: [],
   loading: false,
   total: 0,
@@ -27,20 +28,20 @@ export default function assignmentReducer(state: AssignmentState = initState, ac
       return { ...state, loading: false };
     }
 
-    case types.GET_ALL_ASSIGNMENT_BY_ID: {
+    case types.GET_ASSIGNMENT_BY_ID: {
       return { ...state, loading: true };
     }
 
-    case types.GET_ALL_ASSIGNMENT_BY_ID_SUCCESS: {
+    case types.GET_ASSIGNMENT_BY_ID_SUCCESS: {
       return {
         ...state,
         loading: false,
-        assignments: action.payload.data,
+        assignment: action.payload.data,
         total: action.payload.total,
       };
     }
 
-    case types.GET_ALL_ASSIGNMENT_BY_ID_FAILED: {
+    case types.GET_ASSIGNMENT_BY_ID_FAILED: {
       return { ...state, loading: false };
     }
 

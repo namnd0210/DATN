@@ -154,6 +154,7 @@ export type AssignmentState = {
   loading: boolean;
   assignments: AssignmentProps[];
   total: number;
+  assignment: AssignmentProps | {};
 };
 
 export type AssignmentResultState = {

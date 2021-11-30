@@ -1,9 +1,9 @@
+import AssignmentDetail from 'container/AssignmentDetail';
 import ClassDetail from 'container/ClassDetail';
 import { Home } from 'container/home/Home';
 import { Landing } from 'container/landing';
 import { Report } from 'container/report/Report';
 import StressFlow from 'container/StressTest';
-import AssignmentDetail from 'container/user/AssignmentDetail';
 import MyClasses from 'container/user/MyClasses';
 import { TakeExam } from 'container/user/TakeExam';
 import { RouteType } from 'types/routers';
