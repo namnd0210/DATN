@@ -1,6 +1,16 @@
 import default_img from 'assets/imgs/default-image.jpg';
 
-const HandledImage = ({ src, defaultSrc = default_img }: { src: string; defaultSrc?: string }) => {
+const HandledImage = ({
+  src,
+  defaultSrc = default_img,
+  width,
+  height,
+}: {
+  src: string;
+  defaultSrc?: string;
+  width?: number;
+  height?: number;
+}) => {
   return (
     <img
       src={src}
@@ -9,6 +19,8 @@ const HandledImage = ({ src, defaultSrc = default_img }: { src: string; defaultS
         e.target.src = defaultSrc;
       }}
       alt="avatar"
+      width={width}
+      height={height}
     />
   );
 };

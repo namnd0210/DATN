@@ -8,7 +8,6 @@ import UploadFileButton from 'components/UploadFileButton';
 import storage, { getFirebaseImageUrl } from 'constants/firebase.config';
 import { handleFileType } from 'constants/handleFile';
 import { useState } from 'react';
-// import DocViewer, { DocViewerRenderers } from 'react-doc-viewer';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { createAssignmentResult, updateAssignmentResult } from 'redux/assignment-result/actions';
@@ -110,27 +109,25 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
       </div>
 
       {!!fileUrl && (
-        <Modal title="Basic Modal" visible={!!fileUrl} onCancel={() => setFileUrl(undefined)} footer={null}>
-          <div>
-            <DocViewer
-              source={getFirebaseImageUrl({
-                id: fileUrl.url,
-                path: ['assignments', assignmentId, userId],
-              })}
-            />
+        <Modal title="Basic Modal" visible={!!fileUrl} onCancel={() => setFileUrl(undefined)} footer={null} width="90%">
+          <div style={{ margin: '0 auto' }}>
+            {fileUrl.type !== 'image' && (
+              <DocViewer
+                source={getFirebaseImageUrl({
+                  id: `${fileUrl.type}_${fileUrl.url}`,
+                  path: ['assignments', assignmentId, userId],
+                })}
+              />
+            )}
 
-            {/* <DocViewer
-              pluginRenderers={DocViewerRenderers}
-              documents={[
-                {
-                  uri: getFirebaseImageUrl({
-                    id: fileUrl.url,
-                    path: ['assignments', assignmentId, userId],
-                  }),
-                  fileType: fileUrl.type,
-                },
-              ]}
-            /> */}
+            {fileUrl.type === 'image' && (
+              <HandledImage
+                src={getFirebaseImageUrl({
+                  id: `${fileUrl.type}_${fileUrl.url}`,
+                  path: ['assignments', assignmentId, userId],
+                })}
+              />
+            )}
           </div>
         </Modal>
       )}

@@ -6,14 +6,13 @@ const DocIframe = ({ source }: any) => {
   }
 
   const encodedUrl = encodeURIComponent(source);
-  console.log(source);
   return (
     <div>
       <iframe
         src={'https://docs.google.com/viewer?url=' + encodedUrl + '&embedded=true'}
         title="file"
         width="100%"
-        height="600"
+        height="400px"
       ></iframe>
     </div>
   );
