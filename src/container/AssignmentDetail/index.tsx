@@ -14,6 +14,8 @@ import { getAssignmentResultByAssignmentId } from 'redux/assignment-result/actio
 import { getClassById } from 'redux/class/actions';
 import { useSelector } from 'redux/reducer';
 
+import AssignmentResultList from './../../components/AssignmentResultList/index';
+
 const AssignmentDetail = () => {
   const dispatch = useDispatch();
   const { classId, assignmentId } = useParams<any>();
@@ -21,7 +23,9 @@ const AssignmentDetail = () => {
   const { isAdmin, isTeacher } = useSelector((state) => state.auth);
   const { loading: classLoading, class: currentClass } = useSelector((state) => state.class);
   const { loading: assignmentLoading, assignment: currentAssignment } = useSelector((state) => state.assignment);
-  const { result: currentAssignmentResult } = useSelector((state) => state.assignmentResult);
+  const { loading: assignmentResultLoading, result: currentAssignmentResult } = useSelector(
+    (state) => state.assignmentResult,
+  );
 
   const isStudent = !isAdmin && !isTeacher;
 
@@ -58,7 +62,7 @@ const AssignmentDetail = () => {
                     title={
                       <BackButton
                         link={!isStudent ? `/manage/class/${classId}` : `/my-class/${classId}`}
-                        title={currentClass.name}
+                        title={`Tên lớp: ${currentClass.name}`}
                       />
                     }
                     style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
@@ -78,7 +82,10 @@ const AssignmentDetail = () => {
                           </div>
 
                           <div className="due-date">
-                            Hạn nộp: {moment(currentAssignment.due_date).format('MMM DD yyyy, HH:mm')}
+                            <div>
+                              {currentAssignment.assignmentResults.length}/{currentClass.students.length}
+                            </div>
+                            <div>Hạn nộp: {moment(currentAssignment.due_date).format('MMM DD yyyy, HH:mm')}</div>{' '}
                           </div>
                         </div>
                       }
@@ -98,7 +105,11 @@ const AssignmentDetail = () => {
         )}
       </Row>
 
-      {!isStudent && <div>List Assignment result</div>}
+      {!isStudent && (
+        <div>
+          <AssignmentResultList list={currentAssignment.assignmentResults} loading={assignmentLoading} />
+        </div>
+      )}
     </>
   );
 };

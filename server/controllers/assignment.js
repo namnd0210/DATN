@@ -5,7 +5,7 @@ export const getAllAssignments = async (req, res) => {
   let count = await Assignment.countDocuments();
   const { page } = req.query;
   Assignment.find({})
-    .populate({ path: 'created_by', model: 'User' })
+    .populate({ path: 'created_by', model: 'User', select: 'name' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -21,7 +21,7 @@ export const getAllAssignmentsByTeacherId = async (req, res) => {
   // check role before return
 
   Assignment.find({ created_by: id })
-    .populate({ path: 'created_by', model: 'User' })
+    .populate({ path: 'created_by', model: 'User', select: 'name' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -37,6 +37,7 @@ export const getAssignmentById = async (req, res) => {
   let assignmentResults = [];
 
   await AssignmentResult.find({ assignment: id })
+    .populate({ path: 'created_by', model: 'User', select: 'name' })
     .then((arData) => (assignmentResults = arData))
     .catch((err) => res.status(400).json({ err }));
 
@@ -47,7 +48,6 @@ export const getAssignmentById = async (req, res) => {
 
       res.status(200).json({
         data: newData,
-        total: count,
       });
     })
     .catch((err) => res.status(400).json({ err }));
@@ -60,7 +60,7 @@ export const createAssignment = (req, res) => {
     .then((assignment) => {
       Assignment.findOne({ _id: assignment._id })
         .populate({ path: 'comments', model: 'Comment' })
-        .populate({ path: 'created_by', model: 'User' })
+        .populate({ path: 'created_by', model: 'User', select: 'name' })
         .then((c) => {
           res.status(200).json({ data: c });
         });

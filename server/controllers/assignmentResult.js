@@ -4,6 +4,7 @@ export const getResultByUserId = async (req, res) => {
   let count = await AssignmentResult.countDocuments();
   const id = req.params.id;
   AssignmentResult.find({ created_by: id })
+    .populate({ path: 'created_by', model: 'User', select: 'name' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -16,6 +17,7 @@ export const getResultByUserId = async (req, res) => {
 export const getResultByAssignmentId = async (req, res) => {
   const id = req.params.id;
   AssignmentResult.findOne({ assignment: id })
+    .populate({ path: 'created_by', model: 'User', select: 'name' })
     .then((data) => {
       res.status(200).json({
         data,
