@@ -1,3 +1,4 @@
+import AssignmentResultDetail from 'components/AssignmentResultDetail';
 import AssignmentManagement from 'container/admin/assignment';
 import CategoryManagement from 'container/admin/category';
 import ClassManagement from 'container/admin/class/index';
@@ -62,7 +63,14 @@ export const adminRoutes: Array<RouteType> = [
   {
     path: '/manage/class/:classId/assignment/:assignmentId',
     component: AssignmentDetail,
-    role: [2],
+    role: [0, 1],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/manage/class/:classId/assignment/:assignmentId/assignment-result/:assignmentResultId',
+    component: AssignmentResultDetail,
+    role: [0, 1, 2],
     exact: true,
     isPublic: false,
   },

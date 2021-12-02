@@ -26,6 +26,18 @@ export const getResultByAssignmentId = async (req, res) => {
     .catch((err) => res.status(400).json({ err }));
 };
 
+export const getResultById = async (req, res) => {
+  const id = req.params.id;
+  AssignmentResult.findOne({ _id: id })
+    .populate({ path: 'created_by', model: 'User', select: 'name' })
+    .then((data) => {
+      res.status(200).json({
+        data,
+      });
+    })
+    .catch((err) => res.status(400).json({ err }));
+};
+
 export const updateResult = async (req, res) => {
   const id = req.body._id;
   AssignmentResult.findByIdAndUpdate(id, { files: req.body.files }, { new: true, useFindAndModify: true })
