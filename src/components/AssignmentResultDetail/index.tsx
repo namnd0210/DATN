@@ -17,6 +17,7 @@ const AssignmentResultDetail = () => {
     }
   }, [assignmentResultId, dispatch]);
 
+  // tạo giao diện comment và chấm điểm
   return <div>AssignmentResultDetail {assignmentResultId}</div>;
 };
 

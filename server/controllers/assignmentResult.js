@@ -40,7 +40,11 @@ export const getResultById = async (req, res) => {
 
 export const updateResult = async (req, res) => {
   const id = req.body._id;
-  AssignmentResult.findByIdAndUpdate(id, { files: req.body.files }, { new: true, useFindAndModify: true })
+  AssignmentResult.findByIdAndUpdate(
+    id,
+    { files: req.body.files, point: req.body.files, comments: req.body.comments },
+    { new: true, useFindAndModify: true },
+  )
     .then((data) => {
       res.status(200).json({
         data,
