@@ -34,6 +34,16 @@ export const getAssignmentResultByAssignmentIdResult = (result: any, isSuccess =
   payload: result,
 });
 
+export const getAssignmentResultById = (data: any): Action => ({
+  type: types.GET_ASSIGNMENT_RESULT_BY_ID,
+  payload: data,
+});
+
+export const getAssignmentResultByIdResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.GET_ASSIGNMENT_RESULT_BY_ID_SUCCESS : types.GET_ASSIGNMENT_RESULT_BY_ID_FAILED,
+  payload: result,
+});
+
 export const createAssignmentResult = (data: any): Action => ({
   type: types.CREATE_ASSIGNMENT_RESULT,
   payload: data,

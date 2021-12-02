@@ -12,6 +12,10 @@ export const getAssignmentResultByAssignmentIdApi = (id: string): Promise<AxiosR
   return Axios.get(`/api/assignment-result/assignment/${id}`);
 };
 
+export const getAssignmentResultByIdApi = (id: string): Promise<AxiosResponse> => {
+  return Axios.get(`/api/assignment-result/${id}`);
+};
+
 export const createAssignmentResultApi = (data: any): Promise<AxiosResponse> => {
   return Axios.post('/api/assignment-result', data);
 };
