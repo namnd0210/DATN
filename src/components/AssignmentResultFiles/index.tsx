@@ -8,7 +8,7 @@ import { useSelector } from 'redux/reducer';
 
 import DocIframe from '../DocIframe';
 
-const AssignmentResultFiles = ({ currentFiles }: { currentFiles: string[] }) => {
+const AssignmentResultFiles = ({ currentFiles }: { currentFiles?: string[] }) => {
   const { assignmentId } = useParams<any>();
 
   const {
@@ -19,8 +19,8 @@ const AssignmentResultFiles = ({ currentFiles }: { currentFiles: string[] }) => 
 
   return (
     <div className="list-assignment-images">
-      {currentFiles?.length > 0 &&
-        currentFiles.map((e: string) => {
+      {currentFiles &&
+        currentFiles?.map((e: string) => {
           const [typeFile, urlLink] = e.split('_');
 
           return (

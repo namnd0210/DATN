@@ -23,7 +23,6 @@ const AssignmentDetail = () => {
   const { isAdmin, isTeacher } = useSelector((state) => state.auth);
   const { loading: classLoading, class: currentClass } = useSelector((state) => state.class);
   const { loading: assignmentLoading, assignment: currentAssignment } = useSelector((state) => state.assignment);
-  const { result: currentAssignmentResult } = useSelector((state) => state.assignmentResult);
 
   const isStudent = !isAdmin && !isTeacher;
 
@@ -96,9 +95,9 @@ const AssignmentDetail = () => {
           </Col>
         )}
 
-        {isStudent && currentAssignmentResult && !isEqual(currentAssignmentResult, {}) && (
+        {isStudent && (
           <Col span={6}>
-            <UploadFileForm id={currentAssignmentResult._id} currentFiles={currentAssignmentResult.files} />
+            <UploadFileForm />
           </Col>
         )}
       </Row>
