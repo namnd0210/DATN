@@ -3,6 +3,7 @@ import './style.scss';
 import { FileExcelTwoTone, FileWordTwoTone } from '@ant-design/icons';
 import { file } from '@babel/types';
 import { Button, Card, Modal } from 'antd';
+import AssignmentResultFiles from 'components/AssignmentResultFiles';
 import HandledImage from 'components/HandledImage';
 import UploadFileButton from 'components/UploadFileButton';
 import storage, { getFirebaseImageUrl } from 'constants/firebase.config';
@@ -14,13 +15,10 @@ import { createAssignmentResult, updateAssignmentResult } from 'redux/assignment
 import { useSelector } from 'redux/reducer';
 import { v4 as uuidv4 } from 'uuid';
 
-import DocViewer from './doc';
-
 const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string[] }) => {
   const dispatch = useDispatch();
   const [files, setFiles] = useState<any[]>([]);
   const { classId, assignmentId } = useParams<any>();
-  const [fileUrl, setFileUrl] = useState<{ type: string; url: string } | undefined>(undefined);
 
   const {
     user: { id: userId },
@@ -78,28 +76,7 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
       style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
     >
       <div className="assignment-submit-button">
-        <div className="list-assignment-images">
-          {currentFiles?.length > 0 &&
-            currentFiles.map((e: string) => {
-              const [typeFile, urlLink] = e.split('_');
-
-              return (
-                <div
-                  key={e}
-                  className="file-display-wrapper"
-                  onClick={() => setFileUrl({ type: typeFile, url: urlLink })}
-                >
-                  {typeFile === 'image' && (
-                    <HandledImage src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId] })} />
-                  )}
-
-                  {typeFile === 'docx' && <FileWordTwoTone style={{ fontSize: 50 }} />}
-
-                  {typeFile === 'xlsx' && <FileExcelTwoTone style={{ fontSize: 50 }} twoToneColor="#52c41a" />}
-                </div>
-              );
-            })}
-        </div>
+        <AssignmentResultFiles currentFiles={currentFiles} />
 
         <UploadFileButton files={files} setFiles={setFiles} />
 
@@ -107,30 +84,6 @@ const UploadFileForm = ({ id, currentFiles }: { id: string; currentFiles: string
           Nộp
         </Button>
       </div>
-
-      {!!fileUrl && (
-        <Modal title="Basic Modal" visible={!!fileUrl} onCancel={() => setFileUrl(undefined)} footer={null} width="90%">
-          <div style={{ margin: '0 auto' }}>
-            {fileUrl.type !== 'image' && (
-              <DocViewer
-                source={getFirebaseImageUrl({
-                  id: `${fileUrl.type}_${fileUrl.url}`,
-                  path: ['assignments', assignmentId, userId],
-                })}
-              />
-            )}
-
-            {fileUrl.type === 'image' && (
-              <HandledImage
-                src={getFirebaseImageUrl({
-                  id: `${fileUrl.type}_${fileUrl.url}`,
-                  path: ['assignments', assignmentId, userId],
-                })}
-              />
-            )}
-          </div>
-        </Modal>
-      )}
     </Card>
   );
 };

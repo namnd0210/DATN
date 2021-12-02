@@ -1,5 +1,3 @@
-import React from 'react';
-
 const DocIframe = ({ source }: any) => {
   if (!source) {
     return <div>Loading...</div>;
