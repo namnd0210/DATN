@@ -28,7 +28,7 @@ const AssignmentResultList = ({ list, loading }: { list: AssignmentResultProps[]
                   title={e.created_by.name}
                   description={
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
-                      <div className="pre-assignment-des">{e.assignment.description}</div>
+                      <div className="pre-assignment-des">{e.point ?? 'Chưa chấm'} điểm</div>
 
                       <Button type="primary">
                         <Link to={`${url}/assignment-result/${e._id}`}>Chi tiết</Link>
