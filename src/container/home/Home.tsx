@@ -94,31 +94,36 @@ export const Home = () => {
             </div>
           ) : (
             <Slider {...settings} slidesToShow={exams?.length >= 4 ? 4 : exams.length}>
-              {exams.map((e, i) => (
-                <div key={i} className="slide-item">
-                  <img src={course_imgs[Math.floor(Math.random() * (3 - 0 + 1)) + 0]} alt="" />
-                  <div className="info-course">
-                    <div className="title">
-                      <p>{e?.title}</p>
-                      <img src={heart} alt="" />
-                    </div>
-                    <div className="des">{e?.description || ''}</div>
-                    <div className="route">
-                      <div className="react">
-                        <img src={heart} alt="" />
-                        <span>325</span>
-                        <img src={users} alt="" />
-                        <span>10</span>
+              {exams.length > 0 &&
+                exams.map((e, i) => (
+                  <>
+                    {e && (
+                      <div key={i} className="slide-item">
+                        <img src={course_imgs[Math.floor(Math.random() * (3 - 0 + 1)) + 0]} alt="" />
+                        <div className="info-course">
+                          <div className="title">
+                            <p>{e?.title}</p>
+                            <img src={heart} alt="" />
+                          </div>
+                          <div className="des">{e?.description || ''}</div>
+                          <div className="route">
+                            <div className="react">
+                              <img src={heart} alt="" />
+                              <span>325</span>
+                              <img src={users} alt="" />
+                              <span>10</span>
+                            </div>
+                            <div className="link">
+                              <Button type="primary">
+                                <Link to={`exam/take/${e?._id}`}>Tham gia</Link>
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div className="link">
-                        <Button type="primary">
-                          <Link to={`exam/take/${e?._id}`}>Tham gia</Link>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                    )}
+                  </>
+                ))}
             </Slider>
           )}
         </div>

@@ -7,7 +7,6 @@ import User from '../models/User';
 const router = express.Router();
 
 export const getClasses = async (req, res) => {
-  console.log('all');
   const { page, id } = req.query;
   let query = {};
   if (id) {

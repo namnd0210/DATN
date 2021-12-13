@@ -44,7 +44,7 @@ app.use('/api/comment', commentRouter);
 
 // connect db
 mongoose
-  .connect(process.env.MONGOURL, {
+  .connect(process.env.MONGOURL1, {
     useUnifiedTopology: true,
   })
   .then(() => console.log('Mongodb connected !!!'))

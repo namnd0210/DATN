@@ -77,7 +77,7 @@ const ClassFormModal = ({ onClose, selectedClass }: any) => {
             },
             {
               name: ['exam'],
-              value: currentClass?.exam._id,
+              value: currentClass?.exam?._id,
             },
           ]}
         >
