@@ -23,12 +23,12 @@ const MyClass = () => {
   const dispatch = useDispatch();
 
   const {
-    user: { classes, id: userUid },
+    user: { classes, id: userUid, role },
   } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(getAllClassesByUserId(userUid));
-  }, [dispatch, userUid]);
+    dispatch(getAllClassesByUserId({ userUid, role }));
+  }, [dispatch, userUid, role]);
 
   return (
     <Row className="card-list" gutter={[0, 5]}>

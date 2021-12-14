@@ -59,17 +59,64 @@ export const getClassesByIds = async (req, res) => {
 
 export const getClassesByUserId = async (req, res) => {
   const id = req.params.id;
+  const role = req.query.role;
 
-  await Class.find(
-    {},
-    {
-      students: {
-        $elemMatch: {
-          id,
+  if (role === 2) {
+    await Class.find(
+      {},
+      {
+        students: {
+          $elemMatch: {
+            id,
+          },
         },
       },
-    },
-  )
+    )
+      .populate({ path: 'teacher', model: 'User', select: 'name' })
+      .populate({
+        path: 'exam',
+        model: 'Exam',
+        populate: {
+          path: 'questions',
+          model: 'Question',
+        },
+      })
+      .populate({ path: 'students', model: 'User', select: 'name' })
+      .populate({ path: 'assignments', model: 'Assignment' })
+      .then((classData) => {
+        res.status(200).json({ data: classData });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json({ err });
+      });
+    return;
+  }
+
+  if (role === 1) {
+    await Class.find({ teacher: id })
+      .populate({ path: 'teacher', model: 'User', select: 'name' })
+      .populate({
+        path: 'exam',
+        model: 'Exam',
+        populate: {
+          path: 'questions',
+          model: 'Question',
+        },
+      })
+      .populate({ path: 'students', model: 'User', select: 'name' })
+      .populate({ path: 'assignments', model: 'Assignment' })
+      .then((classData) => {
+        res.status(200).json({ data: classData });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(400).json({ err });
+      });
+    return;
+  }
+
+  await Class.find({})
     .populate({ path: 'teacher', model: 'User', select: 'name' })
     .populate({
       path: 'exam',
