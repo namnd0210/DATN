@@ -10,5 +10,5 @@ export const registerApi = (data: LoginProps): Promise<AxiosResponse> => {
 };
 
 export const getAllClassesByUserIdApi = (id: string): Promise<AxiosResponse> => {
-  return Axios.get(`/api/classes/${id}`);
+  return Axios.get(`/api/class/user/${id}`);
 };

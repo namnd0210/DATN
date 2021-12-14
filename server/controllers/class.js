@@ -58,9 +58,18 @@ export const getClassesByIds = async (req, res) => {
 };
 
 export const getClassesByUserId = async (req, res) => {
-  const classes = req.query.classes;
+  const id = req.params.id;
 
-  await Class.find({ _id: { $in: classes } })
+  await Class.find(
+    {},
+    {
+      students: {
+        $elemMatch: {
+          id,
+        },
+      },
+    },
+  )
     .populate({ path: 'teacher', model: 'User', select: 'name' })
     .populate({
       path: 'exam',

@@ -65,13 +65,13 @@ export default function authReducer(state: AuthState = initState, action: Action
     }
 
     case types.GET_ALL_CLASSES_BY_USER_ID_SUCCESS: {
-      const data = action.payload;
+      const { data } = action.payload;
 
       return {
         ...state,
         user: {
           ...state.user,
-          classes: data,
+          classes: data.data,
         },
         loading: false,
       };
