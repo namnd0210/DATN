@@ -8,7 +8,6 @@ function* getAllQuestionsSaga(): any {
   try {
     const res = yield call(getAllQuestionsApi);
     if (res.status === 200) {
-      console.log('call ', res);
       yield put(getAllQuestionsResult(res.data));
     }
   } catch (error) {
