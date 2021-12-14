@@ -5,6 +5,8 @@ export const getResultByUserId = async (req, res) => {
   const id = req.params.id;
   AssignmentResult.find({ created_by: id })
     .populate({ path: 'created_by', model: 'User', select: 'name' })
+    .populate({ path: 'assignment', model: 'Assignment' })
+    .populate({ path: 'class', model: 'Class' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -18,6 +20,8 @@ export const getResultByAssignmentId = async (req, res) => {
   const id = req.params.id;
   AssignmentResult.findOne({ assignment: id })
     .populate({ path: 'created_by', model: 'User', select: 'name' })
+    .populate({ path: 'assignment', model: 'Assignment' })
+    .populate({ path: 'class', model: 'Class' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -30,6 +34,8 @@ export const getResultById = async (req, res) => {
   const id = req.params.id;
   AssignmentResult.findOne({ _id: id })
     .populate({ path: 'created_by', model: 'User', select: 'name' })
+    .populate({ path: 'assignment', model: 'Assignment' })
+    .populate({ path: 'class', model: 'Class' })
     .then((data) => {
       res.status(200).json({
         data,

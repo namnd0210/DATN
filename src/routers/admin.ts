@@ -68,7 +68,7 @@ export const adminRoutes: Array<RouteType> = [
     isPublic: false,
   },
   {
-    path: '/manage/class/:classId/assignment/:assignmentId/assignment-result/:assignmentResultId',
+    path: '/my-class/:classId/assignment/:assignmentId/assignment-result/:assignmentResultId',
     component: AssignmentResultDetail,
     role: [0, 1, 2],
     exact: true,
