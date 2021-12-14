@@ -18,7 +18,7 @@ const course_imgs = [course_1, course_2, course_3, course_4];
 
 const MyClass = () => {
   const {
-    user: { classes },
+    user: { classes, id: userUid },
   } = useSelector((state) => state.auth);
 
   return (

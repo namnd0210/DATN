@@ -9,6 +9,6 @@ export const registerApi = (data: LoginProps): Promise<AxiosResponse> => {
   return Axios.post('/api/user/register', data);
 };
 
-// export const logoutApi = (data: LoginProps): Promise<AxiosResponse> => {
-//   return Axios.post('/api/user/logout', data);
-// };
+export const getAllClassesByUserIdApi = (id: string): Promise<AxiosResponse> => {
+  return Axios.get(`/api/classes/${id}`);
+};

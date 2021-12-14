@@ -13,6 +13,7 @@ const initState = {
   isAdmin: false,
   isTeacher: false,
   error: '',
+  loading: false,
 };
 
 export default function authReducer(state: AuthState = initState, action: Action) {
@@ -57,6 +58,27 @@ export default function authReducer(state: AuthState = initState, action: Action
 
     case types.REGISTER_FAILED: {
       return { ...state, registerLoading: false };
+    }
+
+    case types.GET_ALL_CLASSES_BY_USER_ID: {
+      return { ...state, loading: true };
+    }
+
+    case types.GET_ALL_CLASSES_BY_USER_ID_SUCCESS: {
+      const data = action.payload;
+
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          classes: data,
+        },
+        loading: false,
+      };
+    }
+
+    case types.GET_ALL_CLASSES_BY_USER_ID_FAILED: {
+      return { ...state, loading: false };
     }
 
     case types.LOGOUT: {

@@ -29,6 +29,16 @@ export const registerResult = (result: any, isSuccess = true): Action => ({
   payload: result,
 });
 
+export const getAllClassesByUserId = (payload: any): Action => ({
+  type: types.GET_ALL_CLASSES_BY_USER_ID,
+  payload,
+});
+
+export const getAllClassesByUserIdResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.GET_ALL_CLASSES_BY_USER_ID_SUCCESS : types.GET_ALL_CLASSES_BY_USER_ID_FAILED,
+  payload: result,
+});
+
 export const logout = () => {
   localStorage.removeItem('token');
   setAuthToken(false);

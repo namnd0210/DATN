@@ -2,8 +2,8 @@ import sign from 'jwt-encode';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import setAuthToken from 'utils/setTokenAuth';
 
-import { loginResult, registerResult, setCurrentUser } from './actions';
-import { loginApi, registerApi } from './api';
+import { getAllClassesByUserIdResult, loginResult, registerResult, setCurrentUser } from './actions';
+import { getAllClassesByUserIdApi, loginApi, registerApi } from './api';
 import types from './type';
 
 function* loginSaga(props: any): any {
@@ -47,27 +47,39 @@ function* registerSaga(props: any): any {
   }
 }
 
-function* logoutSaga(props: any): any {
-  const { data } = props.payload;
-
+function* getAllClassesByUserIdSaga(props: any): any {
   try {
-    const res = yield call(registerApi, data);
-    if (res.data?.success) {
-      localStorage.removeItem('token');
-      setAuthToken(false);
-      // yield put(loginActionResult(res));
-    } else {
-      const isSuccess = false;
-      // yield put(loginActionResult(res, isSuccess));
+    const res = yield call(getAllClassesByUserIdApi, props.payload);
+    if (res.data) {
+      yield put(getAllClassesByUserIdResult(res));
     }
   } catch (error) {
     const isSuccess = false;
-    // yield put(loginActionResult(error, isSuccess));
+    yield put(getAllClassesByUserIdResult(error, isSuccess));
   }
 }
+
+// function* logoutSaga(props: any): any {
+//   const { data } = props.payload;
+
+//   try {
+//     const res = yield call(registerApi, data);
+//     if (res.data?.success) {
+//       localStorage.removeItem('token');
+//       setAuthToken(false);
+//       // yield put(loginActionResult(res));
+//     } else {
+//       const isSuccess = false;
+//       // yield put(loginActionResult(res, isSuccess));
+//     }
+//   } catch (error) {
+//     const isSuccess = false;
+//     // yield put(loginActionResult(error, isSuccess));
+//   }
+// }
 
 export default function* rootSaga() {
   yield all([takeEvery(types.LOGIN, loginSaga)]);
   yield all([takeEvery(types.REGISTER, registerSaga)]);
-  // yield all([takeEvery(types.LOGOUT, logoutSaga)]);
+  yield all([takeEvery(types.GET_ALL_CLASSES_BY_USER_ID, getAllClassesByUserIdSaga)]);
 }
