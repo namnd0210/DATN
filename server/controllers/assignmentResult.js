@@ -48,7 +48,7 @@ export const updateResult = async (req, res) => {
   const id = req.body._id;
   AssignmentResult.findByIdAndUpdate(
     id,
-    { files: req.body.files, point: req.body.files, comments: req.body.comments },
+    { files: req.body.files, point: req.body.point, comments: req.body.comments },
     { new: true, useFindAndModify: true },
   )
     .then((data) => {

@@ -32,6 +32,8 @@ const AssignmentDetail = () => {
     }
   }, [classId, dispatch]);
 
+  console.log(currentAssignment);
+
   useEffect(() => {
     if (assignmentId) {
       dispatch(getAssignmentById(assignmentId));
