@@ -38,7 +38,7 @@ export const getResultByAssignmentAndUserId = async (req, res) => {
     .populate({ path: 'class', model: 'Class' })
     .then((data) => {
       res.status(200).json({
-        data,
+        data: data ?? {},
       });
     })
     .catch((err) => res.status(400).json({ err }));

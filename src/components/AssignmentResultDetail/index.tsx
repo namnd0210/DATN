@@ -10,14 +10,7 @@ const AssignmentResultDetail = () => {
   const dispatch = useDispatch();
   const { assignmentId, assignmentResultId } = useParams<any>();
   const {
-    result: {
-      assignment,
-      class: classData,
-      files,
-      created_by,
-      comments,
-      created_by: { _id: studentId },
-    },
+    result: { assignment, class: classData, files, created_by, comments },
     result,
   } = useSelector((state) => state.assignmentResult);
 
@@ -50,7 +43,7 @@ const AssignmentResultDetail = () => {
         <div>Đề bài tập: {assignment?.title}</div>
         <div>Nộp bởi: {created_by?.name}</div>
 
-        <AssignmentResultFiles currentFiles={files} userId={studentId} />
+        <AssignmentResultFiles currentFiles={files} userId={created_by?._id} />
 
         {comments?.length > 0 && (
           <>

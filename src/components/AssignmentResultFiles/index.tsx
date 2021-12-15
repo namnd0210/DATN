@@ -27,7 +27,7 @@ const AssignmentResultFiles = ({ currentFiles, userId }: { currentFiles?: string
             <div key={e} className="file-display-wrapper" onClick={() => setFileUrl({ type: typeFile, url: urlLink })}>
               {typeFile === 'image' && (
                 <HandledImage
-                  src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, currentId ?? userId] })}
+                  src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId ?? currentId] })}
                 />
               )}
 
@@ -45,7 +45,7 @@ const AssignmentResultFiles = ({ currentFiles, userId }: { currentFiles?: string
               <DocIframe
                 source={getFirebaseImageUrl({
                   id: `${fileUrl.type}_${fileUrl.url}`,
-                  path: ['assignments', assignmentId, currentId ?? userId],
+                  path: ['assignments', assignmentId, userId ?? currentId],
                 })}
               />
             )}
@@ -54,7 +54,7 @@ const AssignmentResultFiles = ({ currentFiles, userId }: { currentFiles?: string
               <HandledImage
                 src={getFirebaseImageUrl({
                   id: `${fileUrl.type}_${fileUrl.url}`,
-                  path: ['assignments', assignmentId, currentId ?? userId],
+                  path: ['assignments', assignmentId, userId ?? currentId],
                 })}
               />
             )}
