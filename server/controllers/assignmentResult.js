@@ -30,6 +30,20 @@ export const getResultByAssignmentId = async (req, res) => {
     .catch((err) => res.status(400).json({ err }));
 };
 
+export const getResultByAssignmentAndUserId = async (req, res) => {
+  const { assignmentId, userId } = req.params;
+  AssignmentResult.findOne({ created_by: userId, assignment: assignmentId })
+    .populate({ path: 'created_by', model: 'User', select: 'name' })
+    .populate({ path: 'assignment', model: 'Assignment' })
+    .populate({ path: 'class', model: 'Class' })
+    .then((data) => {
+      res.status(200).json({
+        data,
+      });
+    })
+    .catch((err) => res.status(400).json({ err }));
+};
+
 export const getResultById = async (req, res) => {
   const id = req.params.id;
   AssignmentResult.findOne({ _id: id })
