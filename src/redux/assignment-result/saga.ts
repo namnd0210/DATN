@@ -4,6 +4,7 @@ import {
   createAssignmentResultResult,
   deleteAssignmentResultResult,
   getAllAssignmentResultsResult,
+  getAssignmentResultByAssignmentIdAndUserIdResult,
   getAssignmentResultByAssignmentIdResult,
   getAssignmentResultByIdResult,
   getAssignmentResultByUserIdResult,
@@ -14,6 +15,7 @@ import {
   deleteAssignmentResultApi,
   getAllAssignmentResultsApi,
   getAssignmentResultByAssignmentIdApi,
+  getAssignmentResultByAssingmentIdAndUserIdApi,
   getAssignmentResultByIdApi,
   getAssignmentResultByUserIdApi,
   updateAssignmentResultApi,
@@ -56,6 +58,19 @@ function* getResultByAssignmentIdSaga(props: any): any {
     console.log(error);
     const isSuccess = false;
     yield put(getAssignmentResultByAssignmentIdResult(error, isSuccess));
+  }
+}
+
+function* getResultByAssignmentIdAndUserIdSaga(props: any): any {
+  try {
+    const res = yield call(getAssignmentResultByAssingmentIdAndUserIdApi, props.payload);
+    if (res.status === 200) {
+      yield put(getAssignmentResultByAssignmentIdAndUserIdResult(res.data));
+    }
+  } catch (error) {
+    console.log(error);
+    const isSuccess = false;
+    yield put(getAssignmentResultByAssignmentIdAndUserIdResult(error, isSuccess));
   }
 }
 
@@ -116,6 +131,9 @@ export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_ASSIGNMENT_RESULTS, getAllResultsSaga)]);
   yield all([takeEvery(types.GET_ASSIGNMENT_RESULT_BY_USER_ID, getResultByUserIdSaga)]);
   yield all([takeEvery(types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID, getResultByAssignmentIdSaga)]);
+  yield all([
+    takeEvery(types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID_AND_USER_ID, getResultByAssignmentIdAndUserIdSaga),
+  ]);
   yield all([takeEvery(types.GET_ASSIGNMENT_RESULT_BY_ID, getResultByIdSaga)]);
   yield all([takeEvery(types.CREATE_ASSIGNMENT_RESULT, createResultSaga)]);
   yield all([takeEvery(types.UPDATE_ASSIGNMENT_RESULT, updateResultSaga)]);

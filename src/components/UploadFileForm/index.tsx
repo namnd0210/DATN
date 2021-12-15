@@ -6,13 +6,12 @@ import AssignmentResultFiles from 'components/AssignmentResultFiles';
 import UploadFileButton from 'components/UploadFileButton';
 import storage from 'constants/firebase.config';
 import { handleFileType } from 'constants/handleFile';
-import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import {
   createAssignmentResult,
-  getAssignmentResultByAssignmentId,
+  getAssignmentResultByAssignmentIdAndUserId,
   updateAssignmentResult,
 } from 'redux/assignment-result/actions';
 import { useSelector } from 'redux/reducer';
@@ -23,20 +22,20 @@ const UploadFileForm = () => {
   const [files, setFiles] = useState<any[]>([]);
   const { classId, assignmentId } = useParams<any>();
 
-  const { isAdmin, isTeacher } = useSelector((state) => state.auth);
+  const {
+    user: { id: userId },
+    isAdmin,
+    isTeacher,
+  } = useSelector((state) => state.auth);
   const { result: currentAssignmentResult } = useSelector((state) => state.assignmentResult);
 
   const isStudent = !isAdmin && !isTeacher;
 
   useEffect(() => {
-    if (assignmentId) {
-      isStudent && dispatch(getAssignmentResultByAssignmentId(assignmentId));
+    if (assignmentId && userId) {
+      isStudent && dispatch(getAssignmentResultByAssignmentIdAndUserId({ assignmentId, userId }));
     }
-  }, [assignmentId, classId, dispatch, isAdmin, isStudent, isTeacher]);
-
-  const {
-    user: { id: userId },
-  } = useSelector((state) => state.auth);
+  }, [assignmentId, classId, dispatch, isAdmin, isStudent, isTeacher, userId]);
 
   const handleSubmit = async () => {
     let fileNames: string[] = [];

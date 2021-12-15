@@ -23,6 +23,9 @@ const AssignmentDetail = () => {
   const { isAdmin, isTeacher } = useSelector((state) => state.auth);
   const { loading: classLoading, class: currentClass } = useSelector((state) => state.class);
   const { loading: assignmentLoading, assignment: currentAssignment } = useSelector((state) => state.assignment);
+  const { loading: assignmentResultLoading, result: currentAssignmentResult } = useSelector(
+    (state) => state.assignmentResult,
+  );
 
   const isStudent = !isAdmin && !isTeacher;
 
@@ -31,6 +34,8 @@ const AssignmentDetail = () => {
       dispatch(getClassById(classId));
     }
   }, [classId, dispatch]);
+
+  console.log(currentAssignment);
 
   useEffect(() => {
     if (assignmentId) {
@@ -75,7 +80,7 @@ const AssignmentDetail = () => {
                               {currentClass.teacher.name} • {moment(currentClass.updated_at).format('MMM DD yyyy')}
                             </div>
 
-                            <div className="point">{currentAssignment.point ?? 'Chưa chấm'} điểm</div>
+                            <div className="point">{currentAssignmentResult.point ?? 'Chưa chấm'} điểm</div>
                           </div>
 
                           <div className="due-date">

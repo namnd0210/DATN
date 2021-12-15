@@ -55,30 +55,18 @@ export const login = (req, res) => {
         }
         bcrypt.compare(password, user.password).then((match) => {
           if (match) {
-            Class.find({ teacher: user.id }).then((classes) => {
-              const payload =
-                user.role === 1
-                  ? {
-                      id: user.id,
-                      username: user.username,
-                      role: user.role,
-                      email: user.email,
-                      name: user.name,
-                      classes: classes.map((e) => e._id),
-                    }
-                  : {
-                      id: user.id,
-                      username: user.username,
-                      role: user.role,
-                      email: user.email,
-                      name: user.name,
-                      classes: user.classes,
-                    };
+            const payload = {
+              id: user.id,
+              username: user.username,
+              role: user.role,
+              email: user.email,
+              name: user.name,
+              classes: user.classes,
+            };
 
-              jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
-                if (err) res.json(err);
-                res.json({ success: true, data: payload, token: `Bearer ${token}` });
-              });
+            jwt.sign(payload, process.env.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+              if (err) res.json(err);
+              res.json({ success: true, data: payload, token: `Bearer ${token}` });
             });
           } else {
             return res.status(400).json({ err: 'Password incorrect' });

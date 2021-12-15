@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const assignmentResultSchema = new Schema({
   files: [{ type: String, require: true }],
   point: { type: Number },
-  comments: [{ type: String }],
+  comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
   assignment: { type: Schema.Types.ObjectId, ref: 'Assignment', require: true },
   class: { type: Schema.Types.ObjectId, ref: 'Class', require: true },
   status: { type: 'SUBMITTED' | 'NOT_SUBMITTED' | 'SUBMITTED_LATE' | 'MISSING' },

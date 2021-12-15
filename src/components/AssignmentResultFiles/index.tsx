@@ -8,11 +8,11 @@ import { useSelector } from 'redux/reducer';
 
 import DocIframe from '../DocIframe';
 
-const AssignmentResultFiles = ({ currentFiles }: { currentFiles?: string[] }) => {
+const AssignmentResultFiles = ({ currentFiles, userId }: { currentFiles?: string[]; userId?: string }) => {
   const { assignmentId } = useParams<any>();
 
   const {
-    user: { id: userId },
+    user: { id: currentId },
   } = useSelector((state) => state.auth);
 
   const [fileUrl, setFileUrl] = useState<{ type: string; url: string } | undefined>(undefined);
@@ -26,7 +26,9 @@ const AssignmentResultFiles = ({ currentFiles }: { currentFiles?: string[] }) =>
           return (
             <div key={e} className="file-display-wrapper" onClick={() => setFileUrl({ type: typeFile, url: urlLink })}>
               {typeFile === 'image' && (
-                <HandledImage src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId] })} />
+                <HandledImage
+                  src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId ?? currentId] })}
+                />
               )}
 
               {typeFile === 'docx' && <FileWordTwoTone style={{ fontSize: 50 }} />}
@@ -43,7 +45,7 @@ const AssignmentResultFiles = ({ currentFiles }: { currentFiles?: string[] }) =>
               <DocIframe
                 source={getFirebaseImageUrl({
                   id: `${fileUrl.type}_${fileUrl.url}`,
-                  path: ['assignments', assignmentId, userId],
+                  path: ['assignments', assignmentId, userId ?? currentId],
                 })}
               />
             )}
@@ -52,7 +54,7 @@ const AssignmentResultFiles = ({ currentFiles }: { currentFiles?: string[] }) =>
               <HandledImage
                 src={getFirebaseImageUrl({
                   id: `${fileUrl.type}_${fileUrl.url}`,
-                  path: ['assignments', assignmentId, userId],
+                  path: ['assignments', assignmentId, userId ?? currentId],
                 })}
               />
             )}

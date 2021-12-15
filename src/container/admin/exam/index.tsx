@@ -98,7 +98,6 @@ export const ExamManagement = () => {
 
   useEffect(() => {
     dispatch(getAllExams());
-    console.log(isAdmin);
     // eslint-disable-next-line
   }, []);
 
