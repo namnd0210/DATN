@@ -8,16 +8,13 @@ import { useSelector } from 'redux/reducer';
 
 const AssignmentResultDetail = () => {
   const dispatch = useDispatch();
-  const { assignmentId, assignmentResultId } = useParams<any>();
+  const { assignmentResultId } = useParams<any>();
   const {
-    result: { assignment, class: classData, files, created_by, comments },
-    result,
+    result: { assignment, class: classData, files, created_by, comments, point },
   } = useSelector((state) => state.assignmentResult);
 
-  const [grade, setGrade] = useState<any>();
+  const [grade, setGrade] = useState<any>(point);
   const [comment, setComment] = useState<any>();
-
-  console.log({ result, assignment, classData, files, comments });
 
   const handleSubmit = useCallback(() => {
     const payload = {
