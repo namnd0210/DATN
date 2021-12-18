@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { FC, useCallback } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router-dom';
 

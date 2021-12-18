@@ -2,12 +2,12 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { Col, Divider, Pagination, Popconfirm, Row, Table } from 'antd';
 import _ from 'lodash';
 import querystring from 'query-string';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'redux/reducer';
 import { deleteUser, getAllUsers } from 'redux/user/actions';
-import { UserProps, UserState } from 'types/redux';
+import { UserProps } from 'types/redux';
 import { buildApiUrl } from 'utils';
 
 import { PageHeaderLayout } from '../../../common/PageHeaderLayout';

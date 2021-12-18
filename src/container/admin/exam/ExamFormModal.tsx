@@ -10,8 +10,6 @@ import { getAllQuestions } from 'redux/question/actions';
 import { useSelector } from 'redux/reducer';
 import { ExamProps, QuestionProps } from 'types/redux';
 
-import { AddNewQuestion } from '../question/AddNewQuestion';
-
 type Props = {
   onClose: () => void;
   selectedExam?: ExamProps;

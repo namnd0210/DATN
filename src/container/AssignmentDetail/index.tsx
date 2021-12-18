@@ -23,9 +23,7 @@ const AssignmentDetail = () => {
   const { isAdmin, isTeacher } = useSelector((state) => state.auth);
   const { loading: classLoading, class: currentClass } = useSelector((state) => state.class);
   const { loading: assignmentLoading, assignment: currentAssignment } = useSelector((state) => state.assignment);
-  const { loading: assignmentResultLoading, result: currentAssignmentResult } = useSelector(
-    (state) => state.assignmentResult,
-  );
+  const { result: currentAssignmentResult } = useSelector((state) => state.assignmentResult);
 
   const isStudent = !isAdmin && !isTeacher;
 

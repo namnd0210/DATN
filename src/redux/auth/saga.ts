@@ -1,6 +1,5 @@
 import sign from 'jwt-encode';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
-import setAuthToken from 'utils/setTokenAuth';
 
 import { getAllClassesByUserIdResult, loginResult, registerResult, setCurrentUser } from './actions';
 import { getAllClassesByUserIdApi, loginApi, registerApi } from './api';
@@ -58,6 +57,25 @@ function* getAllClassesByUserIdSaga(props: any): any {
     yield put(getAllClassesByUserIdResult(error, isSuccess));
   }
 }
+
+// function* logoutSaga(props: any): any {
+//   const { data } = props.payload;
+
+//   try {
+//     const res = yield call(registerApi, data);
+//     if (res.data?.success) {
+//       localStorage.removeItem('token');
+//       setAuthToken(false);
+//       // yield put(loginActionResult(res));
+//     } else {
+//       const isSuccess = false;
+//       yield put(loginActionResult(res, isSuccess));
+//     }
+//   } catch (error) {
+//     const isSuccess = false;
+//     yield put(loginActionResult(error, isSuccess));
+//   }
+// }
 
 // function* logoutSaga(props: any): any {
 //   const { data } = props.payload;
