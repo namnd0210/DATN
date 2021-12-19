@@ -87,8 +87,6 @@ export default function assignmentReducer(state: AssignmentState = initState, ac
     case types.UPDATE_ASSIGNMENT_SUCCESS: {
       const { data } = action.payload;
 
-      console.log(data);
-
       return {
         ...state,
         loading: false,

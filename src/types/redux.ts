@@ -68,7 +68,7 @@ export type AssignmentProps = {
   description: string;
   files: string[];
   comments?: any[];
-  due_at: string;
+  due_date: string;
   user: UserProps;
   created_by: UserProps;
   updated_by: UserProps;
