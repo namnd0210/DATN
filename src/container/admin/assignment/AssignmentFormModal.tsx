@@ -69,9 +69,7 @@ export const AssignmentFormModal = ({ onClose, selectedAssignment }: Props) => {
   };
 
   const handleSubmit = () => {
-    let newAssignment: any = !selectedAssignment
-      ? { ...assignment, created_by: userId }
-      : { ...assignment, updated_by: userId };
+    let newAssignment: any = { ...assignment, created_by: userId };
     if (newAssignment.title === '') {
       message.error('Không được để trống tiêu đề');
     } else if (newAssignment.description === '') {
@@ -148,7 +146,7 @@ export const AssignmentFormModal = ({ onClose, selectedAssignment }: Props) => {
               <AssignmentResultFiles
                 currentFiles={selectedAssignment?.files}
                 assignmentId={selectedAssignment?._id}
-                userId={selectedAssignment?.updated_by?._id ?? selectedAssignment?.created_by?._id}
+                userId={selectedAssignment?.created_by?._id ?? userId}
               />
             </div>
 

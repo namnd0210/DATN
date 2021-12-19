@@ -6,7 +6,6 @@ export const getAllAssignments = async (req, res) => {
   const { page } = req.query;
   Assignment.find({})
     .populate({ path: 'created_by', model: 'User', select: 'name' })
-    .populate({ path: 'updated_by', model: 'User', select: 'name' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -23,7 +22,6 @@ export const getAllAssignmentsByTeacherId = async (req, res) => {
 
   Assignment.find({ created_by: id })
     .populate({ path: 'created_by', model: 'User', select: 'name' })
-    .populate({ path: 'updated_by', model: 'User', select: 'name' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -39,7 +37,6 @@ export const getAssignmentById = async (req, res) => {
 
   await AssignmentResult.find({ assignment: id })
     .populate({ path: 'created_by', model: 'User', select: 'name' })
-    .populate({ path: 'updated_by', model: 'User', select: 'name' })
     .then((arData) => (assignmentResults = arData))
     .catch((err) => res.status(400).json({ err }));
 
@@ -81,11 +78,10 @@ export const updateAssignment = (req, res) => {
       description: req.body.description,
       due_date: req.body.due_date,
       updated_at: Date.now(),
-      updated_by: req.body.updated_by,
+      created_by: req.body.created_by,
     },
     { new: true, useFindAndModify: true },
   )
-    .populate({ path: 'updated_by', model: 'User' })
     .populate({ path: 'created_by', model: 'User' })
     .then((data) => {
       res.status(200).json({ data });
