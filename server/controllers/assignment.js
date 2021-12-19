@@ -6,6 +6,7 @@ export const getAllAssignments = async (req, res) => {
   const { page } = req.query;
   Assignment.find({})
     .populate({ path: 'created_by', model: 'User', select: 'name' })
+    .populate({ path: 'updated_by', model: 'User', select: 'name' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -22,6 +23,7 @@ export const getAllAssignmentsByTeacherId = async (req, res) => {
 
   Assignment.find({ created_by: id })
     .populate({ path: 'created_by', model: 'User', select: 'name' })
+    .populate({ path: 'updated_by', model: 'User', select: 'name' })
     .then((data) => {
       res.status(200).json({
         data,
@@ -32,12 +34,12 @@ export const getAllAssignmentsByTeacherId = async (req, res) => {
 };
 
 export const getAssignmentById = async (req, res) => {
-  let count = await Assignment.countDocuments();
   const id = req.params.id;
   let assignmentResults = [];
 
   await AssignmentResult.find({ assignment: id })
     .populate({ path: 'created_by', model: 'User', select: 'name' })
+    .populate({ path: 'updated_by', model: 'User', select: 'name' })
     .then((arData) => (assignmentResults = arData))
     .catch((err) => res.status(400).json({ err }));
 
@@ -75,10 +77,11 @@ export const updateAssignment = (req, res) => {
     req.body._id,
     {
       title: req.body.title,
-      images: req.body.images ?? [],
+      files: req.body.files ?? [],
       description: req.body.description,
       due_date: req.body.due_date,
       updated_at: Date.now(),
+      updated_by: req.body.updated_by,
     },
     { new: true, useFindAndModify: true },
   )

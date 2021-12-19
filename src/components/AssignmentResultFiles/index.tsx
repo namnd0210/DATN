@@ -1,16 +1,23 @@
+import './style.scss';
+
 import { FileExcelTwoTone, FileWordTwoTone } from '@ant-design/icons';
 import { Modal } from 'antd';
 import HandledImage from 'components/HandledImage';
 import { getFirebaseImageUrl } from 'constants/firebase.config';
 import { useState } from 'react';
-import { useParams } from 'react-router';
 import { useSelector } from 'redux/reducer';
 
 import DocIframe from '../DocIframe';
 
-const AssignmentResultFiles = ({ currentFiles, userId }: { currentFiles?: string[]; userId?: string }) => {
-  const { assignmentId } = useParams<any>();
-
+const AssignmentResultFiles = ({
+  currentFiles,
+  assignmentId,
+  userId,
+}: {
+  currentFiles?: string[];
+  assignmentId?: string;
+  userId?: string;
+}) => {
   const {
     user: { id: currentId },
   } = useSelector((state) => state.auth);

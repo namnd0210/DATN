@@ -71,6 +71,7 @@ export type AssignmentProps = {
   due_at: string;
   user: UserProps;
   created_by: UserProps;
+  updated_by: UserProps;
 };
 
 export type ClassProps = {
