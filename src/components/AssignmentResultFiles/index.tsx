@@ -5,6 +5,7 @@ import { Modal } from 'antd';
 import HandledImage from 'components/HandledImage';
 import { getFirebaseImageUrl } from 'constants/firebase.config';
 import { useState } from 'react';
+import { useParams } from 'react-router';
 import { useSelector } from 'redux/reducer';
 
 import DocIframe from '../DocIframe';
@@ -21,7 +22,7 @@ const AssignmentResultFiles = ({
   const {
     user: { id: currentId },
   } = useSelector((state) => state.auth);
-
+  const { assignmentId: currentAssignmentId } = useParams<any>();
   const [fileUrl, setFileUrl] = useState<{ type: string; url: string } | undefined>(undefined);
 
   return (
@@ -30,11 +31,21 @@ const AssignmentResultFiles = ({
         currentFiles?.map((e: string) => {
           const [typeFile, urlLink] = e.split('_');
 
+          // console.log(
+          //   getFirebaseImageUrl({
+          //     id: e,
+          //     path: ['assignments', assignmentId ?? currentAssignmentId, userId ?? currentId],
+          //   }),
+          // );
+
           return (
             <div key={e} className="file-display-wrapper" onClick={() => setFileUrl({ type: typeFile, url: urlLink })}>
               {typeFile === 'image' && (
                 <HandledImage
-                  src={getFirebaseImageUrl({ id: e, path: ['assignments', assignmentId, userId ?? currentId] })}
+                  src={getFirebaseImageUrl({
+                    id: e,
+                    path: ['assignments', assignmentId ?? currentAssignmentId, userId ?? currentId],
+                  })}
                 />
               )}
 
@@ -54,7 +65,7 @@ const AssignmentResultFiles = ({
               <DocIframe
                 source={getFirebaseImageUrl({
                   id: `${fileUrl.type}_${fileUrl.url}`,
-                  path: ['assignments', assignmentId, userId ?? currentId],
+                  path: ['assignments', assignmentId ?? currentAssignmentId, userId ?? currentId],
                 })}
               />
             )}
@@ -63,7 +74,7 @@ const AssignmentResultFiles = ({
               <HandledImage
                 src={getFirebaseImageUrl({
                   id: `${fileUrl.type}_${fileUrl.url}`,
-                  path: ['assignments', assignmentId, userId ?? currentId],
+                  path: ['assignments', assignmentId ?? currentAssignmentId, userId ?? currentId],
                 })}
               />
             )}
