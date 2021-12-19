@@ -1,5 +1,5 @@
-import AssignmentResultDetail from 'components/AssignmentResultDetail';
 import AssignmentManagement from 'container/admin/assignment';
+import AssignmentResultDetail from 'container/admin/assignment/AssignmentResultDetail';
 import CategoryManagement from 'container/admin/category';
 import ClassManagement from 'container/admin/class/index';
 import { QuestionManagement } from 'container/admin/question';

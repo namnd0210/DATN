@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getAssignmentById } from 'redux/assignment/actions';
-import { getAssignmentResultByAssignmentId } from 'redux/assignment-result/actions';
 import { getClassById } from 'redux/class/actions';
 import { useSelector } from 'redux/reducer';
 
@@ -20,7 +19,11 @@ const AssignmentDetail = () => {
   const dispatch = useDispatch();
   const { classId, assignmentId } = useParams<any>();
 
-  const { isAdmin, isTeacher } = useSelector((state) => state.auth);
+  const {
+    isAdmin,
+    isTeacher,
+    user: { id: userId },
+  } = useSelector((state) => state.auth);
   const { loading: classLoading, class: currentClass } = useSelector((state) => state.class);
   const { loading: assignmentLoading, assignment: currentAssignment } = useSelector((state) => state.assignment);
   const { result: currentAssignmentResult } = useSelector((state) => state.assignmentResult);
@@ -28,19 +31,18 @@ const AssignmentDetail = () => {
   const isStudent = !isAdmin && !isTeacher;
 
   useEffect(() => {
-    if (classId) {
+    if (classId && isEqual(currentClass, {})) {
       dispatch(getClassById(classId));
     }
-  }, [classId, dispatch]);
+  }, [classId, currentClass, dispatch]);
 
   console.log(currentAssignment);
 
   useEffect(() => {
     if (assignmentId) {
       dispatch(getAssignmentById(assignmentId));
-      isStudent && dispatch(getAssignmentResultByAssignmentId(assignmentId));
     }
-  }, [assignmentId, classId, dispatch, isAdmin, isStudent, isTeacher]);
+  }, [assignmentId, classId, dispatch, isAdmin, isStudent, isTeacher, userId]);
 
   const loading = classLoading || assignmentLoading;
 

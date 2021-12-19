@@ -6,6 +6,7 @@ import AssignmentResultFiles from 'components/AssignmentResultFiles';
 import UploadFileButton from 'components/UploadFileButton';
 import storage from 'constants/firebase.config';
 import { handleFileType } from 'constants/handleFile';
+import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
@@ -68,7 +69,7 @@ const UploadFileForm = () => {
           created_by: userId,
         };
 
-        !currentAssignmentResult
+        isEqual(currentAssignmentResult, {})
           ? dispatch(createAssignmentResult(payload))
           : dispatch(updateAssignmentResult({ ...payload, _id: currentAssignmentResult._id }));
 
@@ -89,7 +90,13 @@ const UploadFileForm = () => {
       style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
     >
       <div className="assignment-submit-button">
-        {currentAssignmentResult?.files && <AssignmentResultFiles currentFiles={currentAssignmentResult?.files} />}
+        {currentAssignmentResult?.files && (
+          <AssignmentResultFiles
+            currentFiles={currentAssignmentResult?.files}
+            assignmentId={assignmentId}
+            userId={currentAssignmentResult?.created_by?._id}
+          />
+        )}
 
         <UploadFileButton files={files} setFiles={setFiles} />
 

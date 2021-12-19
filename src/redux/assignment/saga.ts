@@ -59,10 +59,13 @@ function* getAllAssignmentByUserIdSaga(props: any): any {
 }
 
 function* createAssignmentSaga(props: any): any {
+  const { data, handleUploadFiles } = props.payload;
+
   try {
-    const res = yield call(createAssignmentApi, props.payload);
+    const res = yield call(createAssignmentApi, data);
     if (res.status === 200) {
       yield put(createAssignmentResult(res.data));
+      handleUploadFiles && handleUploadFiles(res.data.data._id);
       message.success('Thêm thành công');
     }
   } catch (error) {
@@ -74,11 +77,14 @@ function* createAssignmentSaga(props: any): any {
 }
 
 function* updateAssignmentSaga(props: any): any {
+  const { data, handleUploadFiles } = props.payload;
+
   try {
-    const res = yield call(updateAssignmentApi, props.payload);
+    const res = yield call(updateAssignmentApi, data);
     if (res.status === 200) {
       yield put(updateAssignmentResult(res.data));
       message.success('Cập nhật thành công');
+      handleUploadFiles && handleUploadFiles(res.data.data._id);
     }
   } catch (error) {
     console.log(error);
@@ -91,7 +97,6 @@ function* updateAssignmentSaga(props: any): any {
 function* deleteAssignmentSaga(props: any): any {
   try {
     const res = yield call(deleteAssignmentApi, props.payload);
-    console.log(props.payload);
     if (res.status === 200) {
       yield put(deleteAssignmentResult(res.data));
       message.success('Xóa thành công');

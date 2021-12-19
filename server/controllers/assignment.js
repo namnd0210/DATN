@@ -32,7 +32,6 @@ export const getAllAssignmentsByTeacherId = async (req, res) => {
 };
 
 export const getAssignmentById = async (req, res) => {
-  let count = await Assignment.countDocuments();
   const id = req.params.id;
   let assignmentResults = [];
 
@@ -75,14 +74,14 @@ export const updateAssignment = (req, res) => {
     req.body._id,
     {
       title: req.body.title,
-      images: req.body.images ?? [],
+      files: req.body.files ?? [],
       description: req.body.description,
       due_date: req.body.due_date,
       updated_at: Date.now(),
+      created_by: req.body.created_by,
     },
     { new: true, useFindAndModify: true },
   )
-    .populate({ path: 'updated_by', model: 'User' })
     .populate({ path: 'created_by', model: 'User' })
     .then((data) => {
       res.status(200).json({ data });

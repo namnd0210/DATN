@@ -74,11 +74,11 @@ export const updateResult = async (req, res) => {
 };
 
 export const createResult = (req, res) => {
-  const assignment = new AssignmentResult(req.body);
-  assignment
+  const result = new AssignmentResult(req.body);
+  result
     .save()
-    .then((assignment) => {
-      AssignmentResult.findOne({ _id: assignment._id })
+    .then((assignmentRes) => {
+      AssignmentResult.findOne({ _id: assignmentRes._id })
         .populate({ path: 'assignment', model: 'Assignment' })
         .populate({ path: 'class', model: 'Class' })
         .populate({ path: 'created_by', model: 'User' })

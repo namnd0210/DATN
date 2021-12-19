@@ -64,6 +64,24 @@ export default function resultReducer(state: AssignmentResultState = initState, 
       return { ...state, loading: false };
     }
 
+    case types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID_AND_USER_ID: {
+      return { ...state, loading: true };
+    }
+
+    case types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID_AND_USER_ID_SUCCESS: {
+      const { data } = action.payload;
+
+      return {
+        ...state,
+        loading: false,
+        result: data,
+      };
+    }
+
+    case types.GET_ASSIGNMENT_RESULT_BY_ASSIGNMENT_ID_AND_USER_ID_FAILED: {
+      return { ...state, loading: false };
+    }
+
     case types.GET_ASSIGNMENT_RESULT_BY_ID: {
       return { ...state, loading: true };
     }
@@ -87,12 +105,12 @@ export default function resultReducer(state: AssignmentResultState = initState, 
     }
 
     case types.CREATE_ASSIGNMENT_RESULT_SUCCESS: {
-      const { result } = action.payload;
+      const { data } = action.payload;
 
       return {
         ...state,
         loading: false,
-        results: [...state.results, result],
+        result: data,
       };
     }
 
