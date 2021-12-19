@@ -1,6 +1,6 @@
 import { Button, Col, Input, Row } from 'antd';
 import AssignmentResultFiles from 'components/AssignmentResultFiles';
-import React, { useCallback, useEffect, useState } from 'react';
+import  { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import { getAssignmentResultById, updateAssignmentResult } from 'redux/assignment-result/actions';
@@ -32,7 +32,6 @@ const AssignmentResultDetail = () => {
     }
   }, [assignmentResultId, dispatch]);
 
-  // tạo giao diện comment và chấm điểm
   return (
     <Row>
       <Col span={15}>

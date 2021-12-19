@@ -78,7 +78,7 @@ const AssignmentDetail = () => {
                               {currentClass.teacher.name} • {moment(currentClass.updated_at).format('MMM DD yyyy')}
                             </div>
 
-                            <div className="point">{currentAssignmentResult.point ?? 'Chưa chấm'} điểm</div>
+                            <div className="point">{currentAssignmentResult?.point ?? 'Chưa chấm'} điểm</div>
                           </div>
 
                           <div className="due-date">

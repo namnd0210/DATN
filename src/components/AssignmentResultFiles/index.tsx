@@ -33,7 +33,9 @@ const AssignmentResultFiles = ({ currentFiles, userId }: { currentFiles?: string
 
               {typeFile === 'docx' && <FileWordTwoTone style={{ fontSize: 50 }} />}
 
-              {typeFile === 'xlsx' && <FileExcelTwoTone style={{ fontSize: 50 }} twoToneColor="#52c41a" />}
+              {['application', 'xlsx'].includes(typeFile) && (
+                <FileExcelTwoTone style={{ fontSize: 50 }} twoToneColor="#52c41a" />
+              )}
             </div>
           );
         })}
