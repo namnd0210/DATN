@@ -106,7 +106,7 @@ export const QuestionManagement = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      <Col xl={24}>
+      <Col xs={24}>
         <PageHeaderLayout
           title="Câu hỏi"
           subtitle="Xin chào"
@@ -114,7 +114,7 @@ export const QuestionManagement = () => {
           text="Danh sách câu hỏi"
         />
       </Col>
-      <Col xl={24}>
+      <Col xs={24}>
         <Button type="dashed" style={{ width: '100%', margin: '10px 0 10px 0' }} onClick={() => setVisible(true)}>
           <PlusCircleOutlined /> Thêm mới câu hỏi
         </Button>

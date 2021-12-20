@@ -2,53 +2,8 @@ import 'assets/styles/pageheader.scss';
 
 import { PageHeader, Row, Typography } from 'antd';
 import { ReactElement } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useSelector } from 'redux/reducer';
 
 const { Paragraph } = Typography;
-
-const content = (text: string, isAdmin: boolean, isTeacher: boolean) => (
-  <>
-    <Paragraph>{text}</Paragraph>
-    <div>
-      {isAdmin || isTeacher ? (
-        <>
-          <NavLink to="/manage/exams" className="ant-btn" style={{ marginRight: 10 }}>
-            Bài thi
-          </NavLink>
-          <NavLink to="/manage/question" className="ant-btn" style={{ marginRight: 10 }}>
-            Câu hỏi
-          </NavLink>
-          <NavLink to="/manage/category" className="ant-btn" style={{ marginRight: 10 }}>
-            Danh mục câu hỏi
-          </NavLink>
-          <NavLink to="/manage/class" className="ant-btn" style={{ marginRight: 10 }}>
-            Lớp
-          </NavLink>
-          <NavLink to="/manage/assignment" className="ant-btn" style={{ marginRight: 10 }}>
-            Bài tập
-          </NavLink>
-        </>
-      ) : (
-        <NavLink to="/manage/my-class" className="ant-btn" style={{ marginRight: 10 }}>
-          Lớp học
-        </NavLink>
-      )}
-
-      {isAdmin && (
-        <NavLink to="/manage/users" className="ant-btn" style={{ marginRight: 10 }}>
-          {/* Reports */}
-          Thành viên
-        </NavLink>
-      )}
-
-      <NavLink to="/manage/report" className="ant-btn" style={{ marginRight: 10 }}>
-        {/* Reports */}
-        Kết quả
-      </NavLink>
-    </div>
-  </>
-);
 
 const Content = ({ children, extraContent }: { children: ReactElement; extraContent: ReactElement }) => {
   return (
@@ -59,8 +14,6 @@ const Content = ({ children, extraContent }: { children: ReactElement; extraCont
   );
 };
 export const PageHeaderLayout = ({ title, subtitle, text }: { title: string; subtitle: string; text: string }) => {
-  const { isAdmin, isTeacher } = useSelector(({ auth }) => auth);
-
   return (
     <PageHeader title={title} className="site-page-header" subTitle={subtitle} ghost={false}>
       <Content
@@ -68,7 +21,7 @@ export const PageHeaderLayout = ({ title, subtitle, text }: { title: string; sub
           <img src="https://gw.alipayobjects.com/zos/rmsportal/RzwpdLnhmvDJToTdfDPe.png" alt="content" width="100px" />
         }
       >
-        {content(text, isAdmin, isTeacher)}
+        <Paragraph>{text}</Paragraph>
       </Content>
     </PageHeader>
   );

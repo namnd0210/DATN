@@ -103,7 +103,7 @@ export const ExamManagement = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      <Col xl={24}>
+      <Col xs={24}>
         <PageHeaderLayout
           title="Bài thi"
           subtitle="Xin chào"
@@ -111,7 +111,7 @@ export const ExamManagement = () => {
           text="Danh sách bài thi"
         />
       </Col>
-      <Col xl={24}>
+      <Col xs={24}>
         {isAdmin || isTeacher ? (
           <Button
             onClick={() => {

@@ -107,10 +107,10 @@ const AssignmentManagement = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      <Col xl={24}>
+      <Col span={24}>
         <PageHeaderLayout title="Bài tập" subtitle="Xin chào" text="Danh sách bài tập" />
       </Col>
-      <Col xl={24}>
+      <Col span={24}>
         {isAdmin || isTeacher ? (
           <Button
             onClick={() => {

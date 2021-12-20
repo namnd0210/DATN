@@ -110,7 +110,7 @@ export const AssignmentFormModal = ({ onClose, selectedAssignment }: Props) => {
         }}
       >
         <Row gutter={16} style={{ background: '#fff', margin: '1rem 0' }}>
-          <Col xl={24}>
+          <Col xs={24}>
             <div className="add-exam-item">
               <div className="add-exam-item__label">Tên bài tập</div>
               <div className="add-exam-item__main">
