@@ -3,7 +3,9 @@ import ClassDetail from 'container/ClassDetail';
 import { Home } from 'container/home/Home';
 import { Landing } from 'container/landing';
 import { Report } from 'container/report/Report';
+import ChangePassword from 'container/user/ChangePassword';
 import MyClasses from 'container/user/MyClasses';
+import Profile from 'container/user/Profile';
 import { TakeExam } from 'container/user/TakeExam';
 import { RouteType } from 'types/routers';
 
@@ -54,6 +56,20 @@ export const commonRoutes: Array<RouteType> = [
     path: '/my-class/:classId/assignment/:assignmentId',
     component: AssignmentDetail,
     role: [2],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/setting/profile',
+    component: Profile,
+    role: [0, 1, 2],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/setting/change-password',
+    component: ChangePassword,
+    role: [0, 1, 2],
     exact: true,
     isPublic: false,
   },
