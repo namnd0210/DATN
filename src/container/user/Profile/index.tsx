@@ -3,7 +3,6 @@ import './style.scss';
 import { DeleteOutlined, EditOutlined, PlayCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Popconfirm, Row, Table } from 'antd';
 import { PageHeaderLayout } from 'common/PageHeaderLayout';
-import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { deleteAssignment, getAllAssignments } from 'redux/assignment/actions';
@@ -13,7 +12,6 @@ import { AssignmentProps } from 'types/redux';
 const Profile = () => {
   const dispatch = useDispatch();
   const [selectedAssignment, setSelectedAssignment] = useState<AssignmentProps | undefined>(undefined);
-  const { loading, assignments } = useSelector((state) => state.assignment);
   const { isAdmin, isTeacher } = useSelector((state) => state.auth);
 
   useEffect(() => {
