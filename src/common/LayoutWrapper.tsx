@@ -1,6 +1,6 @@
 import '../assets/styles/layout.scss';
 
-import { FileOutlined, PieChartOutlined, TeamOutlined } from '@ant-design/icons';
+import { FileOutlined, LogoutOutlined, PieChartOutlined, TeamOutlined } from '@ant-design/icons';
 import { Breadcrumb, Dropdown, Layout, Menu } from 'antd';
 import useParams from 'hooks/useParams';
 import React, { useEffect, useState } from 'react';
@@ -49,33 +49,44 @@ export const LayoutWrapper = (props: { children: React.ReactChild }) => {
       <Layout className="site-layout">
         <Layout style={{ minHeight: '100vh' }}>
           <Sider theme="light" collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)}>
-            <div className="logo" />
-            <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
-              {menus.map((e: any) => {
-                if (e.items.length === 0) {
-                  return (
-                    e.role.includes(role) && (
-                      <Menu.Item key={e.title} icon={<FileOutlined />}>
-                        <Link to={e.link}>{e.title}</Link>
-                      </Menu.Item>
-                    )
-                  );
-                }
+            <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+              <Menu theme="light" defaultSelectedKeys={['1']} mode="inline">
+                {menus.map((e: any) => {
+                  if (e.items.length === 0) {
+                    return (
+                      e.role.includes(role) && (
+                        <Menu.Item key={e.title} icon={<FileOutlined />}>
+                          <Link to={e.link}>{e.title}</Link>
+                        </Menu.Item>
+                      )
+                    );
+                  }
 
-                return (
-                  <SubMenu key={e.title} title={e.title} icon={<TeamOutlined />}>
-                    {e.items.map(
-                      (k: any) =>
-                        k.role.includes(role) && (
-                          <Menu.Item key={k.title} icon={<PieChartOutlined />}>
-                            <Link to={k.link}>{k.title}</Link>
-                          </Menu.Item>
-                        ),
-                    )}
-                  </SubMenu>
-                );
-              })}
-            </Menu>
+                  return (
+                    <SubMenu key={e.title} title={e.title} icon={<TeamOutlined />}>
+                      {e.items.map(
+                        (k: any) =>
+                          k.role.includes(role) && (
+                            <Menu.Item key={k.title} icon={<PieChartOutlined />}>
+                              <Link to={k.link}>{k.title}</Link>
+                            </Menu.Item>
+                          ),
+                      )}
+                    </SubMenu>
+                  );
+                })}
+              </Menu>
+
+              <Menu>
+                <Menu.Item
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  onClick={() => dispatch(logout())}
+                  icon={<LogoutOutlined />}
+                >
+                  Đăng xuất
+                </Menu.Item>
+              </Menu>
+            </div>
           </Sider>
           <Layout className="site-layout">
             <Header className="site-layout-background" style={{ padding: 0 }} />
