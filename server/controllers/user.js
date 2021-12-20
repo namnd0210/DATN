@@ -99,7 +99,6 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const updateUser = (req, res) => {
-  console.log(req.body);
   User.findByIdAndUpdate(
     req.body._id,
     {

@@ -32,7 +32,7 @@ const MyClass = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      <Col xl={24}>
+      <Col xs={24}>
         <div className="home-recommendation">
           <h3>Các lớp hiện tại</h3>
           <div className="slide-wrap">

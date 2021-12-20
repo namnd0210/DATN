@@ -77,7 +77,7 @@ export const Report = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      <Col xl={24}>
+      <Col xs={24}>
         <PageHeaderLayout
           title="Kết quả"
           subtitle="Xin chào"
@@ -85,7 +85,7 @@ export const Report = () => {
           text="Xem kết quả của bạn tại đây"
         />
       </Col>
-      <Col xl={24}>
+      <Col xs={24}>
         <Table dataSource={results} columns={columns} loading={loading} rowKey={(e) => e._id} pagination={false} />
         <Divider />
         <Pagination

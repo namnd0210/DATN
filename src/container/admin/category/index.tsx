@@ -95,15 +95,10 @@ const CategoryManagement = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      <Col xl={24}>
-        <PageHeaderLayout
-          title="Danh mục"
-          subtitle="Xin chào"
-          // text="Category list, you can create, update or remove question"
-          text="Danh mục câu hỏi"
-        />
+      <Col xs={24}>
+        <PageHeaderLayout title="Danh mục" subtitle="Xin chào" text="Danh mục câu hỏi" />
       </Col>
-      <Col xl={24}>
+      <Col xs={24}>
         <Button type="dashed" style={{ width: '100%', margin: '10px 0 10px 0' }} onClick={() => setVisible(true)}>
           <PlusCircleOutlined /> Thêm mới danh mục câu hỏi
         </Button>

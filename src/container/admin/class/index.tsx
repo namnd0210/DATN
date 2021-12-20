@@ -134,16 +134,11 @@ const ClassManagement = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      <Col xl={24}>
-        <PageHeaderLayout
-          title="Lớp học"
-          subtitle="Xin chào"
-          // text="Category list, you can create, update or remove question"
-          text="Dánh sách các lớp"
-        />
+      <Col xs={24}>
+        <PageHeaderLayout title="Lớp học" subtitle="Xin chào" text="Dánh sách các lớp" />
       </Col>
 
-      <Col xl={24}>
+      <Col xs={24}>
         {isAdmin && (
           <Button onClick={() => setVisible(true)} type="dashed" style={{ width: '100%', margin: '10px 0 10px 0' }}>
             <PlusCircleOutlined /> Thêm mới lớp học

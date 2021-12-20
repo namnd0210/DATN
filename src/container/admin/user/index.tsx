@@ -114,22 +114,11 @@ const UserManagement = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      <Col xl={24}>
-        <PageHeaderLayout
-          title="Danh sách thành viên"
-          subtitle="Xin chào"
-          // text="Category list, you can create, update or remove question"
-          text="Danh sách thành viên trong hệ thống"
-        />
+      <Col xs={24}>
+        <PageHeaderLayout title="Danh sách thành viên" subtitle="Xin chào" text="Danh sách thành viên trong hệ thống" />
       </Col>
-      <Col xl={24}>
-        {/* <Button
-					type="dashed"
-					style={{ width: "100%", margin: "10px 0 10px 0" }}
-					onClick={() => setVisible(true)}
-				>
-					<PlusCircleOutlined /> Thêm mới danh mục câu hỏi
-				</Button> */}
+
+      <Col xs={24}>
         <Table
           columns={columns}
           loading={loading}
@@ -139,7 +128,6 @@ const UserManagement = () => {
         />
         <Divider />
         <Pagination
-          // current={+page || 1}
           current={+_.get(querystring.parse(location.search), 'page', 1)}
           key={+_.get(querystring.parse(location.search), 'page')}
           total={users.length}

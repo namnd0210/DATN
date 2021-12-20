@@ -67,7 +67,7 @@ export const ExamFormModal = ({ onClose, selectedExam }: Props) => {
         subTitle="Thêm bài thi trắc nghiệm mới"
       />
       <Row gutter={16} style={{ background: '#fff', margin: '1rem 0' }}>
-        <Col xl={24}>
+        <Col xs={24}>
           <div className="add-exam-item">
             <div className="add-exam-item__label">Tên bài trắc nghiệm</div>
             <div className="add-exam-item__main">

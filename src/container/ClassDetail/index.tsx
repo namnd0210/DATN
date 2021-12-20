@@ -30,7 +30,7 @@ const ClassDetail = () => {
     <div>
       {!isEqual(currentClass, {}) && (
         <Row className="card-list" gutter={[0, 5]}>
-          <Col xl={24}>
+          <Col xs={24}>
             <div className="home-recommendation">
               <h3>
                 <BackButton link={isAdmin || isTeacher ? '/manage/class' : '/my-class'} title="Các lớp" />
