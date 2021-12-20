@@ -47,6 +47,18 @@ export const menus: any[] = [
     role: [2],
     items: [],
   },
+  {
+    title: 'Thông tin cá nhân',
+    link: '/setting/profile',
+    role: [0, 1],
+    items: [],
+  },
+  {
+    title: 'Đổi mật khẩu',
+    link: '/setting/change-password',
+    role: [0, 1],
+    items: [],
+  },
 ];
 
 export const translateData: any = {
@@ -59,4 +71,7 @@ export const translateData: any = {
   assignment: 'Bài tập',
   report: 'Kết quả',
   'my-class': 'Lớp học của tôi',
+  setting: 'Cài đặt',
+  profile: 'Thông tin cá nhân',
+  'change-password': 'Đổi mật khẩu',
 };
