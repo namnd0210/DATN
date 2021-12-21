@@ -55,7 +55,7 @@
   },
   "scripts": {
     "start": "craco start",
-    "build": "concurrently \"npm run watch:css\" \"craco build\"",
+    "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
     "lint": "eslint --fix --ext .ts,.tsx src/"
