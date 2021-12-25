@@ -61,12 +61,7 @@ const AssignmentDetail = () => {
 
                 {!loading && (
                   <Card
-                    title={
-                      <BackButton
-                        link={!isStudent ? `/manage/class/${classId}` : `/my-class/${classId}`}
-                        title={`Tên lớp: ${currentClass.name}`}
-                      />
-                    }
+                    title={<BackButton link={`/my-class/${classId}`} title={`Tên lớp: ${currentClass.name}`} />}
                     style={{ width: '100%', minHeight: '400px', marginTop: '1rem' }}
                   >
                     <Meta
@@ -80,7 +75,9 @@ const AssignmentDetail = () => {
                               {currentClass.teacher.name} • {moment(currentClass.updated_at).format('MMM DD yyyy')}
                             </div>
 
-                            <div className="point">{currentAssignmentResult?.point ?? 'Chưa chấm'} điểm</div>
+                            {!isAdmin && !isTeacher && (
+                              <div className="point">{currentAssignmentResult?.point ?? 'Chưa chấm'} điểm</div>
+                            )}
                           </div>
 
                           <div className="due-date">
