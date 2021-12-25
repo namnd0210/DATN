@@ -24,6 +24,7 @@ const Profile = () => {
       path: ['avatars'],
     }) ?? '',
   );
+  const { role } = useSelector((state) => state.auth.user);
 
   //TODO: upload single image
 
@@ -120,7 +121,14 @@ const Profile = () => {
               </div>
 
               <div className="add-exam-item">
-                <div className="add-exam-item__label">Tên bài tập</div>
+                <div className="add-exam-item__label">Vai trò</div>
+                <div className="add-exam-item__main">
+                  {role === 0 ? 'Quản trị viên' : role === 1 ? 'Giáo viên' : 'Sinh viên'}
+                </div>
+              </div>
+
+              <div className="add-exam-item">
+                <div className="add-exam-item__label">Tên</div>
                 <div className="add-exam-item__main">
                   <Form.Item name="name">
                     <Input />
@@ -129,7 +137,7 @@ const Profile = () => {
               </div>
 
               <div className="add-exam-item">
-                <div className="add-exam-item__label">Tên bài tập</div>
+                <div className="add-exam-item__label">Email cá nhân</div>
                 <div className="add-exam-item__main">
                   <Form.Item name="email">
                     <Input />

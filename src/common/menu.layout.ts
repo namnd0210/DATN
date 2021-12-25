@@ -1,5 +1,11 @@
 export const menus: any[] = [
   {
+    title: 'Trang chủ',
+    link: '/home',
+    role: [0, 1, 2],
+    items: [],
+  },
+  {
     title: 'Quản lí',
     role: [0, 1],
     items: [
@@ -36,21 +42,27 @@ export const menus: any[] = [
     ],
   },
   {
-    title: 'Kết quả',
+    title: 'Kết quả bài kiếm tra',
     link: '/manage/report',
     role: [0, 1],
     items: [],
   },
   {
+    title: 'Kết quả bài kiểm tra',
+    link: '/report',
+    role: [2],
+    items: [],
+  },
+  {
     title: 'Lớp học của tôi',
-    link: '/manage/my-class',
+    link: '/my-class',
     role: [2],
     items: [],
   },
   {
     title: 'Thông tin cá nhân',
     link: '/setting/profile',
-    role: [0, 1],
+    role: [0, 1, 2],
     items: [],
   },
 ];
@@ -63,7 +75,7 @@ export const translateData: any = {
   category: 'Các loại câu hỏi',
   class: 'Các lớp',
   assignment: 'Bài tập',
-  report: 'Kết quả',
+  report: 'Kết quả bài kiểm tra',
   'my-class': 'Lớp học của tôi',
   setting: 'Cài đặt',
   profile: 'Thông tin cá nhân',

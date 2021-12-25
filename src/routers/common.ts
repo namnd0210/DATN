@@ -31,9 +31,9 @@ export const commonRoutes: Array<RouteType> = [
     isPublic: false,
   },
   {
-    path: '/manage/report',
+    path: '/report',
     component: Report,
-    role: [0, 1, 2],
+    role: [2],
     exact: true,
     isPublic: false,
   },
