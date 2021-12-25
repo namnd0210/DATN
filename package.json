@@ -54,8 +54,8 @@
     "baseUrl": "src"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
+    "start": "craco --max_old_space_size=4096 start",
+    "build": "craco --max_old_space_size=4096 build",
     "test": "craco test",
     "eject": "craco eject",
     "lint": "eslint --fix --ext .ts,.tsx src/"

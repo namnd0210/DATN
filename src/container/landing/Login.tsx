@@ -56,9 +56,9 @@ export const LoginScreen = () => {
             Xác nhận
           </Button>
           <span style={{ marginLeft: 10 }}>
-            Chưa có tài khoản,
-            <span className="login-rediret" onClick={() => setVisible(true)}>
-              Đăng kýc
+            Chưa có tài khoản,{' '}
+            <span style={{ color: '#1890ff' }} className="login-rediret" onClick={() => setVisible(true)}>
+              Đăng ký{' '}
             </span>
             ngay
           </span>
