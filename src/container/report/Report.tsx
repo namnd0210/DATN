@@ -15,7 +15,7 @@ import { getResultByUserId } from './../../redux/result/actions';
 
 export const Report = () => {
   const { results, loading, total } = useSelector(({ result }) => result);
-  const { user, isAdmin } = useSelector(({ auth }) => auth);
+  const { user, isAdmin, isTeacher } = useSelector(({ auth }) => auth);
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
@@ -41,8 +41,8 @@ export const Report = () => {
     },
     {
       title: 'Cập nhật gần nhất',
-      dataIndex: 'last_update',
-      key: 'last_update',
+      dataIndex: 'created_at',
+      key: 'created_at',
       render: (e: any) => <span>{moment(e).format('DD-MM-YYYY HH:MM:SS')}</span>,
     },
     {
@@ -71,7 +71,7 @@ export const Report = () => {
     const payload = {
       page: tmpPage,
     };
-    isAdmin ? dispatch(getAllResults(payload)) : dispatch(getResultByUserId({ id: user.id }));
+    isAdmin || isTeacher ? dispatch(getAllResults(payload)) : dispatch(getResultByUserId({ id: user.id }));
     // eslint-disable-next-line
   }, [location]);
 

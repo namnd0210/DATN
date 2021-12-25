@@ -6,6 +6,7 @@ import { QuestionManagement } from 'container/admin/question';
 import UserManagement from 'container/admin/user';
 import AssignmentDetail from 'container/AssignmentDetail';
 import ClassDetail from 'container/ClassDetail';
+import { Report } from 'container/report/Report';
 import { RouteType } from 'types/routers';
 
 import { ExamManagement } from './../container/admin/exam/index';
@@ -71,6 +72,13 @@ export const adminRoutes: Array<RouteType> = [
     path: '/my-class/:classId/assignment/:assignmentId/assignment-result/:assignmentResultId',
     component: AssignmentResultDetail,
     role: [0, 1, 2],
+    exact: true,
+    isPublic: false,
+  },
+  {
+    path: '/manage/report',
+    component: Report,
+    role: [0, 1],
     exact: true,
     isPublic: false,
   },

@@ -1,13 +1,14 @@
 import '../../assets/styles/home.scss';
 
-import { Button, Spin } from 'antd';
+import { Button, Col, Row, Spin } from 'antd';
+import assignment from 'assets/imgs/book-open.svg';
+import { sliderSettings } from 'constants/slider';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
-import { getAllClasses } from 'redux/class/actions';
+import { getAllClassesByUserId } from 'redux/auth/actions';
 import { useSelector } from 'redux/reducer';
-// import { getAllClass } from '../../redux/actions/class';
 import { ClassProps, ExamProps } from 'types/redux';
 
 import course_1 from '../../assets/imgs/course-1.png';
@@ -46,28 +47,17 @@ const items = [
   },
 ];
 
-const settings = {
-  infinite: true,
-  speed: 500,
-  slidesToShow: 4,
-  slidesToScroll: 2,
-  autoplay: true,
-  arrows: false,
-  draggable: true,
-};
-
 export const Home = () => {
   const dispatch = useDispatch();
-  const { isAdmin, isTeacher, user } = useSelector(({ auth }) => auth);
+  const {
+    user: { classes, id: userUid, role },
+  } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.class);
-  const exams: ExamProps[] = useSelector((state) => state.class.classes.map((e: ClassProps) => e.exam));
+  const exams: ExamProps[] = classes.map((e: ClassProps) => e.exam);
 
   useEffect(() => {
-    if (!isAdmin && !isTeacher) {
-      dispatch(getAllClasses({ id: user.id }));
-    }
-    // eslint-disable-next-line
-  }, [isAdmin, isTeacher, user]);
+    dispatch(getAllClassesByUserId({ userUid, role }));
+  }, [dispatch, userUid, role]);
 
   return (
     <div>
@@ -85,15 +75,53 @@ export const Home = () => {
         </div>
       </div>
 
+      <Row className="card-list" gutter={[0, 5]}>
+        <Col xs={24}>
+          <div className="home-recommendation">
+            <h3>Các lớp hiện tại: {classes.length} lớp</h3>
+            <div className="slide-wrap">
+              <Slider {...sliderSettings} slidesToShow={classes?.length >= 4 ? 4 : classes.length}>
+                {classes?.length > 0 &&
+                  classes?.map((e: ClassProps, i: number) => (
+                    <div key={i} className="slide-item">
+                      <img src={course_imgs[Math.floor(Math.random() * (3 - 0 + 1)) + 0]} alt="" />
+                      <div className="info-course">
+                        <div className="title">
+                          <p>{e.name}</p>
+                          <img src={heart} alt="" />
+                        </div>
+                        <div className="des">{e.teacher.name}</div>
+                        <div className="route">
+                          <div className="react">
+                            <img src={assignment} alt="" />
+                            <span>{e.assignments.length}</span>
+                            <img src={users} alt="" />
+                            <span>{e.students.length}</span>
+                          </div>
+                          <div className="link">
+                            <Button type="primary">
+                              <Link to={`my-class/${e._id}`}>Chi tiết</Link>
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </Slider>
+            </div>
+          </div>
+        </Col>
+      </Row>
+
       <div className="home-recomendation">
-        <h3>Bài thi đề xuất</h3>
+        <h3>Bài thi đề xuất: {exams.length} bài thi</h3>
         <div className="slide-wrap">
           {loading ? (
             <div className="example">
               <Spin size="large" />
             </div>
           ) : (
-            <Slider {...settings} slidesToShow={exams?.length >= 4 ? 4 : exams.length}>
+            <Slider {...sliderSettings} slidesToShow={exams?.length >= 4 ? 4 : exams.length}>
               {exams.length > 0 &&
                 exams.map((e, i) => (
                   <>

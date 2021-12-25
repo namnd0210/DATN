@@ -17,7 +17,6 @@ const ClassDetail = () => {
   const { url } = useRouteMatch<any>();
   const dispatch = useDispatch();
 
-  const { isAdmin, isTeacher } = useSelector((state) => state.auth);
   const { loading, class: currentClass } = useSelector((state) => state.class);
 
   useEffect(() => {
@@ -33,7 +32,7 @@ const ClassDetail = () => {
           <Col xs={24}>
             <div className="home-recommendation">
               <h3>
-                <BackButton link={isAdmin || isTeacher ? '/manage/class' : '/my-class'} title="Các lớp" />
+                <BackButton link={'/home'} title="Các lớp" />
               </h3>
               <h3>Môn học: {currentClass.name}</h3>
               <div>Số lượng sinh viên: {currentClass.students.length}</div>
