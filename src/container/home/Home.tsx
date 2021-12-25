@@ -53,7 +53,7 @@ export const Home = () => {
     user: { classes, id: userUid, role },
   } = useSelector((state) => state.auth);
   const { loading } = useSelector((state) => state.class);
-  const exams: ExamProps[] = useSelector((state) => state.class.classes.map((e: ClassProps) => e.exam));
+  const exams: ExamProps[] = classes.map((e: ClassProps) => e.exam);
 
   useEffect(() => {
     dispatch(getAllClassesByUserId({ userUid, role }));
