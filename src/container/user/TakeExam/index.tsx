@@ -1,6 +1,7 @@
 import './style.scss';
 
 import { Button, Divider, Radio } from 'antd';
+import clsx from 'clsx';
 import InprogressQuestionTable from 'components/InprogressQuestionTable';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -35,20 +36,19 @@ export const TakeExam = () => {
 
       exam.questions.forEach((e: any, i: number) => {
         let item: any = {
-          _id: e._id,
+          ...e,
           isTrue: false,
           questionId: e._id,
           answer: answersList[i],
+          correctAnswer: e.answers[e.correctAnswer],
         };
         if (e.answers[e.correctAnswer] === answersList[i]) {
           item.isTrue = true;
-          item.correctAnswer = answersList[i];
+
           trueAnswer++;
         }
         tempResults = [...tempResults, item];
       });
-
-      console.log(tempResults);
 
       data.exam = exam._id;
       data.user = user.id;
@@ -82,6 +82,8 @@ export const TakeExam = () => {
     answer && setAnswersList(answer);
   }, []);
 
+  const listQuestion = !isDone ? exam.questions : doneList;
+
   return (
     <div style={{ background: '#fff', margin: '1rem 0', padding: '1rem' }}>
       <HeaderCourse start={start} setStart={setStart} done={done} isDone={isDone} />
@@ -92,13 +94,15 @@ export const TakeExam = () => {
         <div style={{ background: '#fff' }} className="take-exam__list">
           <Divider dashed />
 
-          {exam?.questions.length > 0 &&
-            exam?.questions?.map(
+          {listQuestion.length > 0 &&
+            listQuestion?.map(
               (
                 e: {
                   _id: string;
                   question: string;
                   answers: any[];
+                  correctAnswer?: string;
+                  answer?: string;
                 },
                 i: number,
               ) => (
@@ -109,12 +113,19 @@ export const TakeExam = () => {
                       {e.question}
                     </h3>
                     <Radio.Group
-                      onChange={(event) => onChange(event, e._id)}
+                      onChange={(event) => !isDone && onChange(event, e._id)}
                       value={JSON.parse(localStorage.getItem('answersList') ?? '[]')[i]}
                     >
-                      {e.answers.map((e: string, k: number) => (
-                        <Radio value={e} key={k}>
-                          {e}
+                      {e.answers.map((a: string, k: number) => (
+                        <Radio
+                          value={a}
+                          key={k}
+                          className={clsx(
+                            { 'take-exam__success': e.correctAnswer === a },
+                            { 'take-exam__fail': e.correctAnswer !== e.answer && e.answer === a },
+                          )}
+                        >
+                          {a}
                         </Radio>
                       ))}
                     </Radio.Group>
@@ -128,17 +139,24 @@ export const TakeExam = () => {
             onClick={() => {
               setDone(true);
               done(exam, answersList);
-              localStorage.removeItem('answersList');
-              localStorage.removeItem('time');
             }}
           >
             Hoàn thành
           </Button>
-          <ResultModal visible={visible} resultsdata={resultData} exam={exam} onCancel={() => setVisible(false)} />
+          <ResultModal
+            visible={visible}
+            resultsdata={resultData}
+            exam={exam}
+            onCancel={() => setVisible(false)}
+            onOk={() => {
+              localStorage.removeItem('time');
+              localStorage.removeItem('answersList');
+            }}
+          />
         </div>
       )}
 
-      {exam?.questions && (
+      {start && exam?.questions && (
         <InprogressQuestionTable
           handleSelectQuestion={setCurrentQuestion}
           focusIndex={currentQuestion}

@@ -2,13 +2,13 @@ import { Button, Modal, Result } from 'antd';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-export const ResultModal = memo(({ visible, resultsdata, exam, onCancel }: any) => {
+export const ResultModal = memo(({ visible, resultsdata, exam, onCancel, onOk }: any) => {
   const RenderBtn = () => (
     <>
-      <Button type="primary" key="console">
+      <Button type="primary" key="console" onClick={onOk}>
         <Link to="/report"> Về trang kết quả</Link>
       </Button>
-      <Button key="buy">
+      <Button key="buy" onClick={onOk}>
         <Link to="/home">Về trang chủ</Link>
       </Button>
     </>

@@ -30,6 +30,8 @@ export const HeaderCourse = React.memo(({ start, setStart, done, isDone }: any) 
       return false;
     };
 
+    if (done) return 'Đã nộp bài';
+
     if (completed) return 'Hết giờ';
     return (
       <span>
