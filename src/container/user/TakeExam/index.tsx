@@ -21,6 +21,7 @@ export const TakeExam = () => {
   const [visible, setVisible] = useState(false);
   const [resultData, setResult] = useState([]);
   const [answersList, setAnswersList] = useState<any[]>([]);
+  const [doneList, setDoneList] = useState<any[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const { user } = useSelector((state) => state.auth);
   const { exam } = useSelector(({ exam }) => exam);
@@ -33,23 +34,28 @@ export const TakeExam = () => {
       let trueAnswer = 0;
 
       exam.questions.forEach((e: any, i: number) => {
-        let item = {
+        let item: any = {
+          _id: e._id,
           isTrue: false,
           questionId: e._id,
           answer: answersList[i],
         };
         if (e.answers[e.correctAnswer] === answersList[i]) {
           item.isTrue = true;
+          item.correctAnswer = answersList[i];
           trueAnswer++;
         }
         tempResults = [...tempResults, item];
       });
+
+      console.log(tempResults);
 
       data.exam = exam._id;
       data.user = user.id;
       data.result = `${trueAnswer}/${tempResults.length}`;
       setResult(data);
       dispatch(createResult(data));
+      setDoneList(tempResults);
       setVisible(true);
     },
     [dispatch, user.id],
@@ -62,7 +68,6 @@ export const TakeExam = () => {
     let tempAns: any[] = [...answersList];
     tempAns[index] = value;
     localStorage.setItem('answersList', JSON.stringify(tempAns));
-    console.log(tempAns);
     setAnswersList(tempAns);
     setCurrentQuestion(index);
   };
@@ -119,6 +124,7 @@ export const TakeExam = () => {
             )}
           <Button
             type="primary"
+            disabled={isDone}
             onClick={() => {
               setDone(true);
               done(exam, answersList);
@@ -128,7 +134,7 @@ export const TakeExam = () => {
           >
             Hoàn thành
           </Button>
-          <ResultModal visible={visible} resultsdata={resultData} exam={exam} />
+          <ResultModal visible={visible} resultsdata={resultData} exam={exam} onCancel={() => setVisible(false)} />
         </div>
       )}
 
@@ -138,6 +144,8 @@ export const TakeExam = () => {
           focusIndex={currentQuestion}
           answersList={answersList}
           list={exam?.questions}
+          isDone={isDone}
+          doneList={doneList}
         />
       )}
     </div>

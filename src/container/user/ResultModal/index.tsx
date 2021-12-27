@@ -1,9 +1,8 @@
 import { Button, Modal, Result } from 'antd';
-import React from 'react';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 
-export const ResultModal = memo(({ visible, resultsdata, exam }: any) => {
+export const ResultModal = memo(({ visible, resultsdata, exam, onCancel }: any) => {
   const RenderBtn = () => (
     <>
       <Button type="primary" key="console">
@@ -16,7 +15,7 @@ export const ResultModal = memo(({ visible, resultsdata, exam }: any) => {
   );
 
   return (
-    <Modal visible={visible} footer={null}>
+    <Modal visible={visible} footer={null} onCancel={onCancel}>
       <Result
         status="success"
         title="Bạn đã hoàn thành bài thi"

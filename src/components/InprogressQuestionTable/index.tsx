@@ -14,11 +14,15 @@ const InprogressQuestionTable = ({
   focusIndex,
   list,
   answersList,
+  isDone,
+  doneList,
 }: {
   handleSelectQuestion: any;
   focusIndex: number;
   list: Question[];
   answersList: string[];
+  isDone?: boolean;
+  doneList?: any[];
 }) => {
   const missedQuestion = (index: number) => !answersList[index] && focusIndex > index;
   const checkedQuestion = (index: number) => answersList[index];
@@ -27,26 +31,43 @@ const InprogressQuestionTable = ({
   return (
     <div className="inprogress-question-table__wrapper">
       <div className="inprogress-question-table__list">
-        {list.map((e, i) => (
-          <Link to={e._id}>
-            <div
-              onClick={() => {
-                handleSelectQuestion(i);
-              }}
-              key={e._id}
-              className={clsx(
-                'inprogress-question-table__item',
-                { 'inprogress-question-table__focus': focusingQuestion(i) },
-                { 'inprogress-question-table__miss': missedQuestion(i) },
-                { 'inprogress-question-table__check': checkedQuestion(i) },
-                { 'inprogress-question-table__success': false },
-                { 'inprogress-question-table__fail': false },
-              )}
-            >
-              {i + 1}
-            </div>
-          </Link>
-        ))}
+        {!isDone &&
+          list.map((e, i) => (
+            <Link key={e._id} to={e._id}>
+              <div
+                onClick={() => {
+                  handleSelectQuestion(i);
+                }}
+                className={clsx(
+                  'inprogress-question-table__item',
+                  { 'inprogress-question-table__focus': focusingQuestion(i) },
+                  { 'inprogress-question-table__miss': missedQuestion(i) },
+                  { 'inprogress-question-table__check': checkedQuestion(i) },
+                )}
+              >
+                {i + 1}
+              </div>
+            </Link>
+          ))}
+
+        {isDone &&
+          doneList &&
+          doneList.map((e: any, i: number) => (
+            <Link key={i} to={e._id}>
+              <div
+                onClick={() => {
+                  handleSelectQuestion(i);
+                }}
+                className={clsx(
+                  'inprogress-question-table__item',
+                  { 'inprogress-question-table__success': e.isTrue },
+                  { 'inprogress-question-table__fail': !e.isTrue },
+                )}
+              >
+                {i + 1}
+              </div>
+            </Link>
+          ))}
       </div>
     </div>
   );
