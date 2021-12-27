@@ -1,7 +1,12 @@
-import { Button, Divider, Radio, Tabs } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import './style.scss';
+
+import { Button, Divider, Radio } from 'antd';
+import clsx from 'clsx';
+import InprogressQuestionTable from 'components/InprogressQuestionTable';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Element } from 'react-scroll';
 import { getExamById } from 'redux/exam/actions';
 import { useSelector } from 'redux/reducer';
 import { createResult } from 'redux/result/actions';
@@ -10,8 +15,6 @@ import { CourseSkeleton } from '../CourseSkeleton';
 import { HeaderCourse } from '../HeaderCourse';
 import { ResultModal } from '../ResultModal';
 
-const { TabPane } = Tabs;
-
 export const TakeExam = () => {
   const [start, setStart] = useState(false);
   const [isDone, setDone] = useState(false);
@@ -19,6 +22,7 @@ export const TakeExam = () => {
   const [visible, setVisible] = useState(false);
   const [resultData, setResult] = useState([]);
   const [answersList, setAnswersList] = useState<any[]>([]);
+  const [doneList, setDoneList] = useState<any[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const { user } = useSelector((state) => state.auth);
   const { exam } = useSelector(({ exam }) => exam);
@@ -31,13 +35,16 @@ export const TakeExam = () => {
       let trueAnswer = 0;
 
       exam.questions.forEach((e: any, i: number) => {
-        let item = {
+        let item: any = {
+          ...e,
           isTrue: false,
           questionId: e._id,
           answer: answersList[i],
+          correctAnswer: e.answers[e.correctAnswer],
         };
         if (e.answers[e.correctAnswer] === answersList[i]) {
           item.isTrue = true;
+
           trueAnswer++;
         }
         tempResults = [...tempResults, item];
@@ -48,22 +55,20 @@ export const TakeExam = () => {
       data.result = `${trueAnswer}/${tempResults.length}`;
       setResult(data);
       dispatch(createResult(data));
+      setDoneList(tempResults);
       setVisible(true);
     },
     [dispatch, user.id],
   );
 
-  const onChange = (e: any) => {
+  const onChange = (e: any, id: string) => {
+    const index = exam.questions.findIndex((k: { _id: any }) => k._id === id) ?? 0;
+
     const value = e.target.value;
     let tempAns: any[] = [...answersList];
-    tempAns[currentQuestion] = value;
+    tempAns[index] = value;
     localStorage.setItem('answersList', JSON.stringify(tempAns));
     setAnswersList(tempAns);
-  };
-
-  const changeQuestion = (e: any) => {
-    let index = 0;
-    index = exam.questions.findIndex((k: { _id: any }) => k._id === e);
     setCurrentQuestion(index);
   };
 
@@ -77,6 +82,8 @@ export const TakeExam = () => {
     answer && setAnswersList(answer);
   }, []);
 
+  const listQuestion = !isDone ? exam.questions : doneList;
+
   return (
     <div style={{ background: '#fff', margin: '1rem 0', padding: '1rem' }}>
       <HeaderCourse start={start} setStart={setStart} done={done} isDone={isDone} />
@@ -84,51 +91,80 @@ export const TakeExam = () => {
       {!start ? (
         <CourseSkeleton />
       ) : (
-        <div style={{ background: '#fff' }}>
+        <div style={{ background: '#fff' }} className="take-exam__list">
           <Divider dashed />
-          <Tabs
-            defaultActiveKey="1"
-            tabPosition={'left'}
-            style={{ height: 'calc(100vh - 400px)' }}
-            onChange={changeQuestion}
-          >
-            {exam?.questions?.map(
+
+          {listQuestion.length > 0 &&
+            listQuestion?.map(
               (
                 e: {
                   _id: string;
                   question: string;
                   answers: any[];
+                  correctAnswer?: string;
+                  answer?: string;
                 },
                 i: number,
               ) => (
-                <TabPane tab={`Câu hỏi thứ ${i + 1}`} key={e._id}>
-                  <div>
-                    <h3>{e.question}</h3>
-                    <Radio.Group onChange={onChange} value={JSON.parse(localStorage.getItem('answersList') ?? '[]')[i]}>
-                      {e.answers.map((e: string, k: number) => (
-                        <Radio value={e} key={k}>
-                          {e}
+                <Element key={e._id} name={e._id}>
+                  <div id={e._id} className="take-exam__item">
+                    <h3>
+                      {`${i + 1}. `}
+                      {e.question}
+                    </h3>
+                    <Radio.Group
+                      onChange={(event) => !isDone && onChange(event, e._id)}
+                      value={JSON.parse(localStorage.getItem('answersList') ?? '[]')[i]}
+                    >
+                      {e.answers.map((a: string, k: number) => (
+                        <Radio
+                          value={a}
+                          key={k}
+                          className={clsx(
+                            { 'take-exam__success': e.correctAnswer === a },
+                            { 'take-exam__fail': e.correctAnswer !== e.answer && e.answer === a },
+                          )}
+                        >
+                          {a}
                         </Radio>
                       ))}
                     </Radio.Group>
                   </div>
-                </TabPane>
+                </Element>
               ),
             )}
-          </Tabs>
           <Button
             type="primary"
+            disabled={isDone}
             onClick={() => {
               setDone(true);
               done(exam, answersList);
-              localStorage.removeItem('answersList');
-              localStorage.removeItem('time');
             }}
           >
             Hoàn thành
           </Button>
-          <ResultModal visible={visible} resultsdata={resultData} exam={exam} />
+          <ResultModal
+            visible={visible}
+            resultsdata={resultData}
+            exam={exam}
+            onCancel={() => setVisible(false)}
+            onOk={() => {
+              localStorage.removeItem('time');
+              localStorage.removeItem('answersList');
+            }}
+          />
         </div>
+      )}
+
+      {start && exam?.questions && (
+        <InprogressQuestionTable
+          handleSelectQuestion={setCurrentQuestion}
+          focusIndex={currentQuestion}
+          answersList={answersList}
+          list={exam?.questions}
+          isDone={isDone}
+          doneList={doneList}
+        />
       )}
     </div>
   );
