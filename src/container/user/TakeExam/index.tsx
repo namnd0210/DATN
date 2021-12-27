@@ -1,7 +1,11 @@
-import { Button, Divider, Radio, Tabs } from 'antd';
-import React, { useCallback, useEffect, useState } from 'react';
+import './style.scss';
+
+import { Button, Divider, Radio } from 'antd';
+import InprogressQuestionTable from 'components/InprogressQuestionTable';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { Element } from 'react-scroll';
 import { getExamById } from 'redux/exam/actions';
 import { useSelector } from 'redux/reducer';
 import { createResult } from 'redux/result/actions';
@@ -9,8 +13,6 @@ import { createResult } from 'redux/result/actions';
 import { CourseSkeleton } from '../CourseSkeleton';
 import { HeaderCourse } from '../HeaderCourse';
 import { ResultModal } from '../ResultModal';
-
-const { TabPane } = Tabs;
 
 export const TakeExam = () => {
   const [start, setStart] = useState(false);
@@ -53,17 +55,15 @@ export const TakeExam = () => {
     [dispatch, user.id],
   );
 
-  const onChange = (e: any) => {
+  const onChange = (e: any, id: string) => {
+    const index = exam.questions.findIndex((k: { _id: any }) => k._id === id) ?? 0;
+
     const value = e.target.value;
     let tempAns: any[] = [...answersList];
-    tempAns[currentQuestion] = value;
+    tempAns[index] = value;
     localStorage.setItem('answersList', JSON.stringify(tempAns));
+    console.log(tempAns);
     setAnswersList(tempAns);
-  };
-
-  const changeQuestion = (e: any) => {
-    let index = 0;
-    index = exam.questions.findIndex((k: { _id: any }) => k._id === e);
     setCurrentQuestion(index);
   };
 
@@ -84,15 +84,11 @@ export const TakeExam = () => {
       {!start ? (
         <CourseSkeleton />
       ) : (
-        <div style={{ background: '#fff' }}>
+        <div style={{ background: '#fff' }} className="take-exam__list">
           <Divider dashed />
-          <Tabs
-            defaultActiveKey="1"
-            tabPosition={'left'}
-            style={{ height: 'calc(100vh - 400px)' }}
-            onChange={changeQuestion}
-          >
-            {exam?.questions?.map(
+
+          {exam?.questions.length > 0 &&
+            exam?.questions?.map(
               (
                 e: {
                   _id: string;
@@ -101,10 +97,16 @@ export const TakeExam = () => {
                 },
                 i: number,
               ) => (
-                <TabPane tab={`Câu hỏi thứ ${i + 1}`} key={e._id}>
-                  <div>
-                    <h3>{e.question}</h3>
-                    <Radio.Group onChange={onChange} value={JSON.parse(localStorage.getItem('answersList') ?? '[]')[i]}>
+                <Element key={e._id} name={e._id}>
+                  <div id={e._id} className="take-exam__item">
+                    <h3>
+                      {`${i + 1}. `}
+                      {e.question}
+                    </h3>
+                    <Radio.Group
+                      onChange={(event) => onChange(event, e._id)}
+                      value={JSON.parse(localStorage.getItem('answersList') ?? '[]')[i]}
+                    >
                       {e.answers.map((e: string, k: number) => (
                         <Radio value={e} key={k}>
                           {e}
@@ -112,10 +114,9 @@ export const TakeExam = () => {
                       ))}
                     </Radio.Group>
                   </div>
-                </TabPane>
+                </Element>
               ),
             )}
-          </Tabs>
           <Button
             type="primary"
             onClick={() => {
@@ -129,6 +130,15 @@ export const TakeExam = () => {
           </Button>
           <ResultModal visible={visible} resultsdata={resultData} exam={exam} />
         </div>
+      )}
+
+      {exam?.questions && (
+        <InprogressQuestionTable
+          handleSelectQuestion={setCurrentQuestion}
+          focusIndex={currentQuestion}
+          answersList={answersList}
+          list={exam?.questions}
+        />
       )}
     </div>
   );
