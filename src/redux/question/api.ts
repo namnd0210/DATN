@@ -1,7 +1,8 @@
 import Axios, { AxiosResponse } from 'axios';
+import { buildApiUrl } from 'utils';
 
-export const getAllQuestionsApi = (): Promise<AxiosResponse> => {
-  return Axios.get('/api/question');
+export const getAllQuestionsApi = (query?: any): Promise<AxiosResponse> => {
+  return Axios.get(`/api/question${buildApiUrl(query)}`);
 };
 
 export const createQuestionApi = (data: any): Promise<AxiosResponse> => {

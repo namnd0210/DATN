@@ -1,14 +1,12 @@
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Divider, message, Modal, Pagination, Popconfirm, Row, Table } from 'antd';
+import useParams from 'hooks/useParams';
 import _ from 'lodash';
 import moment from 'moment';
-import querystring from 'query-string';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
 import { deleteQuestion, getAllQuestions, importQuestionCsv } from 'redux/question/actions';
 import { useSelector } from 'redux/reducer';
-import { buildApiUrl } from 'utils';
 
 import { PageHeaderLayout } from '../../../common/PageHeaderLayout';
 import { AddNewQuestion } from './AddNewQuestion';
@@ -19,12 +17,18 @@ export const QuestionManagement = () => {
       title: 'STT',
       dataIndex: 'Stt',
       key: 'stt',
-      render: (text: any, record: any, index: number) => <span>{index + 1}</span>,
+      render: (text: any, record: any, index: number) => <span>{(parsed.page - 1) * 10 + (index + 1)}</span>,
     },
     {
       title: 'Câu hỏi',
       dataIndex: 'question',
       key: 'question',
+    },
+    {
+      title: 'Mức độ khó',
+      dataIndex: 'level',
+      key: 'level',
+      render: (text: moment.MomentInput, record: any) => <span>{record.level}</span>,
     },
     {
       title: 'Danh mục',
@@ -44,7 +48,7 @@ export const QuestionManagement = () => {
       title: 'Người tạo',
       dataIndex: 'createdBy',
       key: 'createdBy',
-      render: (text: moment.MomentInput, record: any) => <span>{record.created_by.name}</span>,
+      render: (text: moment.MomentInput, record: any) => <span>{record.created_by?.name}</span>,
     },
     {
       title: 'Hành động',
@@ -76,26 +80,18 @@ export const QuestionManagement = () => {
     },
   ];
 
-  const { loadingQuestion, questions } = useSelector((state) => state.question);
+  const { loadingQuestion, questions, total } = useSelector((state) => state.question);
   const [visible, setVisible] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState<any>();
   const [file, setFile] = useState<Blob | null>(null);
   const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);
+  const { parsed, setParams } = useParams();
 
   const dispatch = useDispatch();
-  const history = useHistory();
-  const location = useLocation();
 
   const confirm = (id: any) => {
     dispatch(deleteQuestion(id));
-  };
-
-  const handleSizeChange = (page: any) => {
-    const params = {
-      page,
-    };
-    history.push(`${location.pathname}${buildApiUrl(params)}`);
   };
 
   const handleImportCSV = useCallback(() => {
@@ -124,27 +120,15 @@ export const QuestionManagement = () => {
   }, [dispatch, file]);
 
   useEffect(() => {
-    const tmpPage = querystring.parse(location.search).page || 1;
+    const tmpPage = parsed.page || 1;
     const payload = {
       page: tmpPage,
     };
     dispatch(getAllQuestions(payload));
-  }, [location, dispatch]);
+  }, [dispatch, parsed.page]);
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
-      {openModalConfirm && (
-        <Modal
-          visible={openModalConfirm}
-          onOk={handleImportCSV}
-          onCancel={() => {
-            setOpenModalConfirm(false);
-          }}
-        >
-          <p>Bạn có chắc chắn muốn import file csv câu hỏi không?</p>
-        </Modal>
-      )}
-
       <Col xs={24}>
         <PageHeaderLayout title="Câu hỏi" subtitle="Xin chào" text="Danh sách câu hỏi" />
       </Col>
@@ -168,6 +152,18 @@ export const QuestionManagement = () => {
               }}
             />
           </div>
+
+          {openModalConfirm && (
+            <Modal
+              visible={openModalConfirm}
+              onOk={handleImportCSV}
+              onCancel={() => {
+                setOpenModalConfirm(false);
+              }}
+            >
+              <p>Bạn có chắc chắn muốn import file csv câu hỏi không?</p>
+            </Modal>
+          )}
         </Row>
         <Table
           columns={columns}
@@ -178,11 +174,10 @@ export const QuestionManagement = () => {
         />
         <Divider />
         <Pagination
-          current={+_.get(querystring.parse(location.search), 'page', 1)}
-          key={+_.get(querystring.parse(location.search), 'page')}
-          total={questions.length}
-          onChange={handleSizeChange}
-          onShowSizeChange={handleSizeChange}
+          current={+_.get(parsed, 'page', 1)}
+          key={+_.get(parsed, 'page')}
+          onChange={(page) => setParams({ page })}
+          total={total}
         />
       </Col>
 

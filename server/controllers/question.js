@@ -5,11 +5,27 @@ import Question from '../models/Question';
 export const getAllQuestions = async (req, res) => {
   let count = await Question.countDocuments();
   const { page } = req.query;
+
+  if (page) {
+    Question.find({})
+      .populate({ path: 'category', model: 'Category' })
+      .populate({ path: 'created_by', model: 'User' })
+      .skip((page ? page - 1 : 0) * 10)
+      .limit(10)
+      .then((data) => {
+        res.status(200).json({
+          data,
+          total: count,
+        });
+      })
+      .catch((err) => res.status(400).json({ err }));
+
+    return;
+  }
+
   Question.find({})
     .populate({ path: 'category', model: 'Category' })
     .populate({ path: 'created_by', model: 'User' })
-    .skip((page ? page - 1 : 0) * 10)
-    .limit(10)
     .then((data) => {
       res.status(200).json({
         data,

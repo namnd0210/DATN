@@ -11,9 +11,9 @@ import {
 } from './api';
 import types from './type';
 
-function* getAllQuestionsSaga(): any {
+function* getAllQuestionsSaga(props?: any): any {
   try {
-    const res = yield call(getAllQuestionsApi);
+    const res = yield call(getAllQuestionsApi, props?.payload);
     if (res.status === 200) {
       yield put(getAllQuestionsResult(res.data));
     }
