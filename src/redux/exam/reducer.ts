@@ -64,6 +64,24 @@ export default function examReducer(state: ExamState = initState, action: Action
       return { ...state, loading: false };
     }
 
+    case types.CREATE_RANDOM_EXAM: {
+      return { ...state, loading: true };
+    }
+
+    case types.CREATE_RANDOM_EXAM_SUCCESS: {
+      const { exam } = action.payload;
+
+      return {
+        ...state,
+        loading: false,
+        exams: [...state.exams, exam],
+      };
+    }
+
+    case types.CREATE_RANDOM_EXAM_FAILED: {
+      return { ...state, loading: false };
+    }
+
     case types.UPDATE_EXAM: {
       return { ...state, loading: true };
     }

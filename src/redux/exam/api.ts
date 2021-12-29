@@ -12,6 +12,10 @@ export const createExamApi = (data: any): Promise<AxiosResponse> => {
   return Axios.post('/api/exam', data);
 };
 
+export const createRandomExamApi = (data: any): Promise<AxiosResponse> => {
+  return Axios.post('/api/exam/random', data);
+};
+
 export const updateExamApi = (data: any): Promise<AxiosResponse> => {
   return Axios.put(`/api/exam/update`, data);
 };

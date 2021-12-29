@@ -66,7 +66,10 @@ export const createExam = (req, res) => {
 
 export const createRandomExam = async (req, res) => {
   try {
-    const { level2Numbers, level3Numbers, category, total } = req.body;
+    const level2Numbers = parseInt(req.body.level2Numbers);
+    const level3Numbers = parseInt(req.body.level3Numbers);
+    const total = parseInt(req.body.total);
+    const category = req.body.category;
 
     await Question.aggregate(
       [
@@ -127,9 +130,10 @@ export const createRandomExam = async (req, res) => {
           return;
         }
         const questions = docs[0].data.map((e) => e._id);
+        const code = Math.floor(Math.random() * 999);
 
         const newExam = {
-          code: Math.floor(Math.random() * 999),
+          code,
           time: req.body.time,
           title: req.body.title,
           description: req.body.description,
@@ -146,7 +150,7 @@ export const createRandomExam = async (req, res) => {
               .populate({ path: 'questions', model: 'Question' })
               .populate({ path: 'created_by', model: 'User', select: 'name' })
               .then((e) => {
-                res.status(200).json(e);
+                res.status(200).json({ exam: e });
               });
           })
           .catch((err) => {

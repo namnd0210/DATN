@@ -4,11 +4,13 @@ import { PageHeaderLayout } from 'common/PageHeaderLayout';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { getAllCategory } from 'redux/category/actions';
 import { deleteExam, getAllExams } from 'redux/exam/actions';
 import { useSelector } from 'redux/reducer';
 import { ExamProps } from 'types/redux';
 
 import { ExamFormModal } from './ExamFormModal';
+import { RandomExamFormModal } from './RandomExamFormModal';
 
 export const ExamManagement = () => {
   const columns: any = [
@@ -27,7 +29,7 @@ export const ExamManagement = () => {
       title: 'Số lượng câu hỏi',
       dataIndex: 'length',
       key: 'length',
-      render: (text: any, record: ExamProps) => <span>{record.questions.length}</span>,
+      render: (text: any, record: ExamProps) => <span>{record?.questions?.length}</span>,
     },
     {
       title: 'Ngày tạo',
@@ -44,7 +46,7 @@ export const ExamManagement = () => {
         record: {
           created_by: { name: boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined };
         },
-      ) => <span>{record.created_by.name}</span>,
+      ) => <span>{record?.created_by?.name}</span>,
     },
     {
       title: 'Hành động',
@@ -92,42 +94,50 @@ export const ExamManagement = () => {
 
   const dispatch = useDispatch();
   const [visible, setVisible] = useState<boolean>(false);
+  const [randomExamVisible, setRandomExamVisible] = useState<boolean>(false);
   const [selectedExam, setSelectedExam] = useState<ExamProps>();
   const { loading, exams } = useSelector((state) => state.exam);
   const { isAdmin, isTeacher } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getAllExams());
+    dispatch(getAllCategory());
     // eslint-disable-next-line
   }, []);
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
       <Col xs={24}>
-        <PageHeaderLayout
-          title="Bài thi"
-          subtitle="Xin chào"
-          // text="Exam list, chose one couse and complete or can create new one"
-          text="Danh sách bài thi"
-        />
+        <PageHeaderLayout title="Bài thi" subtitle="Xin chào" text="Danh sách bài thi" />
       </Col>
       <Col xs={24}>
         {isAdmin || isTeacher ? (
-          <Button
-            onClick={() => {
-              setVisible(true);
-              setSelectedExam(undefined);
-            }}
-            type="dashed"
-            style={{ width: '100%', margin: '10px 0 10px 0' }}
-          >
-            <PlusCircleOutlined /> Tạo bài thi mới
-          </Button>
+          <Row>
+            <Button
+              onClick={() => {
+                setVisible(true);
+                setSelectedExam(undefined);
+              }}
+              type="dashed"
+              style={{ flex: 1, margin: '10px 5px 10px 0' }}
+            >
+              <PlusCircleOutlined /> Tạo bài thi mới
+            </Button>
+            <Button
+              onClick={() => {
+                setRandomExamVisible(true);
+              }}
+              type="primary"
+              style={{ flex: 1, margin: '10px 0 10px 5px' }}
+            >
+              <PlusCircleOutlined /> Tạo bài thi ngẫu nhiên
+            </Button>
+          </Row>
         ) : null}
 
-        <Table columns={columns} loading={loading} dataSource={exams} rowKey={(record) => record._id} />
+        <Table columns={columns} loading={loading} dataSource={exams} rowKey={(record) => record?._id} />
       </Col>
-
+      {randomExamVisible && <RandomExamFormModal onClose={() => setRandomExamVisible(false)} />}
       {visible && <ExamFormModal onClose={() => setVisible(false)} selectedExam={selectedExam} />}
     </Row>
   );

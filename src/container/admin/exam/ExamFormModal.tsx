@@ -73,7 +73,7 @@ export const ExamFormModal = ({ onClose, selectedExam }: Props) => {
             <div className="add-exam-item__main">
               <TextArea
                 value={exam.title}
-                placeholder="Bài trắc nghiệm thứ nhất !"
+                placeholder="Tên bài thi trắc nghiệm"
                 autoSize
                 name="title"
                 onChange={onChange}
