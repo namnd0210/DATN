@@ -40,11 +40,14 @@ const answerList: { name: string; placeholder: string; value: number }[] = [
   },
 ];
 
+const levelList: number[] = [1, 2, 3];
+
 const initValueQuestion = {
   A: '',
   B: '',
   C: '',
   D: '',
+  level: 1,
   category: undefined,
   correctAnswer: {},
   question: '',
@@ -65,6 +68,7 @@ export const AddNewQuestion = ({ visible, setVisible, question }: any) => {
     questionInfo.B && tempQues.answers.push(questionInfo.B);
     questionInfo.C && tempQues.answers.push(questionInfo.C);
     questionInfo.D && tempQues.answers.push(questionInfo.D);
+    tempQues.level = questionInfo.level;
     tempQues.question = questionInfo.question;
     tempQues.correctAnswer = questionInfo.correctAnswer ?? answerList[0].value;
     tempQues.category = questionInfo.category ?? categories[0]._id;
@@ -80,6 +84,10 @@ export const AddNewQuestion = ({ visible, setVisible, question }: any) => {
       }
       setQuestionInfo(initValueQuestion);
     }
+  };
+
+  const handleChangeLevel = (e: any) => {
+    setQuestionInfo({ ...questionInfo, level: e });
   };
 
   const handleChangeCategory = (e: any) => {
@@ -106,6 +114,7 @@ export const AddNewQuestion = ({ visible, setVisible, question }: any) => {
         B: question.answers[1],
         C: question.answers[2],
         D: question.answers[3],
+        level: question.level,
         category: question.category,
         correctAnswer: question.correctAnswer,
         question: question.question,
@@ -188,6 +197,24 @@ export const AddNewQuestion = ({ visible, setVisible, question }: any) => {
                 </Radio>
               ))}
             </Radio.Group>
+          </div>
+        </div>
+
+        <div className="modal-item">
+          <div className="modal-item__label">Độ khó</div>
+          <div className="modal-item__main">
+            <Select
+              value={questionInfo.level ?? levelList[0]}
+              style={{ width: '100%' }}
+              onChange={handleChangeLevel}
+              loading={loadingCategory}
+            >
+              {levelList.map((e: number, i: number) => (
+                <Option value={e} key={i}>
+                  {e}
+                </Option>
+              ))}
+            </Select>
           </div>
         </div>
       </Modal>

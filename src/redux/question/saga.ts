@@ -1,12 +1,19 @@
+import { message } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 import { createQuestionResult, deleteQuestionResult, getAllQuestionsResult, updateQuestionResult } from './actions';
-import { createQuestionApi, deleteQuestionApi, getAllQuestionsApi, updateQuestionApi } from './api';
+import {
+  createQuestionApi,
+  deleteQuestionApi,
+  getAllQuestionsApi,
+  importQuestionCsvApi,
+  updateQuestionApi,
+} from './api';
 import types from './type';
 
-function* getAllQuestionsSaga(): any {
+function* getAllQuestionsSaga(props?: any): any {
   try {
-    const res = yield call(getAllQuestionsApi);
+    const res = yield call(getAllQuestionsApi, props?.payload);
     if (res.status === 200) {
       yield put(getAllQuestionsResult(res.data));
     }
@@ -57,9 +64,20 @@ function* deleteQuestionSaga(props: any): any {
   }
 }
 
+function* importQuestionCsvSaga(props: any): any {
+  try {
+    yield call(importQuestionCsvApi, props.payload);
+    message.success('Import thành công');
+  } catch (error) {
+    console.log(error);
+    message.error('Import fail');
+  }
+}
+
 export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_QUESTIONS, getAllQuestionsSaga)]);
   yield all([takeEvery(types.CREATE_QUESTION, createQuestionSaga)]);
   yield all([takeEvery(types.UPDATE_QUESTION, updateQuestionSaga)]);
   yield all([takeEvery(types.DELETE_QUESTION, deleteQuestionSaga)]);
+  yield all([takeEvery(types.IMPORT_QUESTION_CSV, importQuestionCsvSaga)]);
 }

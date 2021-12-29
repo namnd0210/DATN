@@ -32,6 +32,16 @@ export const createExamResult = (result: any, isSuccess = true): Action => ({
   payload: result,
 });
 
+export const createRandomExam = (data: any): Action => ({
+  type: types.CREATE_RANDOM_EXAM,
+  payload: data,
+});
+
+export const createRandomExamResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.CREATE_RANDOM_EXAM_SUCCESS : types.CREATE_RANDOM_EXAM_FAILED,
+  payload: result,
+});
+
 export const updateExam = (data: any): Action => ({
   type: types.UPDATE_EXAM,
   payload: data,

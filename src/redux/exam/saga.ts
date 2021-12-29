@@ -1,7 +1,21 @@
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
-import { createExamResult, deleteExamResult, getAllExamsResult, getExamByIdResult, updateExamResult } from './actions';
-import { createExamApi, deleteExamApi, getAllExamsApi, getExamByIdApi, updateExamApi } from './api';
+import {
+  createExamResult,
+  createRandomExamResult,
+  deleteExamResult,
+  getAllExamsResult,
+  getExamByIdResult,
+  updateExamResult,
+} from './actions';
+import {
+  createExamApi,
+  createRandomExamApi,
+  deleteExamApi,
+  getAllExamsApi,
+  getExamByIdApi,
+  updateExamApi,
+} from './api';
 import types from './type';
 
 function* getAllExamsSaga(): any {
@@ -43,6 +57,19 @@ function* createExamSaga(props: any): any {
   }
 }
 
+function* createRandomExamSaga(props: any): any {
+  try {
+    const res = yield call(createRandomExamApi, props.payload);
+    if (res.status === 200) {
+      yield put(createRandomExamResult(res.data));
+    }
+  } catch (error) {
+    console.log(error);
+    const isSuccess = false;
+    yield put(createRandomExamResult(error, isSuccess));
+  }
+}
+
 function* updateExamSaga(props: any): any {
   try {
     const res = yield call(updateExamApi, props.payload);
@@ -74,6 +101,7 @@ export default function* rootSaga() {
   yield all([takeEvery(types.GET_ALL_EXAMS, getAllExamsSaga)]);
   yield all([takeEvery(types.GET_EXAM_BY_ID, getExamByIdSaga)]);
   yield all([takeEvery(types.CREATE_EXAM, createExamSaga)]);
+  yield all([takeEvery(types.CREATE_RANDOM_EXAM, createRandomExamSaga)]);
   yield all([takeEvery(types.UPDATE_EXAM, updateExamSaga)]);
   yield all([takeEvery(types.DELETE_EXAM, deleteExamSaga)]);
 }

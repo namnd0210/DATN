@@ -40,3 +40,13 @@ export const deleteQuestionResult = (result: any, isSuccess = true): Action => (
   type: isSuccess ? types.DELETE_QUESTION_SUCCESS : types.DELETE_QUESTION_FAILED,
   payload: result,
 });
+
+export const importQuestionCsv = (data: any): Action => ({
+  type: types.IMPORT_QUESTION_CSV,
+  payload: data,
+});
+
+export const importQuestionCsvResult = (result: any, isSuccess = true): Action => ({
+  type: isSuccess ? types.IMPORT_QUESTION_CSV_SUCCESS : types.IMPORT_QUESTION_CSV_FAILED,
+  payload: result,
+});

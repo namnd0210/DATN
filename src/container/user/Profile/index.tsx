@@ -1,13 +1,12 @@
 import './style.scss';
 
 import { UploadOutlined, UserOutlined } from '@ant-design/icons';
-import { Avatar, Button, Col, Form, Input, message, Popconfirm, Row, Upload } from 'antd';
+import { Avatar, Button, Col, Form, Input, message, Row, Upload } from 'antd';
 import { PageHeaderLayout } from 'common/PageHeaderLayout';
 import { getFirebaseImageUrl } from 'constants/firebase.config';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState } from 'react';
 import { useSelector } from 'redux/reducer';
-import { AssignmentProps } from 'types/redux';
+// import { AssignmentProps } from 'types/redux';
 
 const dummyRequest = ({ file, onSuccess }: any) => {
   setTimeout(() => {
@@ -16,7 +15,6 @@ const dummyRequest = ({ file, onSuccess }: any) => {
 };
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const { name, email, id: userId } = useSelector((state) => state.auth.user);
   const [file, setFile] = useState<any>(
     getFirebaseImageUrl({
@@ -70,6 +68,7 @@ const Profile = () => {
 
   const onFinish = (values: any) => {
     console.log(values);
+    setFile(null);
   };
 
   const uploadProps = {
