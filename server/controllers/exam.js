@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 
 import Exam from '../models/Exam';
 import Question from '../models/Question';
@@ -45,9 +46,27 @@ export const updateExam = (req, res) => {
     });
 };
 
-export const createExam = async (req, res) => {
+export const createExam = (req, res) => {
+  const exam = new Exam(req.body);
+
+  exam
+    .save()
+    .then((exam) => {
+      Exam.findOne({ _id: exam._id })
+        .populate({ path: 'questions', model: 'Question' })
+        .populate({ path: 'created_by', model: 'User' })
+        .then((e) => {
+          res.status(200).json({ exam: e });
+        });
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+
+export const createRandomExam = async (req, res) => {
   try {
-    const { level2Numbers, level3Numbers, total } = req.body;
+    const { level2Numbers, level3Numbers, category, total } = req.body;
 
     await Question.aggregate(
       [
@@ -57,6 +76,7 @@ export const createExam = async (req, res) => {
               {
                 $match: {
                   level: 1,
+                  category: mongoose.Types.ObjectId(category),
                 },
               },
               {
@@ -69,6 +89,7 @@ export const createExam = async (req, res) => {
               {
                 $match: {
                   level: 2,
+                  category: mongoose.Types.ObjectId(category),
                 },
               },
               {
@@ -81,6 +102,7 @@ export const createExam = async (req, res) => {
               {
                 $match: {
                   level: 3,
+                  category: mongoose.Types.ObjectId(category),
                 },
               },
               {
