@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 const ExamSchema = mongoose.Schema({
+  code: { type: Number, maxLength: 999, required: true },
   title: { type: String, required: true },
   description: { type: String, required: true, maxLength: 500 },
   questions: [{ type: Schema.Types.ObjectId, ref: 'Question', required: true }],
