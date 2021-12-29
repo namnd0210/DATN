@@ -70,28 +70,33 @@ export const deleteQuestion = (req, res) => {
 };
 
 export const importCsvQuestions = async (req, res) => {
-  let questionData = [];
+  try {
+    let questionData = [];
 
-  await csv({ output: 'line' })
-    .fromString(req.body)
-    .subscribe((csvLine) => {
-      const row = csvLine.split(',');
-      const newQuestion = {
-        question: row[0],
-        answers: [row[1], row[2], row[3], row[4]],
-        correctAnswer: row[5],
-        level: row[6],
-        category: row[7],
-      };
+    await csv({ output: 'line' })
+      .fromString(req.body)
+      .subscribe((csvLine) => {
+        const row = csvLine.split(',');
+        const newQuestion = {
+          question: row[0],
+          answers: [row[1], row[2], row[3], row[4]],
+          correctAnswer: row[5],
+          level: row[6],
+          category: row[7],
+        };
 
-      questionData.push(newQuestion);
+        questionData.push(newQuestion);
+      });
+
+    Question.insertMany(questionData, (error, docs) => {
+      if (error) {
+        res.status(400).json(error);
+        return;
+      }
+      res.status(200).json(docs);
     });
-
-  Question.insertMany(questionData, (error, docs) => {
-    if (error) {
-      res.status(400).json(error);
-      return;
-    }
-    res.status(200).json(docs);
-  });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+  }
 };

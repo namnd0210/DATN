@@ -1,12 +1,12 @@
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Divider, Pagination, Popconfirm, Row, Table } from 'antd';
+import { DeleteOutlined, EditOutlined, PlusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Button, Col, Divider, message, Modal, Pagination, Popconfirm, Row, Table } from 'antd';
 import _ from 'lodash';
 import moment from 'moment';
 import querystring from 'query-string';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { deleteQuestion, getAllQuestions } from 'redux/question/actions';
+import { deleteQuestion, getAllQuestions, importQuestionCsv } from 'redux/question/actions';
 import { useSelector } from 'redux/reducer';
 import { buildApiUrl } from 'utils';
 
@@ -80,6 +80,8 @@ export const QuestionManagement = () => {
   const [visible, setVisible] = useState(false);
   const [openUpdate, setOpenUpdate] = useState(false);
   const [selectedQuestion, setSelectedQuestion] = useState<any>();
+  const [file, setFile] = useState<Blob | null>(null);
+  const [openModalConfirm, setOpenModalConfirm] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -96,6 +98,31 @@ export const QuestionManagement = () => {
     history.push(`${location.pathname}${buildApiUrl(params)}`);
   };
 
+  const handleImportCSV = useCallback(() => {
+    if (file !== null) {
+      if (
+        [
+          'text/csv',
+          'application/vnd.ms-excel',
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ].includes(file.type)
+      ) {
+        var reader = new FileReader();
+        reader.onload = function (event: any) {
+          const body = event.target.result;
+
+          dispatch(importQuestionCsv(body));
+        };
+
+        reader.readAsText(file);
+      } else {
+        message.error('Lỗi file');
+      }
+    }
+    setFile(null);
+    setOpenModalConfirm(false);
+  }, [dispatch, file]);
+
   useEffect(() => {
     const tmpPage = querystring.parse(location.search).page || 1;
     const payload = {
@@ -106,18 +133,42 @@ export const QuestionManagement = () => {
 
   return (
     <Row className="card-list" gutter={[0, 5]}>
+      {openModalConfirm && (
+        <Modal
+          visible={openModalConfirm}
+          onOk={handleImportCSV}
+          onCancel={() => {
+            setOpenModalConfirm(false);
+          }}
+        >
+          <p>Bạn có chắc chắn muốn import file csv câu hỏi không?</p>
+        </Modal>
+      )}
+
       <Col xs={24}>
-        <PageHeaderLayout
-          title="Câu hỏi"
-          subtitle="Xin chào"
-          // text="Questions list, you can create, update or remove question"
-          text="Danh sách câu hỏi"
-        />
+        <PageHeaderLayout title="Câu hỏi" subtitle="Xin chào" text="Danh sách câu hỏi" />
       </Col>
       <Col xs={24}>
-        <Button type="dashed" style={{ width: '100%', margin: '10px 0 10px 0' }} onClick={() => setVisible(true)}>
-          <PlusCircleOutlined /> Thêm mới câu hỏi
-        </Button>
+        <Row>
+          <Button type="dashed" style={{ flex: 1, margin: '10px 5px 10px 0' }} onClick={() => setVisible(true)}>
+            <PlusCircleOutlined /> Thêm mới câu hỏi
+          </Button>
+          <div className="csv-wrapper">
+            <label className="csv-btn" htmlFor="csv-import">
+              Import csv
+            </label>
+            <input
+              type="file"
+              style={{ flex: 1, margin: '10px 0 10px 5px' }}
+              onChange={(e) => {
+                if (e.target.files instanceof FileList) {
+                  setFile(e.target.files[0]);
+                  setOpenModalConfirm(true);
+                }
+              }}
+            />
+          </div>
+        </Row>
         <Table
           columns={columns}
           loading={loadingQuestion}

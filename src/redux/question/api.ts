@@ -15,3 +15,11 @@ export const updateQuestionApi = (data: any): Promise<AxiosResponse> => {
 export const deleteQuestionApi = (id: string): Promise<AxiosResponse> => {
   return Axios.delete(`/api/question/${id}`);
 };
+
+export const importQuestionCsvApi = (data: any): Promise<AxiosResponse> => {
+  return Axios.post('/api/question/csv', data, {
+    headers: {
+      'Content-Type': 'text/plain',
+    },
+  });
+};
