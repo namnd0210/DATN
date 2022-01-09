@@ -64,20 +64,24 @@ export const LayoutWrapper = (props: { children: React.ReactChild }) => {
                 );
               })}
             </Menu>
-
-            <Menu>
-              <Menu.Item
-                style={{ display: 'flex', alignItems: 'center' }}
-                onClick={() => dispatch(logout())}
-                icon={<LogoutOutlined />}
-              >
-                Đăng xuất
-              </Menu.Item>
-            </Menu>
           </div>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background">Xin chào: {name}</Header>
+          <Header className="site-layout-background">
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div>Xin chào: {name} </div>
+
+              <Menu>
+                <Menu.Item
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  onClick={() => dispatch(logout())}
+                  icon={<LogoutOutlined />}
+                >
+                  Đăng xuất
+                </Menu.Item>
+              </Menu>
+            </div>
+          </Header>
 
           <div style={{ padding: '0 2rem' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
