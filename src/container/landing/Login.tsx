@@ -26,7 +26,7 @@ export const LoginScreen = () => {
   useEffect(() => {
     if (isAuthenticated) {
       setTimeout(() => {
-        role === 2 ? history.push('/home') : history.push('/exam');
+        history.push('/home');
       }, 1000);
     }
   }, [isAuthenticated, history, role, name]);

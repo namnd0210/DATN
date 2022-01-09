@@ -17,7 +17,7 @@ export const QuestionManagement = () => {
       title: 'STT',
       dataIndex: 'Stt',
       key: 'stt',
-      render: (text: any, record: any, index: number) => <span>{(parsed.page - 1) * 10 + (index + 1)}</span>,
+      render: (text: any, record: any, index: number) => <span>{(parsed?.page || 1 - 1) * 10 + (index + 1)}</span>,
     },
     {
       title: 'Câu hỏi',
