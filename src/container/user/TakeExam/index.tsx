@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import InprogressQuestionTable from 'components/InprogressQuestionTable';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Element } from 'react-scroll';
 import { getExamById } from 'redux/exam/actions';
 import { useSelector } from 'redux/reducer';
@@ -40,9 +40,9 @@ export const TakeExam = () => {
           isTrue: false,
           questionId: e._id,
           answer: answersList[i],
-          correctAnswer: e.answers[e.correctAnswer],
+          correctAnswer: e.answers[e.correctAnswer - 1],
         };
-        if (e.answers[e.correctAnswer] === answersList[i]) {
+        if (e.answers[e.correctAnswer - 1] === answersList[i] && answersList[i]) {
           item.isTrue = true;
 
           trueAnswer++;
@@ -143,6 +143,20 @@ export const TakeExam = () => {
           >
             Hoàn thành
           </Button>
+
+          <Button
+            style={{ marginLeft: '1rem' }}
+            type="primary"
+            key="console"
+            disabled={!isDone}
+            onClick={() => {
+              localStorage.removeItem('time');
+              localStorage.removeItem('answersList');
+            }}
+          >
+            <Link to="/report"> Về trang kết quả</Link>
+          </Button>
+
           <ResultModal
             visible={visible}
             resultsdata={resultData}
