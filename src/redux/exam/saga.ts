@@ -1,3 +1,4 @@
+import { message } from 'antd';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 
 import {
@@ -62,6 +63,7 @@ function* createRandomExamSaga(props: any): any {
     const res = yield call(createRandomExamApi, props.payload);
     if (res.status === 200) {
       yield put(createRandomExamResult(res.data));
+      message.success(`Đã tạo ${res.data?.exam?.title} thành công với ${res.data?.exam?.questions?.length} câu hỏi`);
     }
   } catch (error) {
     console.log(error);

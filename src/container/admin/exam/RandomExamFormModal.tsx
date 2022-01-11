@@ -44,6 +44,7 @@ export const RandomExamFormModal = ({ onClose }: Props) => {
       message.error('Không được để trống tên bộ câu hỏi');
     } else {
       dispatch(createRandomExam(newExam));
+      onClose();
     }
   };
 

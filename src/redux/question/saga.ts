@@ -53,7 +53,7 @@ function* updateQuestionSaga(props: any): any {
 function* deleteQuestionSaga(props: any): any {
   try {
     const res = yield call(deleteQuestionApi, props.payload);
-    console.log(props.payload);
+
     if (res.status === 200) {
       yield put(deleteQuestionResult(res.data));
     }
@@ -66,8 +66,13 @@ function* deleteQuestionSaga(props: any): any {
 
 function* importQuestionCsvSaga(props: any): any {
   try {
-    yield call(importQuestionCsvApi, props.payload);
-    message.success('Import thành công');
+    const res = yield call(importQuestionCsvApi, props.payload);
+
+    if (res.status === 200) {
+      console.log(res.data);
+      message.success(`Import thành công ${res.data?.length} câu hỏi`);
+      // window.location.reload();
+    }
   } catch (error) {
     console.log(error);
     message.error('Import fail');
