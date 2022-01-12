@@ -60,7 +60,13 @@ const AssignmentResultFiles = ({
 
       {!!fileUrl && (
         <Modal title="Basic Modal" visible={!!fileUrl} onCancel={() => setFileUrl(undefined)} footer={null} width="90%">
-          <div style={fileUrl.type === 'image' ? { display: 'flex', justifyContent: 'center' } : { margin: '0 auto' }}>
+          <div
+            style={
+              fileUrl.type === 'image'
+                ? { display: 'flex', justifyContent: 'center', height: 500 }
+                : { margin: '0 auto', height: 700 }
+            }
+          >
             {fileUrl.type !== 'image' && (
               <DocIframe
                 source={getFirebaseImageUrl({
